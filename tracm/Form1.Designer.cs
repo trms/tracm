@@ -28,10 +28,11 @@ namespace tracm
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabWelcome = new System.Windows.Forms.TabPage();
             this.tabUpload = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
+            this.AddToQueue = new System.Windows.Forms.Button();
             this.Length = new System.Windows.Forms.TextBox();
             this.Cue = new System.Windows.Forms.TextBox();
             this.Description = new System.Windows.Forms.TextBox();
@@ -41,7 +42,7 @@ namespace tracm
             this.Title = new System.Windows.Forms.TextBox();
             this.Inentifier = new System.Windows.Forms.TextBox();
             this.VideoFileButton = new System.Windows.Forms.Button();
-            this.VideoFile = new System.Windows.Forms.TextBox();
+            this.FilePath = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -52,6 +53,8 @@ namespace tracm
             this.label1 = new System.Windows.Forms.Label();
             this.labelVideoFile = new System.Windows.Forms.Label();
             this.tabQueue = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.queueBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.groupBoxFiles = new System.Windows.Forms.GroupBox();
             this.FileBrowse = new System.Windows.Forms.Button();
@@ -73,8 +76,13 @@ namespace tracm
             this.labelACMPassword = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.filePathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.percentCompleteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabUpload.SuspendLayout();
+            this.tabQueue.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.queueBindingSource)).BeginInit();
             this.tabSettings.SuspendLayout();
             this.groupBoxFiles.SuspendLayout();
             this.groupBoxCablecast.SuspendLayout();
@@ -106,7 +114,7 @@ namespace tracm
             // 
             // tabUpload
             // 
-            this.tabUpload.Controls.Add(this.button2);
+            this.tabUpload.Controls.Add(this.AddToQueue);
             this.tabUpload.Controls.Add(this.Length);
             this.tabUpload.Controls.Add(this.Cue);
             this.tabUpload.Controls.Add(this.Description);
@@ -116,7 +124,7 @@ namespace tracm
             this.tabUpload.Controls.Add(this.Title);
             this.tabUpload.Controls.Add(this.Inentifier);
             this.tabUpload.Controls.Add(this.VideoFileButton);
-            this.tabUpload.Controls.Add(this.VideoFile);
+            this.tabUpload.Controls.Add(this.FilePath);
             this.tabUpload.Controls.Add(this.label8);
             this.tabUpload.Controls.Add(this.label7);
             this.tabUpload.Controls.Add(this.label6);
@@ -134,14 +142,15 @@ namespace tracm
             this.tabUpload.Text = "Upload";
             this.tabUpload.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // AddToQueue
             // 
-            this.button2.Location = new System.Drawing.Point(364, 294);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 19;
-            this.button2.Text = "Queue";
-            this.button2.UseVisualStyleBackColor = true;
+            this.AddToQueue.Location = new System.Drawing.Point(364, 294);
+            this.AddToQueue.Name = "AddToQueue";
+            this.AddToQueue.Size = new System.Drawing.Size(75, 23);
+            this.AddToQueue.TabIndex = 19;
+            this.AddToQueue.Text = "Queue";
+            this.AddToQueue.UseVisualStyleBackColor = true;
+            this.AddToQueue.Click += new System.EventHandler(this.AddToQueue_Click);
             // 
             // Length
             // 
@@ -226,20 +235,21 @@ namespace tracm
             this.VideoFileButton.TabIndex = 10;
             this.VideoFileButton.Text = "Browse...";
             this.VideoFileButton.UseVisualStyleBackColor = true;
+            this.VideoFileButton.Click += new System.EventHandler(this.VideoFileButton_Click);
             // 
-            // VideoFile
+            // FilePath
             // 
-            this.VideoFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.FilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.VideoFile.Location = new System.Drawing.Point(72, 16);
-            this.VideoFile.Name = "VideoFile";
-            this.VideoFile.Size = new System.Drawing.Size(287, 20);
-            this.VideoFile.TabIndex = 9;
+            this.FilePath.Location = new System.Drawing.Point(72, 16);
+            this.FilePath.Name = "FilePath";
+            this.FilePath.Size = new System.Drawing.Size(287, 20);
+            this.FilePath.TabIndex = 9;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 270);
+            this.label8.Location = new System.Drawing.Point(8, 270);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(43, 13);
             this.label8.TabIndex = 8;
@@ -248,7 +258,7 @@ namespace tracm
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 244);
+            this.label7.Location = new System.Drawing.Point(9, 244);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(29, 13);
             this.label7.TabIndex = 7;
@@ -319,12 +329,33 @@ namespace tracm
             // 
             // tabQueue
             // 
+            this.tabQueue.Controls.Add(this.dataGridView1);
             this.tabQueue.Location = new System.Drawing.Point(4, 22);
             this.tabQueue.Name = "tabQueue";
             this.tabQueue.Size = new System.Drawing.Size(448, 328);
             this.tabQueue.TabIndex = 2;
             this.tabQueue.Text = "Queue";
             this.tabQueue.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.filePathDataGridViewTextBoxColumn,
+            this.percentCompleteDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.queueBindingSource;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(448, 328);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // queueBindingSource
+            // 
+            this.queueBindingSource.DataSource = typeof(tracm.Queue);
             // 
             // tabSettings
             // 
@@ -529,6 +560,22 @@ namespace tracm
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // filePathDataGridViewTextBoxColumn
+            // 
+            this.filePathDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.filePathDataGridViewTextBoxColumn.DataPropertyName = "FilePath";
+            this.filePathDataGridViewTextBoxColumn.HeaderText = "FilePath";
+            this.filePathDataGridViewTextBoxColumn.Name = "filePathDataGridViewTextBoxColumn";
+            this.filePathDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // percentCompleteDataGridViewTextBoxColumn
+            // 
+            this.percentCompleteDataGridViewTextBoxColumn.DataPropertyName = "PercentComplete";
+            this.percentCompleteDataGridViewTextBoxColumn.HeaderText = "Percent";
+            this.percentCompleteDataGridViewTextBoxColumn.Name = "percentCompleteDataGridViewTextBoxColumn";
+            this.percentCompleteDataGridViewTextBoxColumn.ReadOnly = true;
+            this.percentCompleteDataGridViewTextBoxColumn.Width = 50;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -542,6 +589,9 @@ namespace tracm
             this.tabControl1.ResumeLayout(false);
             this.tabUpload.ResumeLayout(false);
             this.tabUpload.PerformLayout();
+            this.tabQueue.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.queueBindingSource)).EndInit();
             this.tabSettings.ResumeLayout(false);
             this.groupBoxFiles.ResumeLayout(false);
             this.groupBoxFiles.PerformLayout();
@@ -597,9 +647,13 @@ namespace tracm
         private System.Windows.Forms.TextBox Title;
         private System.Windows.Forms.TextBox Inentifier;
         private System.Windows.Forms.Button VideoFileButton;
-        private System.Windows.Forms.TextBox VideoFile;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox FilePath;
+        private System.Windows.Forms.Button AddToQueue;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.BindingSource queueBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn filePathDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn percentCompleteDataGridViewTextBoxColumn;
 
     }
 }

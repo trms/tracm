@@ -11,6 +11,8 @@ namespace tracm
 {
     public partial class MainForm : Form
     {
+        Queue q = new Queue();
+
         public MainForm()
         {
             InitializeComponent();
@@ -18,7 +20,7 @@ namespace tracm
 
         private void FileBrowse_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
+            if(folderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
                 DownloadPath.Text = folderBrowserDialog1.SelectedPath;
         }
 
@@ -44,6 +46,24 @@ namespace tracm
             Settings.Default.DownloadPath = DownloadPath.Text;
             Settings.Default.Save();
         }
+
+        private void VideoFileButton_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog(this) == DialogResult.OK)
+                FilePath.Text = openFileDialog1.FileName;
+        }
+
+        private void AddToQueue_Click(object sender, EventArgs e)
+        {
+            DisplayQueue new_q = new DisplayQueue();
+            new_q.FilePath = FilePath.Text;
+
+            q.Add(new_q);
+
+            tabControl1.SelectedTab = tabQueue;
+        }
+
+
 
     }
 }
