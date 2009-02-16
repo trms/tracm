@@ -1,0 +1,8 @@
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\tracm.MainForm.resources
+obj\Debug\tracm.Properties.Resources.resources
+obj\Debug\tracm.csproj.GenerateResource.Cache
+bin\Debug\tracm.exe
+bin\Debug\tracm.pdb
+obj\Debug\tracm.exe
+obj\Debug\tracm.pdb
