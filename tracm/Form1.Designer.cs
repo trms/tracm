@@ -54,7 +54,7 @@ namespace tracm
             this.labelVideoFile = new System.Windows.Forms.Label();
             this.tabQueue = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.queueBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.PercentComplete = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.groupBoxFiles = new System.Windows.Forms.GroupBox();
             this.FileBrowse = new System.Windows.Forms.Button();
@@ -76,17 +76,19 @@ namespace tracm
             this.labelACMPassword = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.filePathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.percentCompleteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.QueueError = new System.Windows.Forms.Label();
+            this.timerQueueTimer = new System.Windows.Forms.Timer(this.components);
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.queueBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabUpload.SuspendLayout();
             this.tabQueue.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.queueBindingSource)).BeginInit();
             this.tabSettings.SuspendLayout();
             this.groupBoxFiles.SuspendLayout();
             this.groupBoxCablecast.SuspendLayout();
             this.groupBoxACM.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.queueBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -114,6 +116,7 @@ namespace tracm
             // 
             // tabUpload
             // 
+            this.tabUpload.Controls.Add(this.QueueError);
             this.tabUpload.Controls.Add(this.AddToQueue);
             this.tabUpload.Controls.Add(this.Length);
             this.tabUpload.Controls.Add(this.Cue);
@@ -241,6 +244,7 @@ namespace tracm
             // 
             this.FilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.FilePath.Enabled = false;
             this.FilePath.Location = new System.Drawing.Point(72, 16);
             this.FilePath.Name = "FilePath";
             this.FilePath.Size = new System.Drawing.Size(287, 20);
@@ -343,8 +347,8 @@ namespace tracm
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.filePathDataGridViewTextBoxColumn,
-            this.percentCompleteDataGridViewTextBoxColumn});
+            this.PercentComplete,
+            this.dataGridViewTextBoxColumn1});
             this.dataGridView1.DataSource = this.queueBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
@@ -353,9 +357,12 @@ namespace tracm
             this.dataGridView1.Size = new System.Drawing.Size(448, 328);
             this.dataGridView1.TabIndex = 0;
             // 
-            // queueBindingSource
+            // PercentComplete
             // 
-            this.queueBindingSource.DataSource = typeof(tracm.Queue);
+            this.PercentComplete.DataPropertyName = "PercentComplete";
+            this.PercentComplete.HeaderText = "PercentComplete";
+            this.PercentComplete.Name = "PercentComplete";
+            this.PercentComplete.ReadOnly = true;
             // 
             // tabSettings
             // 
@@ -560,21 +567,31 @@ namespace tracm
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // filePathDataGridViewTextBoxColumn
+            // QueueError
             // 
-            this.filePathDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.filePathDataGridViewTextBoxColumn.DataPropertyName = "FilePath";
-            this.filePathDataGridViewTextBoxColumn.HeaderText = "FilePath";
-            this.filePathDataGridViewTextBoxColumn.Name = "filePathDataGridViewTextBoxColumn";
-            this.filePathDataGridViewTextBoxColumn.ReadOnly = true;
+            this.QueueError.AutoSize = true;
+            this.QueueError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.QueueError.Location = new System.Drawing.Point(12, 301);
+            this.QueueError.Name = "QueueError";
+            this.QueueError.Size = new System.Drawing.Size(0, 13);
+            this.QueueError.TabIndex = 20;
             // 
-            // percentCompleteDataGridViewTextBoxColumn
+            // timerQueueTimer
             // 
-            this.percentCompleteDataGridViewTextBoxColumn.DataPropertyName = "PercentComplete";
-            this.percentCompleteDataGridViewTextBoxColumn.HeaderText = "Percent";
-            this.percentCompleteDataGridViewTextBoxColumn.Name = "percentCompleteDataGridViewTextBoxColumn";
-            this.percentCompleteDataGridViewTextBoxColumn.ReadOnly = true;
-            this.percentCompleteDataGridViewTextBoxColumn.Width = 50;
+            this.timerQueueTimer.Interval = 5000;
+            this.timerQueueTimer.Tick += new System.EventHandler(this.timerQueueTimer_Tick);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "FilePath";
+            this.dataGridViewTextBoxColumn1.HeaderText = "FilePath";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // queueBindingSource
+            // 
+            this.queueBindingSource.DataSource = typeof(tracm.Queue);
             // 
             // MainForm
             // 
@@ -591,7 +608,6 @@ namespace tracm
             this.tabUpload.PerformLayout();
             this.tabQueue.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.queueBindingSource)).EndInit();
             this.tabSettings.ResumeLayout(false);
             this.groupBoxFiles.ResumeLayout(false);
             this.groupBoxFiles.PerformLayout();
@@ -599,6 +615,7 @@ namespace tracm
             this.groupBoxCablecast.PerformLayout();
             this.groupBoxACM.ResumeLayout(false);
             this.groupBoxACM.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.queueBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -652,8 +669,10 @@ namespace tracm
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.BindingSource queueBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn filePathDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn percentCompleteDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PercentComplete;
+        private System.Windows.Forms.Label QueueError;
+        private System.Windows.Forms.Timer timerQueueTimer;
 
     }
 }

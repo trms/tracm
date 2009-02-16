@@ -29,6 +29,9 @@ namespace tracm
 
     class Queue : BindingList<DisplayQueue>
     {
-        
+        public Queue()
+        {
+            //base.;
+        }
     }
 }

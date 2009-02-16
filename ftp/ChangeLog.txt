@@ -1,0 +1,62 @@
+07/11/05
+
+	- Added in the 'messages' variable for server messages
+	- Added in code to remove the 'total x' from file listings
+	- Removed the commented (old) ReadResponse() code
+	
+07/28/05
+
+	- Removed the debug variable for verbosity and added in preprocessor if (FTP_DEBUG) debug code
+		#define FTP_DEBUG  at the top of the source to enable verbosity for debugging. There is no
+		need to have if (debug) in a release, at least the way I see it.
+	- Changed all code that calls Dns.Resolve() to Dns.GetHostByName() for speed boost
+	- Changed all code from Convert.ToInt32() to int.Parse() for a (supposedly) speed boost, not
+		sure though. We'll see I guess.
+	- Changed the ReadResponse() code to use SubString() instead of for loops to extract lines
+		from the bit bucket. Haven't tested it to see if it's faster, but that's the goal. It's
+		definitely cleaner and easier to read.
+		
+08/23/05
+
+	- There's a new developer! He has contributed bug fixes dealing with MS IIS FTP and
+		some of the fixes take care of other issues that existed with all FTP servers. Thank you 
+		for your contibutions Filipe Madureira!
+	- Added in Filipe Madureira's List() fixes for response 125 and for file listings on an empty
+		directory.
+	- Added Filipe Madureira's fix for windows IIS ftp server directory and file identification for
+		ListFiles() and ListDirectories()
+	- Added in exception handeler in OpenUpload() and OpenDownload() to make sure file resources are 
+		freed and fixed the response code on those 2 functions to make sure the file is closed on
+		a failure response.
+	- Took the FTPLib: prefix out of all the error text. I've decided that it's better left to the 
+		developer working with this library if there needs to be anything like that to identify errors
+		from the ftp library. I was reading an article about performance with exceptions and it's also
+		made me think about how we deal with errors. I chose exceptions cause so much stuff in C# used
+		them already. Seemed like a good idea. The code looks nice in most cases as well. :)
+	- Special note about performance. The goal here is to provide a functional ftp client library that's
+		easy to use and does the job. Performance is a concern but not a primary focus. In other words
+		we try to make things work before we worry about how fast it does the job. In the end though, I
+		personally want this code to be optimal in speed. It is after all a library and I don't want it 
+		to be a bottleneck in applications using it. So, with that said, if you see anything that could
+		be changed to get the same functionality with a considerable difference in performance (better
+		of course) then please point it out, what could be done or even better, send a working version
+		of the optimized code! :)
+		
+05/03/06
+
+	- Carlo Andreoli has implemented active mode FTP sessions which has been a very
+		frequently requested feature. Thank you VERY VERY VERY much Carlo Andreoli!
+	- RenameFile() function added by Carlo Andreoli
+	- Added new download function that takes the file (+ path if you chose) to save as instead of changing
+		the working directory of your program
+	- Changed download function to NOT return percentage complete, but the bytes recieved. This takes care
+		of potential problems that may exist provided the SIZE command is not supported by the FTP server.
+	- Changed upload to the same as download, bytes returned, not percentage.
+	- Added XML comments to all public methods and properties
+	- Changed the IsConnected() function to a property rather than a method
+	
+05/04/06
+
+	- Added Sloan Holliday's date functions and his function to retrieve the working directory on the ftp server
+	- Added Daniel Tamajón command line code to the ftp client
+	- Implemented all of Sloan's additions in the ftp client sample (pwd, rawdate, and date commands)

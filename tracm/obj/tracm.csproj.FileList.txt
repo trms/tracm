@@ -7,3 +7,5 @@ bin\Debug\tracm.pdb
 obj\Debug\tracm.exe
 obj\Debug\tracm.pdb
 bin\Debug\tracm.exe.config
+bin\Debug\ftp.pdb
+bin\Debug\ftp.dll

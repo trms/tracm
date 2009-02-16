@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tracm", "tracm.csproj", "{F4728FA8-84F0-49B1-8EFD-6E0A36487365}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ftp", "ftp\ftp.csproj", "{4BB7AD11-C2D2-40CA-A98C-0BBED0621065}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tracm", "tracm\tracm.csproj", "{F4728FA8-84F0-49B1-8EFD-6E0A36487365}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,6 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BB7AD11-C2D2-40CA-A98C-0BBED0621065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BB7AD11-C2D2-40CA-A98C-0BBED0621065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BB7AD11-C2D2-40CA-A98C-0BBED0621065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BB7AD11-C2D2-40CA-A98C-0BBED0621065}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4728FA8-84F0-49B1-8EFD-6E0A36487365}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4728FA8-84F0-49B1-8EFD-6E0A36487365}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4728FA8-84F0-49B1-8EFD-6E0A36487365}.Release|Any CPU.ActiveCfg = Release|Any CPU
