@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("tracm")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A client app of the ACM's Shared Contenent Server")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Tightrope Media Systems")]
 [assembly: AssemblyProduct("tracm")]
 [assembly: AssemblyCopyright("Copyright ©  2009")]
 [assembly: AssemblyTrademark("")]

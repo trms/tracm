@@ -31,6 +31,17 @@ namespace tracm
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabWelcome = new System.Windows.Forms.TabPage();
             this.tabUpload = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
+            this.Length = new System.Windows.Forms.TextBox();
+            this.Cue = new System.Windows.Forms.TextBox();
+            this.Description = new System.Windows.Forms.TextBox();
+            this.Producer = new System.Windows.Forms.TextBox();
+            this.Genre = new System.Windows.Forms.TextBox();
+            this.Subject = new System.Windows.Forms.TextBox();
+            this.Title = new System.Windows.Forms.TextBox();
+            this.Inentifier = new System.Windows.Forms.TextBox();
+            this.VideoFileButton = new System.Windows.Forms.Button();
+            this.VideoFile = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -44,7 +55,7 @@ namespace tracm
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.groupBoxFiles = new System.Windows.Forms.GroupBox();
             this.FileBrowse = new System.Windows.Forms.Button();
-            this.FilePath = new System.Windows.Forms.TextBox();
+            this.DownloadPath = new System.Windows.Forms.TextBox();
             this.labelDownloadFolder = new System.Windows.Forms.Label();
             this.groupBoxCablecast = new System.Windows.Forms.GroupBox();
             this.CablecastServer = new System.Windows.Forms.TextBox();
@@ -61,17 +72,6 @@ namespace tracm
             this.labelACMUsername = new System.Windows.Forms.Label();
             this.labelACMPassword = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.VideoFile = new System.Windows.Forms.TextBox();
-            this.VideoFileButton = new System.Windows.Forms.Button();
-            this.Inentifier = new System.Windows.Forms.TextBox();
-            this.Title = new System.Windows.Forms.TextBox();
-            this.Subject = new System.Windows.Forms.TextBox();
-            this.Genre = new System.Windows.Forms.TextBox();
-            this.Producer = new System.Windows.Forms.TextBox();
-            this.Description = new System.Windows.Forms.TextBox();
-            this.Cue = new System.Windows.Forms.TextBox();
-            this.Length = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1.SuspendLayout();
             this.tabUpload.SuspendLayout();
@@ -99,7 +99,7 @@ namespace tracm
             this.tabWelcome.Location = new System.Drawing.Point(4, 22);
             this.tabWelcome.Name = "tabWelcome";
             this.tabWelcome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabWelcome.Size = new System.Drawing.Size(448, 456);
+            this.tabWelcome.Size = new System.Drawing.Size(448, 328);
             this.tabWelcome.TabIndex = 0;
             this.tabWelcome.Text = "Welcome";
             this.tabWelcome.UseVisualStyleBackColor = true;
@@ -133,6 +133,108 @@ namespace tracm
             this.tabUpload.TabIndex = 1;
             this.tabUpload.Text = "Upload";
             this.tabUpload.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(364, 294);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 19;
+            this.button2.Text = "Queue";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // Length
+            // 
+            this.Length.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Length.Location = new System.Drawing.Point(72, 267);
+            this.Length.Name = "Length";
+            this.Length.Size = new System.Drawing.Size(112, 20);
+            this.Length.TabIndex = 18;
+            // 
+            // Cue
+            // 
+            this.Cue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Cue.Location = new System.Drawing.Point(72, 241);
+            this.Cue.Name = "Cue";
+            this.Cue.Size = new System.Drawing.Size(112, 20);
+            this.Cue.TabIndex = 17;
+            // 
+            // Description
+            // 
+            this.Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Description.Location = new System.Drawing.Point(72, 175);
+            this.Description.Multiline = true;
+            this.Description.Name = "Description";
+            this.Description.Size = new System.Drawing.Size(368, 60);
+            this.Description.TabIndex = 16;
+            // 
+            // Producer
+            // 
+            this.Producer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Producer.Location = new System.Drawing.Point(72, 146);
+            this.Producer.Name = "Producer";
+            this.Producer.Size = new System.Drawing.Size(368, 20);
+            this.Producer.TabIndex = 15;
+            // 
+            // Genre
+            // 
+            this.Genre.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Genre.Location = new System.Drawing.Point(72, 120);
+            this.Genre.Name = "Genre";
+            this.Genre.Size = new System.Drawing.Size(368, 20);
+            this.Genre.TabIndex = 14;
+            // 
+            // Subject
+            // 
+            this.Subject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Subject.Location = new System.Drawing.Point(72, 94);
+            this.Subject.Name = "Subject";
+            this.Subject.Size = new System.Drawing.Size(368, 20);
+            this.Subject.TabIndex = 13;
+            // 
+            // Title
+            // 
+            this.Title.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Title.Location = new System.Drawing.Point(72, 68);
+            this.Title.Name = "Title";
+            this.Title.Size = new System.Drawing.Size(368, 20);
+            this.Title.TabIndex = 12;
+            // 
+            // Inentifier
+            // 
+            this.Inentifier.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Inentifier.Location = new System.Drawing.Point(72, 42);
+            this.Inentifier.Name = "Inentifier";
+            this.Inentifier.Size = new System.Drawing.Size(112, 20);
+            this.Inentifier.TabIndex = 11;
+            // 
+            // VideoFileButton
+            // 
+            this.VideoFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.VideoFileButton.Location = new System.Drawing.Point(365, 14);
+            this.VideoFileButton.Name = "VideoFileButton";
+            this.VideoFileButton.Size = new System.Drawing.Size(75, 23);
+            this.VideoFileButton.TabIndex = 10;
+            this.VideoFileButton.Text = "Browse...";
+            this.VideoFileButton.UseVisualStyleBackColor = true;
+            // 
+            // VideoFile
+            // 
+            this.VideoFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.VideoFile.Location = new System.Drawing.Point(72, 16);
+            this.VideoFile.Name = "VideoFile";
+            this.VideoFile.Size = new System.Drawing.Size(287, 20);
+            this.VideoFile.TabIndex = 9;
             // 
             // label8
             // 
@@ -219,7 +321,7 @@ namespace tracm
             // 
             this.tabQueue.Location = new System.Drawing.Point(4, 22);
             this.tabQueue.Name = "tabQueue";
-            this.tabQueue.Size = new System.Drawing.Size(448, 334);
+            this.tabQueue.Size = new System.Drawing.Size(448, 328);
             this.tabQueue.TabIndex = 2;
             this.tabQueue.Text = "Queue";
             this.tabQueue.UseVisualStyleBackColor = true;
@@ -231,7 +333,7 @@ namespace tracm
             this.tabSettings.Controls.Add(this.groupBoxACM);
             this.tabSettings.Location = new System.Drawing.Point(4, 22);
             this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Size = new System.Drawing.Size(448, 334);
+            this.tabSettings.Size = new System.Drawing.Size(448, 328);
             this.tabSettings.TabIndex = 3;
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
@@ -241,7 +343,7 @@ namespace tracm
             this.groupBoxFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxFiles.Controls.Add(this.FileBrowse);
-            this.groupBoxFiles.Controls.Add(this.FilePath);
+            this.groupBoxFiles.Controls.Add(this.DownloadPath);
             this.groupBoxFiles.Controls.Add(this.labelDownloadFolder);
             this.groupBoxFiles.Location = new System.Drawing.Point(6, 226);
             this.groupBoxFiles.Name = "groupBoxFiles";
@@ -262,14 +364,14 @@ namespace tracm
             this.FileBrowse.UseVisualStyleBackColor = true;
             this.FileBrowse.Click += new System.EventHandler(this.FileBrowse_Click);
             // 
-            // FilePath
+            // DownloadPath
             // 
-            this.FilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.DownloadPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.FilePath.Location = new System.Drawing.Point(105, 19);
-            this.FilePath.Name = "FilePath";
-            this.FilePath.Size = new System.Drawing.Size(241, 20);
-            this.FilePath.TabIndex = 3;
+            this.DownloadPath.Location = new System.Drawing.Point(105, 19);
+            this.DownloadPath.Name = "DownloadPath";
+            this.DownloadPath.Size = new System.Drawing.Size(241, 20);
+            this.DownloadPath.TabIndex = 3;
             // 
             // labelDownloadFolder
             // 
@@ -423,108 +525,6 @@ namespace tracm
             this.labelACMPassword.TabIndex = 2;
             this.labelACMPassword.Text = "Password:";
             // 
-            // VideoFile
-            // 
-            this.VideoFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.VideoFile.Location = new System.Drawing.Point(72, 16);
-            this.VideoFile.Name = "VideoFile";
-            this.VideoFile.Size = new System.Drawing.Size(287, 20);
-            this.VideoFile.TabIndex = 9;
-            // 
-            // VideoFileButton
-            // 
-            this.VideoFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.VideoFileButton.Location = new System.Drawing.Point(365, 14);
-            this.VideoFileButton.Name = "VideoFileButton";
-            this.VideoFileButton.Size = new System.Drawing.Size(75, 23);
-            this.VideoFileButton.TabIndex = 10;
-            this.VideoFileButton.Text = "Browse...";
-            this.VideoFileButton.UseVisualStyleBackColor = true;
-            // 
-            // Inentifier
-            // 
-            this.Inentifier.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.Inentifier.Location = new System.Drawing.Point(72, 42);
-            this.Inentifier.Name = "Inentifier";
-            this.Inentifier.Size = new System.Drawing.Size(112, 20);
-            this.Inentifier.TabIndex = 11;
-            // 
-            // Title
-            // 
-            this.Title.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.Title.Location = new System.Drawing.Point(72, 68);
-            this.Title.Name = "Title";
-            this.Title.Size = new System.Drawing.Size(368, 20);
-            this.Title.TabIndex = 12;
-            // 
-            // Subject
-            // 
-            this.Subject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.Subject.Location = new System.Drawing.Point(72, 94);
-            this.Subject.Name = "Subject";
-            this.Subject.Size = new System.Drawing.Size(368, 20);
-            this.Subject.TabIndex = 13;
-            // 
-            // Genre
-            // 
-            this.Genre.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.Genre.Location = new System.Drawing.Point(72, 120);
-            this.Genre.Name = "Genre";
-            this.Genre.Size = new System.Drawing.Size(368, 20);
-            this.Genre.TabIndex = 14;
-            // 
-            // Producer
-            // 
-            this.Producer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.Producer.Location = new System.Drawing.Point(72, 146);
-            this.Producer.Name = "Producer";
-            this.Producer.Size = new System.Drawing.Size(368, 20);
-            this.Producer.TabIndex = 15;
-            // 
-            // Description
-            // 
-            this.Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.Description.Location = new System.Drawing.Point(72, 175);
-            this.Description.Multiline = true;
-            this.Description.Name = "Description";
-            this.Description.Size = new System.Drawing.Size(368, 60);
-            this.Description.TabIndex = 16;
-            // 
-            // Cue
-            // 
-            this.Cue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.Cue.Location = new System.Drawing.Point(72, 241);
-            this.Cue.Name = "Cue";
-            this.Cue.Size = new System.Drawing.Size(112, 20);
-            this.Cue.TabIndex = 17;
-            // 
-            // Length
-            // 
-            this.Length.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.Length.Location = new System.Drawing.Point(72, 267);
-            this.Length.Name = "Length";
-            this.Length.Size = new System.Drawing.Size(112, 20);
-            this.Length.TabIndex = 18;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(364, 294);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 19;
-            this.button2.Text = "Queue";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -537,6 +537,8 @@ namespace tracm
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
             this.Text = "tracm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabUpload.ResumeLayout(false);
             this.tabUpload.PerformLayout();
@@ -573,7 +575,7 @@ namespace tracm
         private System.Windows.Forms.Label labelCablecastUsername;
         private System.Windows.Forms.Label labelCablecastPassword;
         private System.Windows.Forms.GroupBox groupBoxFiles;
-        private System.Windows.Forms.TextBox FilePath;
+        private System.Windows.Forms.TextBox DownloadPath;
         private System.Windows.Forms.Label labelDownloadFolder;
         private System.Windows.Forms.Button FileBrowse;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;

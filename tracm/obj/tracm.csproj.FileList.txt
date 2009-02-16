@@ -6,3 +6,4 @@ bin\Debug\tracm.exe
 bin\Debug\tracm.pdb
 obj\Debug\tracm.exe
 obj\Debug\tracm.pdb
+bin\Debug\tracm.exe.config
