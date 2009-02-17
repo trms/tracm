@@ -69,6 +69,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Queue.cs" />
+    <Compile Include="Scs.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>

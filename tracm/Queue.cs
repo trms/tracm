@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace tracm
 {
-    class DisplayQueue
+    class QueueItem
     {
         private string m_filePath = "";
         private double m_percentComplete = 0;
@@ -27,11 +27,7 @@ namespace tracm
         }
     }
 
-    class Queue : BindingList<DisplayQueue>
+    class Queue : BindingList<QueueItem>
     {
-        public Queue()
-        {
-            //base.;
-        }
     }
 }

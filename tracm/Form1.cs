@@ -72,10 +72,10 @@ namespace tracm
             }
 
             //Add the file to the upload queue
-            DisplayQueue new_q = new DisplayQueue();
+            QueueItem new_q = new QueueItem();
             new_q.FilePath = FilePath.Text;
             q.Add(new_q);
-            DisplayQueue x = q.AddNew();
+            QueueItem x = q.AddNew();
             x.FilePath = FilePath.Text;
             q.EndNew(0);
 
