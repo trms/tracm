@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -29,6 +30,10 @@ namespace tracm
             CablecastUsername.Text = Settings.Default.CablecastUsername;
             CablecastPassword.Text = Settings.Default.CablecastPassword;
             DownloadPath.Text = Settings.Default.DownloadPath;
+
+            dataGridView1.DataSource = q;
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.Columns["Title"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -52,7 +57,10 @@ namespace tracm
         private void VideoFileButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog(this) == DialogResult.OK)
+            {
                 FilePath.Text = openFileDialog1.FileName;
+                Title.Text = Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
+            }
         }
 
         private void AddToQueue_Click(object sender, EventArgs e)
@@ -65,7 +73,7 @@ namespace tracm
             }
 
             //Create the XML file
-            if (CreateXML(FilePath.Text + ".xml") == false)
+            if (CreateXML() == false)
             {
                 ShowError("Could not create .xml file");
                 return;
@@ -73,30 +81,43 @@ namespace tracm
 
             //Add the file to the upload queue
             QueueItem new_q = new QueueItem();
+            new_q.Title = Title.Text;
             new_q.FilePath = FilePath.Text;
             q.Add(new_q);
-            QueueItem x = q.AddNew();
-            x.FilePath = FilePath.Text;
-            q.EndNew(0);
 
             //Switch the UI to the queue tab and clear the current form
             tabControl1.SelectedTab = tabQueue;
         }
 
-        private bool CreateXML(string FilePath)
+        private bool CreateXML()
         {
+            string path = FilePath.Text + ".xml";
             try
             {
                 //Delete the file is if exists
-                if (File.Exists(FilePath))
-                    File.Delete(FilePath);
+                if (File.Exists(path))
+                    File.Delete(path);
 
                 //Create the XML data
                 string xml = "";
-                xml += "<xml>";
+                
+                xml += @"<?xml version='1.0' encoding='UTF-8'?><PBCoreDescriptionDocument xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.pbcore.org/PBCore/PBCoreNamespace.html http://www.pbcore.org/PBCore/PBCoreSchema.xsd' xmlns:fmp='http://www.filemaker.com/fmpxmlresult' xmlns='http://www.pbcore.org/PBCore/PBCoreNamespace.html'>";
+                xml += @"<pbcoreTitle><title>" + Title.Text + "</title><titleType>Program</titleType></pbcoreTitle>";
+                xml += @"<pbcoreSubject><subject>" + Subject.Text + "</subject></pbcoreSubject>";
+                xml += @"<pbcoreDescription><description>" + Description.Text + "</description><descriptionType>Program</descriptionType></pbcoreDescription>";
+                xml += @"<pbcoreGenre><genre>" + Genre.Text + "</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre><pbcoreCreator><creator>" + Producer.Text + "</creator><creatorRole>Producer</creatorRole></pbcoreCreator>";
+                xml += @"<pbcoreInstantiation>" + 
+	                "<formatTimeStart>" + Cue.Text + "</formatTimeStart>" +
+	                "<formatDuration>" + Length.Text + "</formatDuration>" +
+	                "<pbcoreFormatID>" +
+		                "<formatIdentifier>" + FilePath.Text + "</formatIdentifier>" +
+		                "<formatIdentifierSource>" + Producer.Text + "</formatIdentifierSource>" +
+	                "</pbcoreFormatID>" +
+                    "</pbcoreInstantiation>";
+                xml += @"</PBCoreDescriptionDocument>";
 
                 //Write the file
-                FileInfo t = new FileInfo(FilePath);
+                FileInfo t = new FileInfo(path);
                 StreamWriter sw = t.CreateText();
                 sw.Write(xml);
                 sw.Close();
@@ -112,6 +133,8 @@ namespace tracm
         {
             QueueError.Text = ErrorText;
             QueueError.Visible = true;
+            QueueErrorLabel.Text = ErrorText;
+            QueueErrorLabel.Visible = true;
             timerQueueTimer.Enabled = true;
         }
 
@@ -119,7 +142,84 @@ namespace tracm
         {
             QueueError.Visible = false;
             QueueError.Text = "";
+            QueueErrorLabel.Visible = false;
+            QueueErrorLabel.Text = "";
         }
 
+        private void DeleteQueueItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows[0] != null)
+            {
+                int index = dataGridView1.SelectedRows[0].Index;
+                if(  (q[index] as QueueItem).Content_ID > 0)
+                {
+                    try { new Scs(Settings.Default.ACMServer, Settings.Default.ACMUsername).removeQueuedDownload((q[index] as QueueItem).Content_ID.ToString(), false); }
+                    catch(Exception ex) { ShowError(ex.Message.ToString()); }
+                }
+                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[0]);
+            }
+        }
+
+        private void RefreshQueue_Click(object sender, EventArgs e)
+        {
+            RefreshDownloadQueue();
+        }
+
+        private void RefreshDownloadQueue()
+        {
+            List<int> dlq = new List<int>();
+            Scs server = new Scs(Settings.Default.ACMServer, Settings.Default.ACMUsername);
+            try
+            {
+                dlq = server.getDownloadQueue();
+            }
+            catch(Exception e)
+            {
+                ShowError(e.Message.ToString());
+            }
+
+            //Add items to the que that are't already there
+            foreach (int content_id in dlq)
+            {
+                if (q.Content_ID_Exists(content_id) == false)
+                {
+                    try
+                    {
+                        string URL = server.getQueuedDownloadUrl(content_id.ToString());
+
+                        QueueItem new_q = new QueueItem();
+                        new_q.Title = "ACM Content ID: " + content_id;
+                        new_q.FilePath = URL;
+                        new_q.Content_ID = content_id;
+                        q.Add(new_q);
+                    }
+                    catch (Exception e)
+                    {
+                        ShowError(e.Message.ToString());
+                    }
+                }
+            }
+
+            //Remove any items that are no longer relevent
+            List<QueueItem> removeIndex = new List<QueueItem>();
+            foreach (QueueItem item in q)
+            {
+                if (item.Content_ID == 0)
+                    continue;
+
+                bool exists = false;
+                foreach (int id in dlq)
+                {
+                    if (id == item.Content_ID)
+                        exists = true;
+                }
+                if (!exists)
+                    removeIndex.Add(item);
+            }
+            foreach (QueueItem item in removeIndex)
+                q.Remove(item);
+        }
+
+       
     }
 }

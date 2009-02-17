@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
 
@@ -30,29 +32,113 @@ namespace tracm
             m_Username = Username;
         }
 
-        public string addContent(string FileName)
+        public void addContent(string FileName)
         {
-            return getData("<?xml version ='1.0' encoding 'UTF-8'?><request><type>addContent</type><version_number>0.3</version_number><username>" + m_Username + "</username><filename>" + FileName + "</filename></request>");
+            string status = "fail";
+            string data = "";
+
+            try
+            {
+                data = getData("<?xml version ='1.0' encoding 'UTF-8'?><request><type>addContent</type><version_number>0.3</version_number><username>" + m_Username + "</username><filename>" + FileName + "</filename></request>");
+                Match m = Regex.Match(data, "response status=\"([^\"]*)");
+                if (m.Success)
+                    status = m.Groups[1].Value;
+            }
+            catch { }
+
+            if (status.ToLower() == "ok")
+                return;
+            else
+                throw new Exception("Error adding content");
         }
 
-        public string getDownloadQueue()
+        public List<int> getDownloadQueue()
         {
-            return getData("<?xml version ='1.0' encoding 'UTF-8'?><request><type>getDownloadQueue</type><version_number>0.3</version_number><username>" + m_Username + "</username></request>");
+            //"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<response status=\"ok\">\n  <download_queue>\n    <content_id>10</content_id>\n    <content_id>11</content_id>\n  </download_queue>\n</response>\n"
+
+            string status = "fail";
+            string data = "";
+            List<int> ids = new List<int>();
+
+            try
+            {
+                data = getData("<?xml version ='1.0' encoding 'UTF-8'?><request><type>getDownloadQueue</type><version_number>0.3</version_number><username>" + m_Username + "</username></request>");
+                Match m = Regex.Match(data, "response status=\"([^\"]*)");
+                if (m.Success)
+                    status = m.Groups[1].Value;
+                MatchCollection contentIDs = Regex.Matches(data, "<content_id>([^<]*)");
+                foreach (Match contentID in contentIDs)
+                    ids.Add(Convert.ToInt32(contentID.Groups[1].Value));
+            }
+            catch { }
+
+            if (status.ToLower() == "ok")
+                return ids;
+            else
+                throw new Exception("Error getting the download queue");
         }
 
         public string getContentMetadata(string content_id)
         {
-            return getData("<?xml version ='1.0' encoding 'UTF-8'?><request><type>getDownloadQueue</type><version_number>0.3</version_number><username>" + m_Username + "</username><content_id>" + content_id + "</content_id></request>");
+            string status = "fail";
+            string data = "";
+
+            try
+            {
+                data = getData("<?xml version ='1.0' encoding 'UTF-8'?><request><type>getContentMetadata</type><version_number>0.3</version_number><username>" + m_Username + "</username><content_id>" + content_id + "</content_id></request>");
+            }
+            catch { }
+            
+            if (status.ToLower() == "ok")
+                return data;
+            else
+                throw new Exception("Error getting the download queue");
         }
 
         public string getQueuedDownloadUrl(string content_id)
         {
-            return getData("<?xml version ='1.0' encoding 'UTF-8'?><request><type>getDownloadQueue</type><version_number>0.3</version_number><username>" + m_Username + "</username><content_id>" + content_id + "</content_id></request>");
+            string status = "fail";
+            string url = "";
+            string data = "";
+
+            try
+            {
+                data = getData("<?xml version ='1.0' encoding 'UTF-8'?><request><type>getQueuedDownloadUrl</type><version_number>0.3</version_number><username>" + m_Username + "</username><content_id>" + content_id + "</content_id></request>");
+
+                Match m = Regex.Match(data, "response status=\"([^\"]*)");
+                if (m.Success)
+                    status = m.Groups[1].Value;
+
+                m = Regex.Match(data, "<url>([^<]*)");
+                if (m.Success)
+                    url = m.Groups[1].Value;
+            }
+            catch { }
+
+            if (status.ToLower() == "ok")
+                return url;
+            else
+                throw new Exception("Error getting the download url");
         }
 
-        public string removeQueuedDownload(string content_id)
+        public void removeQueuedDownload(string content_id, bool Downloaded)
         {
-            return getData("<?xml version ='1.0' encoding 'UTF-8'?><request><type>getDownloadQueue</type><version_number>0.3</version_number><username>" + m_Username + "</username><content_id>" + content_id + "</content_id></request>");
+            string status = "fail";
+            string data = "";
+
+            try
+            {
+                data = getData("<?xml version ='1.0' encoding 'UTF-8'?><request><type>removeQueuedDownload</type><version_number>0.3</version_number><username>" + m_Username + "</username><content_id>" + content_id + "</content_id><downloaded>" + Downloaded.ToString().ToLower() + "</downloaded></request>");
+                Match m = Regex.Match(data, "response status=\"([^\"]*)");
+                if (m.Success)
+                    status = m.Groups[1].Value;
+            }
+            catch { }
+
+            if (status.ToLower() == "ok")
+                return;
+            else
+                throw new Exception("Error removing the file from the queue");
         }
 
         private string getData(string postData)
@@ -75,7 +161,7 @@ namespace tracm
                 dataStream = request.GetRequestStream();
                 dataStream.Write(byteArray, 0, byteArray.Length);
                 dataStream.Close();
-
+                
                 response = request.GetResponse();
                 dataStream = response.GetResponseStream();
                 reader = new StreamReader(dataStream);
@@ -83,13 +169,16 @@ namespace tracm
             }
             catch(Exception e) 
             {
-                string error = e.Message.ToString();
+                Console.Write(e.Message.ToString());
             }
             finally
             {
-                reader.Close();
-                dataStream.Close();
-                response.Close();
+                if(reader != null)
+                    reader.Close();
+                if (dataStream != null)
+                    dataStream.Close();
+                if (response != null)
+                    response.Close();
             }
             return responseFromServer;
         }

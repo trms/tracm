@@ -32,6 +32,7 @@ namespace tracm
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabWelcome = new System.Windows.Forms.TabPage();
             this.tabUpload = new System.Windows.Forms.TabPage();
+            this.QueueError = new System.Windows.Forms.Label();
             this.AddToQueue = new System.Windows.Forms.Button();
             this.Length = new System.Windows.Forms.TextBox();
             this.Cue = new System.Windows.Forms.TextBox();
@@ -54,7 +55,6 @@ namespace tracm
             this.labelVideoFile = new System.Windows.Forms.Label();
             this.tabQueue = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.PercentComplete = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.groupBoxFiles = new System.Windows.Forms.GroupBox();
             this.FileBrowse = new System.Windows.Forms.Button();
@@ -76,10 +76,10 @@ namespace tracm
             this.labelACMPassword = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.QueueError = new System.Windows.Forms.Label();
             this.timerQueueTimer = new System.Windows.Forms.Timer(this.components);
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.queueBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.DeleteQueueItem = new System.Windows.Forms.Button();
+            this.RefreshQueue = new System.Windows.Forms.Button();
+            this.QueueErrorLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabUpload.SuspendLayout();
             this.tabQueue.SuspendLayout();
@@ -88,7 +88,6 @@ namespace tracm
             this.groupBoxFiles.SuspendLayout();
             this.groupBoxCablecast.SuspendLayout();
             this.groupBoxACM.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.queueBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -144,6 +143,15 @@ namespace tracm
             this.tabUpload.TabIndex = 1;
             this.tabUpload.Text = "Upload";
             this.tabUpload.UseVisualStyleBackColor = true;
+            // 
+            // QueueError
+            // 
+            this.QueueError.AutoSize = true;
+            this.QueueError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.QueueError.Location = new System.Drawing.Point(12, 301);
+            this.QueueError.Name = "QueueError";
+            this.QueueError.Size = new System.Drawing.Size(0, 13);
+            this.QueueError.TabIndex = 20;
             // 
             // AddToQueue
             // 
@@ -333,6 +341,9 @@ namespace tracm
             // 
             // tabQueue
             // 
+            this.tabQueue.Controls.Add(this.QueueErrorLabel);
+            this.tabQueue.Controls.Add(this.RefreshQueue);
+            this.tabQueue.Controls.Add(this.DeleteQueueItem);
             this.tabQueue.Controls.Add(this.dataGridView1);
             this.tabQueue.Location = new System.Drawing.Point(4, 22);
             this.tabQueue.Name = "tabQueue";
@@ -344,25 +355,19 @@ namespace tracm
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PercentComplete,
-            this.dataGridViewTextBoxColumn1});
-            this.dataGridView1.DataSource = this.queueBindingSource;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(448, 328);
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.ShowEditingIcon = false;
+            this.dataGridView1.Size = new System.Drawing.Size(448, 297);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // PercentComplete
-            // 
-            this.PercentComplete.DataPropertyName = "PercentComplete";
-            this.PercentComplete.HeaderText = "PercentComplete";
-            this.PercentComplete.Name = "PercentComplete";
-            this.PercentComplete.ReadOnly = true;
             // 
             // tabSettings
             // 
@@ -567,31 +572,39 @@ namespace tracm
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // QueueError
-            // 
-            this.QueueError.AutoSize = true;
-            this.QueueError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.QueueError.Location = new System.Drawing.Point(12, 301);
-            this.QueueError.Name = "QueueError";
-            this.QueueError.Size = new System.Drawing.Size(0, 13);
-            this.QueueError.TabIndex = 20;
-            // 
             // timerQueueTimer
             // 
             this.timerQueueTimer.Interval = 5000;
             this.timerQueueTimer.Tick += new System.EventHandler(this.timerQueueTimer_Tick);
             // 
-            // dataGridViewTextBoxColumn1
+            // DeleteQueueItem
             // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "FilePath";
-            this.dataGridViewTextBoxColumn1.HeaderText = "FilePath";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.DeleteQueueItem.Location = new System.Drawing.Point(284, 302);
+            this.DeleteQueueItem.Name = "DeleteQueueItem";
+            this.DeleteQueueItem.Size = new System.Drawing.Size(75, 23);
+            this.DeleteQueueItem.TabIndex = 1;
+            this.DeleteQueueItem.Text = "Remove";
+            this.DeleteQueueItem.UseVisualStyleBackColor = true;
+            this.DeleteQueueItem.Click += new System.EventHandler(this.DeleteQueueItem_Click);
             // 
-            // queueBindingSource
+            // RefreshQueue
             // 
-            this.queueBindingSource.DataSource = typeof(tracm.Queue);
+            this.RefreshQueue.Location = new System.Drawing.Point(365, 303);
+            this.RefreshQueue.Name = "RefreshQueue";
+            this.RefreshQueue.Size = new System.Drawing.Size(75, 23);
+            this.RefreshQueue.TabIndex = 2;
+            this.RefreshQueue.Text = "Refresh";
+            this.RefreshQueue.UseVisualStyleBackColor = true;
+            this.RefreshQueue.Click += new System.EventHandler(this.RefreshQueue_Click);
+            // 
+            // QueueErrorLabel
+            // 
+            this.QueueErrorLabel.AutoSize = true;
+            this.QueueErrorLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.QueueErrorLabel.Location = new System.Drawing.Point(9, 311);
+            this.QueueErrorLabel.Name = "QueueErrorLabel";
+            this.QueueErrorLabel.Size = new System.Drawing.Size(0, 13);
+            this.QueueErrorLabel.TabIndex = 3;
             // 
             // MainForm
             // 
@@ -607,6 +620,7 @@ namespace tracm
             this.tabUpload.ResumeLayout(false);
             this.tabUpload.PerformLayout();
             this.tabQueue.ResumeLayout(false);
+            this.tabQueue.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabSettings.ResumeLayout(false);
             this.groupBoxFiles.ResumeLayout(false);
@@ -615,7 +629,6 @@ namespace tracm
             this.groupBoxCablecast.PerformLayout();
             this.groupBoxACM.ResumeLayout(false);
             this.groupBoxACM.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.queueBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -668,11 +681,11 @@ namespace tracm
         private System.Windows.Forms.Button AddToQueue;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.BindingSource queueBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PercentComplete;
         private System.Windows.Forms.Label QueueError;
         private System.Windows.Forms.Timer timerQueueTimer;
+        private System.Windows.Forms.Button RefreshQueue;
+        private System.Windows.Forms.Button DeleteQueueItem;
+        private System.Windows.Forms.Label QueueErrorLabel;
 
     }
 }
