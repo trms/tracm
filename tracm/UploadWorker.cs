@@ -50,7 +50,7 @@ namespace tracm
 
 				ftp.Disconnect();
 
-				Scs.addContent(Path.GetFileName(m_path));
+				Scs.addContent(Path.GetFileName(xmlPath));
 			}
 			catch { }
 		}
