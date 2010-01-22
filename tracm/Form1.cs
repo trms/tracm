@@ -60,8 +60,45 @@ namespace tracm
 			}
         }
 
+		private delegate void AddDownloadCallback(DownloadWorker download);
+
+		private void AddDownload(DownloadWorker download)
+		{
+			if (this.InvokeRequired)
+			{
+				AddDownloadCallback d = new AddDownloadCallback(AddDownload);
+				this.Invoke(d, new object[] { download });
+			}
+			else
+				m_list.Add(download);
+		}
+
 		void WorkCompletedEvent()
 		{
+			DownloadWorker previous = null;
+			lock (m_lockObject)
+			{
+				for (int i = 0; i < m_list.Count; i++)
+				{
+					if (m_list[i].Progress.IsDone && m_list[i] is QueueFetcher)
+					{
+						List<DownloadWorker> files = ((QueueFetcher)m_list[i]).Files;
+						foreach (DownloadWorker dw in files)
+						{
+							if (ContentExists(dw.ContentID) == false)
+							{
+								AddDownload(dw);
+								if (previous != null) // queue item
+									previous.NextItem = dw;
+								else // otherwise start it immediately
+									dw.Work();
+								previous = dw;
+							}
+						}
+						files.Clear();
+					}
+				}
+			}
 			// clear completed items after each one finishes
 			//ClearCompletedItems();
 		}
@@ -81,15 +118,6 @@ namespace tracm
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Settings.Default.ACMServer = ACMServer.Text;
-            Settings.Default.ACMUsername = ACMUsername.Text;
-            Settings.Default.ACMPassword = ACMPassword.Text;
-            Settings.Default.CablecastServer = CablecastServer.Text;
-            Settings.Default.CablecastUsername = CablecastUsername.Text;
-            Settings.Default.CablecastPassword = CablecastPassword.Text;
-            Settings.Default.DownloadPath = DownloadPath.Text;
-            Settings.Default.Save();
-
 			// cancel anything still in progress
 			lock (m_lockObject)
 			{
@@ -107,6 +135,23 @@ namespace tracm
 				System.Threading.Thread.Sleep(200);
 			}
         }
+
+		private bool ContentExists(int contentID)
+		{
+			bool result = false;
+			lock (m_lockObject)
+			{
+				for (int i = 0; i < m_list.Count; i++)
+				{
+					if (m_list[i] is DownloadWorker && ((DownloadWorker)m_list[i]).ContentID == contentID)
+					{
+						result = true;
+						break;
+					}
+				}
+			}
+			return result;
+		}
 
 		private bool ItemsInProgress
 		{
@@ -130,8 +175,12 @@ namespace tracm
 
         private void FileBrowse_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
-                DownloadPath.Text = folderBrowserDialog1.SelectedPath;
+			if (folderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
+			{
+				DownloadPath.Text = folderBrowserDialog1.SelectedPath;
+				Settings.Default.DownloadPath = DownloadPath.Text;
+				Settings.Default.Save();
+			}
         }
 
         private void VideoFileButton_Click(object sender, EventArgs e)
@@ -152,7 +201,7 @@ namespace tracm
 				VideoProcessor vp = new VideoProcessor(openFileDialog1.FileName);
 				Length.Text = vp.LengthInSeconds.ToString();
 				// check if the file is compatible
-				if (vp.VideoFormat != "mpeg2video")
+				if (vp.VideoFormat != "mpeg2video" || vp.AudioFormat != "mp2")
 					TranscodeIndicator.Text = "* NOTE: This file will be transcoded before being queued";
 				else
 					TranscodeIndicator.Text = String.Empty;
@@ -161,90 +210,35 @@ namespace tracm
 
         private void AddToQueue_Click(object sender, EventArgs e)
         {
-            //Make sure the path still exists
-            if (File.Exists(FilePath.Text) == false)
-            {
-                ShowError("The selected file does not exist");
-                return;
-            }
+			if (String.IsNullOrEmpty(TranscodeIndicator.Text))
+			{
+				// straight upload
+				UploadWorker upload = new UploadWorker(FilePath.Text, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text));
+				upload.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
+				m_list.Add(upload);
+				upload.Work();
+			}
+			else
+			{
+				// otherwise we have to transcode, then upload
+				TranscodeWorker tw = new TranscodeWorker(FilePath.Text);
+				UploadWorker upload = new UploadWorker(tw.TempFile, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text));
+				DeleteWorker dw = new DeleteWorker(tw.TempFile);
 
-			TranscodeWorker tw = new TranscodeWorker(FilePath.Text);
-			DeleteWorker dw = new DeleteWorker(tw.TempFile);
+				tw.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
+				upload.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
+				dw.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
+				tw.NextItem = upload;
+				upload.NextItem = dw;
 
-			tw.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
-			dw.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
-			tw.NextItem = dw;
-
-			m_list.Add(tw);
-			m_list.Add(dw);
-			tw.Work();
-
-            //Create the XML file
-            if (CreateXML() == false)
-            {
-                ShowError("Could not create .xml file");
-                return;
-            }
+				m_list.Add(tw);
+				m_list.Add(upload);
+				m_list.Add(dw);
+				tw.Work();
+			}
 
             //Switch the UI to the queue tab and clear the current form
             tabControl1.SelectedTab = tabQueue;
-        }
-
-        private bool CreateXML()
-        {
-            string path = String.Format("{0}.xml", FilePath.Text);
-            try
-            {
-                //Delete the file is if exists
-                if (File.Exists(path))
-                    File.Delete(path);
-
-                //Create the XML data
-				StringBuilder xml = new StringBuilder();
-                
-				xml.AppendLine("<?xml version='1.0' encoding='UTF-8'?><PBCoreDescriptionDocument xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.pbcore.org/PBCore/PBCoreNamespace.html http://www.pbcore.org/PBCore/PBCoreSchema.xsd' xmlns:fmp='http://www.filemaker.com/fmpxmlresult' xmlns='http://www.pbcore.org/PBCore/PBCoreNamespace.html'>");
-				xml.AppendFormat("<pbcoreTitle><title>{0}</title><titleType>Program</titleType></pbcoreTitle>", Title.Text); xml.AppendLine();
-				xml.AppendFormat("<pbcoreSubject><subject>{0}</subject></pbcoreSubject>", Subject.Text); xml.AppendLine();
-				xml.AppendFormat("<pbcoreDescription><description>{0}</description><descriptionType>Program</descriptionType></pbcoreDescription>", Description.Text); xml.AppendLine();
-				xml.AppendFormat("<pbcoreGenre><genre>{0}</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre><pbcoreCreator><creator>{1}</creator><creatorRole>Producer</creatorRole></pbcoreCreator>", Genre.Text, Producer.Text); xml.AppendLine();
-				xml.AppendLine("<pbcoreInstantiation>");
-				xml.AppendFormat("<formatTimeStart>{0}</formatTimeStart>", Cue.Text); xml.AppendLine();
-				xml.AppendFormat("<formatDuration>{0}</formatDuration>", Length.Text); xml.AppendLine();
-	            xml.AppendLine("<pbcoreFormatID>");
-				xml.AppendFormat("<formatIdentifier>{0}</formatIdentifier>", FilePath.Text); xml.AppendLine();
-				xml.AppendFormat("<formatIdentifierSource>{0}</formatIdentifierSource>", Producer.Text); xml.AppendLine();
-	            xml.AppendLine("</pbcoreFormatID>");
-                xml.AppendLine("</pbcoreInstantiation>");
-                xml.AppendLine("</PBCoreDescriptionDocument>");
-
-                //Write the file
-                FileInfo t = new FileInfo(path);
-                StreamWriter sw = t.CreateText();
-                sw.Write(xml.ToString());
-                sw.Close();
-
-                return true;
-            }
-            catch { }
-
-            return false;
-        }
-
-        private void ShowError(string ErrorText)
-        {
-            QueueError.Text = ErrorText;
-            QueueError.Visible = true;
-            QueueErrorLabel.Text = ErrorText;
-            QueueErrorLabel.Visible = true;
-            timerQueueTimer.Enabled = true;
-        }
-
-        private void timerQueueTimer_Tick(object sender, EventArgs e)
-        {
-            QueueError.Visible = false;
-            QueueError.Text = "";
-            QueueErrorLabel.Visible = false;
-            QueueErrorLabel.Text = "";
         }
 
         private void DeleteQueueItem_Click(object sender, EventArgs e)
@@ -259,50 +253,11 @@ namespace tracm
 
         private void RefreshDownloadQueue()
         {
-            List<int> dlq = new List<int>();
-            try
-            {
-                dlq = Scs.getDownloadQueue();
-            }
-            catch(Exception e)
-            {
-                ShowError(e.Message.ToString());
-            }
+			QueueFetcher qf = new QueueFetcher();
 
-            //Add items to the que that are't already there
-			//foreach (int content_id in dlq)
-			//{
-			//    if (q.Content_ID_Exists(content_id) == false)
-			//    {
-			//        try
-			//        {
-			//            string URL = Scs.getQueuedDownloadUrl(content_id.ToString());
-			//        }
-			//        catch (Exception e)
-			//        {
-			//            ShowError(e.Message.ToString());
-			//        }
-			//    }
-			//}
-
-            //Remove any items that are no longer relevent
-			//List<QueueItem> removeIndex = new List<QueueItem>();
-			//foreach (QueueItem item in q)
-			//{
-			//    if (item.Content_ID == 0)
-			//        continue;
-
-			//    bool exists = false;
-			//    foreach (int id in dlq)
-			//    {
-			//        if (id == item.Content_ID)
-			//            exists = true;
-			//    }
-			//    if (!exists)
-			//        removeIndex.Add(item);
-			//}
-			//foreach (QueueItem item in removeIndex)
-			//    q.Remove(item);
+			qf.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
+			m_list.Add(qf);
+			qf.Work();
         }
 
 		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -348,5 +303,49 @@ namespace tracm
 				}
 			}
 		}
+
+		// save settings immediately after changes are made
+		private void ACMServer_Validating(object sender, CancelEventArgs e)
+		{
+			Settings.Default.ACMServer = ACMServer.Text;
+			Settings.Default.Save();
+		}
+
+		private void ACMUsername_Validating(object sender, CancelEventArgs e)
+		{
+			Settings.Default.ACMUsername = ACMUsername.Text;
+			Settings.Default.Save();
+		}
+
+		private void ACMPassword_Validating(object sender, CancelEventArgs e)
+		{
+			Settings.Default.ACMPassword = ACMPassword.Text;
+			Settings.Default.Save();
+		}
+
+		private void CablecastServer_Validating(object sender, CancelEventArgs e)
+		{
+			Settings.Default.CablecastServer = CablecastServer.Text;
+			Settings.Default.Save();
+		}
+
+		private void CablecastUsername_Validating(object sender, CancelEventArgs e)
+		{
+			Settings.Default.CablecastUsername = CablecastUsername.Text;
+			Settings.Default.Save();
+		}
+
+		private void CablecastPassword_Validating(object sender, CancelEventArgs e)
+		{
+			Settings.Default.CablecastPassword = CablecastPassword.Text;
+			Settings.Default.Save();
+		}
+
+		private void DownloadPath_Validating(object sender, CancelEventArgs e)
+		{
+			Settings.Default.DownloadPath = DownloadPath.Text;
+			Settings.Default.Save();
+		}
+
     }
 }

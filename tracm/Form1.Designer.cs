@@ -28,7 +28,6 @@ namespace tracm
         /// </summary>
         private void InitializeComponent()
         {
-			this.components = new System.ComponentModel.Container();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabWelcome = new System.Windows.Forms.TabPage();
 			this.tabUpload = new System.Windows.Forms.TabPage();
@@ -80,7 +79,6 @@ namespace tracm
 			this.labelACMPassword = new System.Windows.Forms.Label();
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-			this.timerQueueTimer = new System.Windows.Forms.Timer(this.components);
 			this.tabControl1.SuspendLayout();
 			this.tabUpload.SuspendLayout();
 			this.tabQueue.SuspendLayout();
@@ -459,6 +457,7 @@ namespace tracm
 			this.DownloadPath.Name = "DownloadPath";
 			this.DownloadPath.Size = new System.Drawing.Size(241, 20);
 			this.DownloadPath.TabIndex = 3;
+			this.DownloadPath.Validating += new System.ComponentModel.CancelEventHandler(this.DownloadPath_Validating);
 			// 
 			// labelDownloadFolder
 			// 
@@ -494,6 +493,7 @@ namespace tracm
 			this.CablecastServer.Name = "CablecastServer";
 			this.CablecastServer.Size = new System.Drawing.Size(322, 20);
 			this.CablecastServer.TabIndex = 3;
+			this.CablecastServer.Validating += new System.ComponentModel.CancelEventHandler(this.CablecastServer_Validating);
 			// 
 			// CablecastPassword
 			// 
@@ -503,6 +503,7 @@ namespace tracm
 			this.CablecastPassword.Name = "CablecastPassword";
 			this.CablecastPassword.Size = new System.Drawing.Size(322, 20);
 			this.CablecastPassword.TabIndex = 5;
+			this.CablecastPassword.Validating += new System.ComponentModel.CancelEventHandler(this.CablecastPassword_Validating);
 			// 
 			// labelCablecastServer
 			// 
@@ -521,6 +522,7 @@ namespace tracm
 			this.CablecastUsername.Name = "CablecastUsername";
 			this.CablecastUsername.Size = new System.Drawing.Size(322, 20);
 			this.CablecastUsername.TabIndex = 4;
+			this.CablecastUsername.Validating += new System.ComponentModel.CancelEventHandler(this.CablecastUsername_Validating);
 			// 
 			// labelCablecastUsername
 			// 
@@ -565,6 +567,7 @@ namespace tracm
 			this.ACMServer.Name = "ACMServer";
 			this.ACMServer.Size = new System.Drawing.Size(322, 20);
 			this.ACMServer.TabIndex = 3;
+			this.ACMServer.Validating += new System.ComponentModel.CancelEventHandler(this.ACMServer_Validating);
 			// 
 			// ACMPassword
 			// 
@@ -575,6 +578,7 @@ namespace tracm
 			this.ACMPassword.PasswordChar = '*';
 			this.ACMPassword.Size = new System.Drawing.Size(322, 20);
 			this.ACMPassword.TabIndex = 5;
+			this.ACMPassword.Validating += new System.ComponentModel.CancelEventHandler(this.ACMPassword_Validating);
 			// 
 			// labelACMServer
 			// 
@@ -593,6 +597,7 @@ namespace tracm
 			this.ACMUsername.Name = "ACMUsername";
 			this.ACMUsername.Size = new System.Drawing.Size(322, 20);
 			this.ACMUsername.TabIndex = 4;
+			this.ACMUsername.Validating += new System.ComponentModel.CancelEventHandler(this.ACMUsername_Validating);
 			// 
 			// labelACMUsername
 			// 
@@ -615,11 +620,6 @@ namespace tracm
 			// openFileDialog1
 			// 
 			this.openFileDialog1.FileName = "openFileDialog1";
-			// 
-			// timerQueueTimer
-			// 
-			this.timerQueueTimer.Interval = 5000;
-			this.timerQueueTimer.Tick += new System.EventHandler(this.timerQueueTimer_Tick);
 			// 
 			// MainForm
 			// 
@@ -696,8 +696,7 @@ namespace tracm
         private System.Windows.Forms.Button AddToQueue;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Label QueueError;
-        private System.Windows.Forms.Timer timerQueueTimer;
+		private System.Windows.Forms.Label QueueError;
         private System.Windows.Forms.Button RefreshQueue;
         private System.Windows.Forms.Button DeleteQueueItem;
 		private System.Windows.Forms.Label QueueErrorLabel;
