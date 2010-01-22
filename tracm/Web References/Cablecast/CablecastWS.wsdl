@@ -1,0 +1,1749 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.trms.com/CablecastWS/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.trms.com/CablecastWS/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This is the Cablecast Web Service</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.trms.com/CablecastWS/">
+      <s:element name="WSVersion">
+        <s:complexType />
+      </s:element>
+      <s:element name="WSVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WSVersionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DataVersion">
+        <s:complexType />
+      </s:element>
+      <s:element name="DataVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DataVersionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShowInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ShowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShowInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetShowInformationResult" type="tns:ShowInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ShowInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ShowID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Comments" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomFields" type="tns:ArrayOfCustomField" />
+          <s:element minOccurs="1" maxOccurs="1" name="EventDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Producer" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Project" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalSeconds" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="StreamingFileURL" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CGExempt" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfCustomField">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CustomField" type="tns:CustomField" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomField">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetScheduleInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="FromDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ToDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="restrictToShowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetScheduleInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetScheduleInformationResult" type="tns:ArrayOfScheduleInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfScheduleInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ScheduleInfo" type="tns:ScheduleInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ScheduleInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ScheduleID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShowID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShowTitle" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="StartTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="EndTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="RunBump" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CGExempt" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCGExemptScheduleInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="FromDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ToDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="restrictToShowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCGExemptScheduleInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCGExemptScheduleInformationResult" type="tns:ArrayOfScheduleInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProducers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProducersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetProducersResult" type="tns:ArrayOfProducer" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfProducer">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Producer" type="tns:Producer" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Producer">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ProducerID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCategories">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCategoriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCategoriesResult" type="tns:ArrayOfCategory" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCategory">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Category" type="tns:Category" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Category">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CategoryID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetProjects">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProjectsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetProjectsResult" type="tns:ArrayOfProject" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfProject">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Project" type="tns:Project" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Project">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ProjectID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="HasPodcast" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="PodcastName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PodcastDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PodcastUrl" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetChannels">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetChannelsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetChannelsResult" type="tns:ArrayOfChannel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfChannel">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Channel" type="tns:Channel" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Channel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SimpleShowSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SimpleShowSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SimpleShowSearchResult" type="tns:ArrayOfSiteSearchResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfSiteSearchResult">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SiteSearchResult" type="tns:SiteSearchResult" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SiteSearchResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="IsRemoteSite" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="SiteName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SiteDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SiteAddress" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SiteCity" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SiteState" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SiteZipCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SitePhone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SiteEmail" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SiteWeb" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Shows" type="tns:ArrayOfShowInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfShowInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ShowInfo" type="tns:ShowInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AdvancedShowSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="eventDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="dateComparator" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="restrictToCategoryID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="restrictToProducerID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="restrictToProjectID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="displayStreamingShowsOnly" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="searchOtherSites" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdvancedShowSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AdvancedShowSearchResult" type="tns:ArrayOfSiteSearchResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdvancedCGExemptShowSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="eventDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="dateComparator" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="restrictToCategoryID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="restrictToProducerID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="restrictToProjectID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="displayStreamingShowsOnly" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="searchOtherSites" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdvancedCGExemptShowSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AdvancedCGExemptShowSearchResult" type="tns:ArrayOfSiteSearchResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLiveURL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLiveURLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLiveURLResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BugState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BugStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="BugStateResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BugText">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BugTextResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BugTextResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CrawlText">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CrawlTextResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CrawlTextResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateNewShowRecord">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LocalID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CGTitle" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ProjectID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="CGExempt" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="ProducerID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Reels" type="tns:ArrayOfNewReel" />
+            <s:element minOccurs="1" maxOccurs="1" name="CategoryID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="EventDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="Comments" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomFields" type="tns:ArrayOfCustomField" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfNewReel">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="NewReel" type="tns:NewReel" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="NewReel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="FormatID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CueSeconds" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LengthSeconds" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Title" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Chapter" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateNewShowRecordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateNewShowRecordResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateShowRecord">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ShowID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="LocalID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CGTitle" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ProjectID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="CGExempt" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="ProducerID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="CategoryID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="EventDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="Comments" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomFields" type="tns:ArrayOfCustomField" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateShowRecordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateShowRecordResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateNewProducer">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProducerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Notes" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Active" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="ContactName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Website" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateNewProducerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateNewProducerResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateProducer">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ProducerID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProducerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Notes" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Active" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="ContactName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Website" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateProducerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateProducerResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateNewProject">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ProducerID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Podcast" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="PodcastName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PodcastDescription" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateNewProjectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateNewProjectResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateProject">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ProjectID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ProducerID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Podcast" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="PodcastName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PodcastDescription" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateProjectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateProjectResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddScheduleEvent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ShowID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="RunDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="RunLock" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="RunBump" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="CGExempt" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="BugText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CrawlText" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CrawlLength" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddScheduleEventResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddScheduleEventResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveScheduleEvent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ScheduleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveScheduleEventResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveScheduleEventResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShowReels">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ShowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShowReelsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetShowReelsResult" type="tns:ArrayOfReelInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfReelInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ReelInfo" type="tns:ReelInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ReelInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ReelID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Length" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Cue" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Title" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Chapter" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReelNumber" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MediaID" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddReel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ShowID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Length" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Cue" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="FormatID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Title" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Chapter" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddReelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddReelResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateReel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ReelID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ShowID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Length" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Cue" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Title" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Chapter" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="FormatID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="DispositionID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateReelResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="DeleteReel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ShowID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ReelID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteReelResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetProducerInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ProducerID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProducerInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetProducerInfoResult" type="tns:ProducerInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ProducerInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ProducerID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProducerName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Phone1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Phone2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Notes" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Active" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContactName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Website" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateRecordRun">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ScheduleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="RecordDeviceID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="RecordCue" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateRecordRunResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateRecordRunResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveRecordRun">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordEventID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveRecordRunResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveRecordRunResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRecordDevices">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRecordDevicesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRecordDevicesResult" type="tns:ArrayOfDevice" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfDevice">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Device" type="tns:Device" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Device">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DeviceID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="DeviceName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetFormats">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFormatsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFormatsResult" type="tns:ArrayOfFormat" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfFormat">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Format" type="tns:Format" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Format">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="FormatID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PrimitiveType" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="WSVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:WSVersion" />
+  </wsdl:message>
+  <wsdl:message name="WSVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:WSVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="DataVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:DataVersion" />
+  </wsdl:message>
+  <wsdl:message name="DataVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:DataVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetShowInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetShowInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetShowInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetShowInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetScheduleInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetScheduleInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCGExemptScheduleInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCGExemptScheduleInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetCGExemptScheduleInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCGExemptScheduleInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetProducersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetProducers" />
+  </wsdl:message>
+  <wsdl:message name="GetProducersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetProducersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCategoriesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCategories" />
+  </wsdl:message>
+  <wsdl:message name="GetCategoriesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCategoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetProjectsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetProjects" />
+  </wsdl:message>
+  <wsdl:message name="GetProjectsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetProjectsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetChannelsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetChannels" />
+  </wsdl:message>
+  <wsdl:message name="GetChannelsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetChannelsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SimpleShowSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:SimpleShowSearch" />
+  </wsdl:message>
+  <wsdl:message name="SimpleShowSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:SimpleShowSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="AdvancedShowSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:AdvancedShowSearch" />
+  </wsdl:message>
+  <wsdl:message name="AdvancedShowSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:AdvancedShowSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="AdvancedCGExemptShowSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:AdvancedCGExemptShowSearch" />
+  </wsdl:message>
+  <wsdl:message name="AdvancedCGExemptShowSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:AdvancedCGExemptShowSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLiveURLSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLiveURL" />
+  </wsdl:message>
+  <wsdl:message name="GetLiveURLSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLiveURLResponse" />
+  </wsdl:message>
+  <wsdl:message name="BugStateSoapIn">
+    <wsdl:part name="parameters" element="tns:BugState" />
+  </wsdl:message>
+  <wsdl:message name="BugStateSoapOut">
+    <wsdl:part name="parameters" element="tns:BugStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="BugTextSoapIn">
+    <wsdl:part name="parameters" element="tns:BugText" />
+  </wsdl:message>
+  <wsdl:message name="BugTextSoapOut">
+    <wsdl:part name="parameters" element="tns:BugTextResponse" />
+  </wsdl:message>
+  <wsdl:message name="CrawlTextSoapIn">
+    <wsdl:part name="parameters" element="tns:CrawlText" />
+  </wsdl:message>
+  <wsdl:message name="CrawlTextSoapOut">
+    <wsdl:part name="parameters" element="tns:CrawlTextResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateNewShowRecordSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateNewShowRecord" />
+  </wsdl:message>
+  <wsdl:message name="CreateNewShowRecordSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateNewShowRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateShowRecordSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateShowRecord" />
+  </wsdl:message>
+  <wsdl:message name="UpdateShowRecordSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateShowRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateNewProducerSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateNewProducer" />
+  </wsdl:message>
+  <wsdl:message name="CreateNewProducerSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateNewProducerResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateProducerSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateProducer" />
+  </wsdl:message>
+  <wsdl:message name="UpdateProducerSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateProducerResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateNewProjectSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateNewProject" />
+  </wsdl:message>
+  <wsdl:message name="CreateNewProjectSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateNewProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateProjectSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateProject" />
+  </wsdl:message>
+  <wsdl:message name="UpdateProjectSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddScheduleEventSoapIn">
+    <wsdl:part name="parameters" element="tns:AddScheduleEvent" />
+  </wsdl:message>
+  <wsdl:message name="AddScheduleEventSoapOut">
+    <wsdl:part name="parameters" element="tns:AddScheduleEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleEventSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveScheduleEvent" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleEventSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveScheduleEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetShowReelsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetShowReels" />
+  </wsdl:message>
+  <wsdl:message name="GetShowReelsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetShowReelsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddReelSoapIn">
+    <wsdl:part name="parameters" element="tns:AddReel" />
+  </wsdl:message>
+  <wsdl:message name="AddReelSoapOut">
+    <wsdl:part name="parameters" element="tns:AddReelResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateReelSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateReel" />
+  </wsdl:message>
+  <wsdl:message name="UpdateReelSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateReelResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteReelSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteReel" />
+  </wsdl:message>
+  <wsdl:message name="DeleteReelSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteReelResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetProducerInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetProducerInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetProducerInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetProducerInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateRecordRunSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateRecordRun" />
+  </wsdl:message>
+  <wsdl:message name="CreateRecordRunSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateRecordRunResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveRecordRunSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveRecordRun" />
+  </wsdl:message>
+  <wsdl:message name="RemoveRecordRunSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveRecordRunResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRecordDevicesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRecordDevices" />
+  </wsdl:message>
+  <wsdl:message name="GetRecordDevicesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRecordDevicesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFormatsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFormats" />
+  </wsdl:message>
+  <wsdl:message name="GetFormatsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFormatsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="CablecastWSSoap">
+    <wsdl:operation name="WSVersion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the version of this web service.</wsdl:documentation>
+      <wsdl:input message="tns:WSVersionSoapIn" />
+      <wsdl:output message="tns:WSVersionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DataVersion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the version of this web service's data structures</wsdl:documentation>
+      <wsdl:input message="tns:DataVersionSoapIn" />
+      <wsdl:output message="tns:DataVersionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetShowInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns information about a particular show.</wsdl:documentation>
+      <wsdl:input message="tns:GetShowInformationSoapIn" />
+      <wsdl:output message="tns:GetShowInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an array of schedule data on ChannelID between FromDate and ToDate. 
+Setting "restrictToShowID" to a positive, non-zero value will return schedule information containing only the specified ShowID. </wsdl:documentation>
+      <wsdl:input message="tns:GetScheduleInformationSoapIn" />
+      <wsdl:output message="tns:GetScheduleInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCGExemptScheduleInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an array of schedule data on ChannelID between FromDate and ToDate. 
+Includes CG Exempt Data.  
+Setting "restrictToShowID" to a positive, non-zero value will return schedule information containing only the specified ShowID. </wsdl:documentation>
+      <wsdl:input message="tns:GetCGExemptScheduleInformationSoapIn" />
+      <wsdl:output message="tns:GetCGExemptScheduleInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProducers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of show producers who create content on this channel.</wsdl:documentation>
+      <wsdl:input message="tns:GetProducersSoapIn" />
+      <wsdl:output message="tns:GetProducersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCategories">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of show categories for this channel.</wsdl:documentation>
+      <wsdl:input message="tns:GetCategoriesSoapIn" />
+      <wsdl:output message="tns:GetCategoriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProjects">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of projects on this channel.</wsdl:documentation>
+      <wsdl:input message="tns:GetProjectsSoapIn" />
+      <wsdl:output message="tns:GetProjectsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChannels">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of all the channels on this Cablecast server.</wsdl:documentation>
+      <wsdl:input message="tns:GetChannelsSoapIn" />
+      <wsdl:output message="tns:GetChannelsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SimpleShowSearch">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of information about shows whose titles contain matches in the search string</wsdl:documentation>
+      <wsdl:input message="tns:SimpleShowSearchSoapIn" />
+      <wsdl:output message="tns:SimpleShowSearchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AdvancedShowSearch">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of show information at this site (and optionally other sites) for shows which match the given critera.  "dateComparator" is a string consisting of "=", "&lt;", "&gt;", "&lt;=", "&gt;=", or "!=".  The various "restrictTo" parameters take a "0" for no restriction, or an ID number to have results restricted to only include shows matching that particular ID.
+Note that these restrictions request ID numbers which in all probability will NOT match the IDs on remote sites. Therefore, it would be wise to not allow the restriction ("0") when searching other sites.
+Data versions must match between web services</wsdl:documentation>
+      <wsdl:input message="tns:AdvancedShowSearchSoapIn" />
+      <wsdl:output message="tns:AdvancedShowSearchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AdvancedCGExemptShowSearch">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of show information at this site (and optionally other sites) for shows which match the given critera.  Results include CG Exempt shows
+"dateComparator" is a string consisting of "=", "&lt;", "&gt;", "&lt;=", "&gt;=", or "!=".  The various "restrictTo" parameters take a "0" for no restriction, or an ID number to have results restricted to only include shows matching that particular ID.
+Note that these restrictions request ID numbers which in all probability will NOT match the IDs on remote sites. Therefore, it would be wise to not allow the restriction ("0") when searching other sites.
+Data versions must match between web services</wsdl:documentation>
+      <wsdl:input message="tns:AdvancedCGExemptShowSearchSoapIn" />
+      <wsdl:output message="tns:AdvancedCGExemptShowSearchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLiveURL">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the Live IP Video URL for the requested channel, if the URL exists.</wsdl:documentation>
+      <wsdl:input message="tns:GetLiveURLSoapIn" />
+      <wsdl:output message="tns:GetLiveURLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BugState">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns if the bug graphic should be on.</wsdl:documentation>
+      <wsdl:input message="tns:BugStateSoapIn" />
+      <wsdl:output message="tns:BugStateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BugText">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns any bug text that should be displayed.</wsdl:documentation>
+      <wsdl:input message="tns:BugTextSoapIn" />
+      <wsdl:output message="tns:BugTextSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CrawlText">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns any crawl text that should be displayed.</wsdl:documentation>
+      <wsdl:input message="tns:CrawlTextSoapIn" />
+      <wsdl:output message="tns:CrawlTextSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewShowRecord">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a New Show Record.  Returns ShowID of new Show.</wsdl:documentation>
+      <wsdl:input message="tns:CreateNewShowRecordSoapIn" />
+      <wsdl:output message="tns:CreateNewShowRecordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateShowRecord">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates an existing Show Record</wsdl:documentation>
+      <wsdl:input message="tns:UpdateShowRecordSoapIn" />
+      <wsdl:output message="tns:UpdateShowRecordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewProducer">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a new Producer at a particular Location.  Returns the ProducerID of the newly created producer.</wsdl:documentation>
+      <wsdl:input message="tns:CreateNewProducerSoapIn" />
+      <wsdl:output message="tns:CreateNewProducerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateProducer">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates a Producers information.  Returns true or false as to wether producer was updated</wsdl:documentation>
+      <wsdl:input message="tns:UpdateProducerSoapIn" />
+      <wsdl:output message="tns:UpdateProducerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewProject">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a new Project at a given Location.  Returns the ProjectID of the newly created project.</wsdl:documentation>
+      <wsdl:input message="tns:CreateNewProjectSoapIn" />
+      <wsdl:output message="tns:CreateNewProjectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateProject">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates a Projects information.  Returns true or false as to wether project was updated</wsdl:documentation>
+      <wsdl:input message="tns:UpdateProjectSoapIn" />
+      <wsdl:output message="tns:UpdateProjectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddScheduleEvent">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a Show Run to the specified channel.  Returns ScheduleID of new Run</wsdl:documentation>
+      <wsdl:input message="tns:AddScheduleEventSoapIn" />
+      <wsdl:output message="tns:AddScheduleEventSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveScheduleEvent">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes supplied run from Schedule</wsdl:documentation>
+      <wsdl:input message="tns:RemoveScheduleEventSoapIn" />
+      <wsdl:output message="tns:RemoveScheduleEventSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetShowReels">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of Reels for a given show</wsdl:documentation>
+      <wsdl:input message="tns:GetShowReelsSoapIn" />
+      <wsdl:output message="tns:GetShowReelsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddReel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a new Reel to a show</wsdl:documentation>
+      <wsdl:input message="tns:AddReelSoapIn" />
+      <wsdl:output message="tns:AddReelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateReel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the given Reel.  Reel must belong to ShowID provided</wsdl:documentation>
+      <wsdl:input message="tns:UpdateReelSoapIn" />
+      <wsdl:output message="tns:UpdateReelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteReel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes the supplied reel if:
+1)Reel is last reel added to show.
+2)Reel is not a shows only reel
+A Show Must have at least one Reel.
+Method Returns true/false to whether reel was removed.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteReelSoapIn" />
+      <wsdl:output message="tns:DeleteReelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProducerInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns Information for a requested producer</wsdl:documentation>
+      <wsdl:input message="tns:GetProducerInfoSoapIn" />
+      <wsdl:output message="tns:GetProducerInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateRecordRun">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Records the given scheduled run.</wsdl:documentation>
+      <wsdl:input message="tns:CreateRecordRunSoapIn" />
+      <wsdl:output message="tns:CreateRecordRunSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveRecordRun">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes supplied run from Schedule</wsdl:documentation>
+      <wsdl:input message="tns:RemoveRecordRunSoapIn" />
+      <wsdl:output message="tns:RemoveRecordRunSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRecordDevices">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of Record Devices at given location.</wsdl:documentation>
+      <wsdl:input message="tns:GetRecordDevicesSoapIn" />
+      <wsdl:output message="tns:GetRecordDevicesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFormats">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of available Formats given location.</wsdl:documentation>
+      <wsdl:input message="tns:GetFormatsSoapIn" />
+      <wsdl:output message="tns:GetFormatsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CablecastWSSoap" type="tns:CablecastWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="WSVersion">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/WSVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DataVersion">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/DataVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetShowInformation">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetShowInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleInformation">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetScheduleInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCGExemptScheduleInformation">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetCGExemptScheduleInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProducers">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetProducers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCategories">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetCategories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProjects">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetProjects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChannels">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetChannels" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SimpleShowSearch">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/SimpleShowSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdvancedShowSearch">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/AdvancedShowSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdvancedCGExemptShowSearch">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/AdvancedCGExemptShowSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLiveURL">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetLiveURL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BugState">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/BugState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BugText">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/BugText" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CrawlText">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/CrawlText" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewShowRecord">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/CreateNewShowRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateShowRecord">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/UpdateShowRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewProducer">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/CreateNewProducer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateProducer">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/UpdateProducer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewProject">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/CreateNewProject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateProject">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/UpdateProject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddScheduleEvent">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/AddScheduleEvent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveScheduleEvent">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/RemoveScheduleEvent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetShowReels">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetShowReels" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddReel">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/AddReel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateReel">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/UpdateReel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteReel">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/DeleteReel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProducerInfo">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetProducerInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRecordRun">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/CreateRecordRun" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveRecordRun">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/RemoveRecordRun" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRecordDevices">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetRecordDevices" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFormats">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetFormats" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CablecastWSSoap12" type="tns:CablecastWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="WSVersion">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/WSVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DataVersion">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/DataVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetShowInformation">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetShowInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleInformation">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetScheduleInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCGExemptScheduleInformation">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetCGExemptScheduleInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProducers">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetProducers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCategories">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetCategories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProjects">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetProjects" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChannels">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetChannels" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SimpleShowSearch">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/SimpleShowSearch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdvancedShowSearch">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/AdvancedShowSearch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdvancedCGExemptShowSearch">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/AdvancedCGExemptShowSearch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLiveURL">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetLiveURL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BugState">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/BugState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BugText">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/BugText" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CrawlText">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/CrawlText" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewShowRecord">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/CreateNewShowRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateShowRecord">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/UpdateShowRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewProducer">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/CreateNewProducer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateProducer">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/UpdateProducer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewProject">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/CreateNewProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateProject">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/UpdateProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddScheduleEvent">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/AddScheduleEvent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveScheduleEvent">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/RemoveScheduleEvent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetShowReels">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetShowReels" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddReel">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/AddReel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateReel">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/UpdateReel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteReel">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/DeleteReel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProducerInfo">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetProducerInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRecordRun">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/CreateRecordRun" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveRecordRun">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/RemoveRecordRun" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRecordDevices">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetRecordDevices" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFormats">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetFormats" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CablecastWS">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This is the Cablecast Web Service</wsdl:documentation>
+    <wsdl:port name="CablecastWSSoap" binding="tns:CablecastWSSoap">
+      <soap:address location="http://demo.trms.com/CablecastWS/CablecastWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="CablecastWSSoap12" binding="tns:CablecastWSSoap12">
+      <soap12:address location="http://demo.trms.com/CablecastWS/CablecastWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -189,6 +189,12 @@ namespace tracm
             {
                 FilePath.Text = openFileDialog1.FileName;
 				Inentifier.Text = String.Empty;
+				Title.Text = String.Empty;
+				Subject.Text = String.Empty;
+				Genre.Text = String.Empty;
+				Producer.Text = String.Empty;
+				Description.Text = String.Empty;
+				Cue.Text = "0";
 
 				string title = Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
 				Match m = Regex.Match(title, @"^(\d+)-(.*)$");
@@ -196,8 +202,11 @@ namespace tracm
 				{
 					Inentifier.Text = m.Groups[1].Value;
 					title = m.Groups[2].Value;
+					Title.Text = title;
+					Inentifier_Validating(this, new CancelEventArgs(false));
 				}
-                Title.Text = title;
+				else
+					Title.Text = title;
 				VideoProcessor vp = new VideoProcessor(openFileDialog1.FileName);
 				Length.Text = vp.LengthInSeconds.ToString();
 				// check if the file is compatible
@@ -345,6 +354,34 @@ namespace tracm
 		{
 			Settings.Default.DownloadPath = DownloadPath.Text;
 			Settings.Default.Save();
+		}
+
+		private void Inentifier_Validating(object sender, CancelEventArgs e)
+		{
+			int showID = 0;
+			if(Int32.TryParse(Inentifier.Text, out showID) && (String.IsNullOrEmpty(Settings.Default.CablecastServer) == false))
+			{
+				Cablecast.CablecastWS webService = new Cablecast.CablecastWS();
+				webService.Url = String.Format("http://{0}/CablecastWS/CablecastWS.asmx", Properties.Settings.Default.CablecastServer.Trim());
+				webService.GetShowInformationCompleted += new tracm.Cablecast.GetShowInformationCompletedEventHandler(webService_GetShowInformationCompleted);
+				webService.GetShowInformationAsync(showID, webService);
+			}
+		}
+
+		void webService_GetShowInformationCompleted(object sender, tracm.Cablecast.GetShowInformationCompletedEventArgs e)
+		{
+			Cablecast.CablecastWS webService = (Cablecast.CablecastWS)e.UserState;
+			Cablecast.ShowInfo showInfo = (Cablecast.ShowInfo)e.Result;
+			Title.Text = showInfo.Title;
+			if (String.IsNullOrEmpty(Producer.Text))
+				Producer.Text = showInfo.Producer;
+			if (String.IsNullOrEmpty(Genre.Text))
+				Genre.Text = showInfo.Category;
+
+			// requires 4.9 -->
+			Cablecast.ReelInfo[] reels = webService.GetShowReels(showInfo.ShowID);
+			if (reels.Length > 0)
+				Cue.Text = reels[0].Cue.ToString();
 		}
 
     }
