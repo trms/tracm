@@ -163,6 +163,7 @@ namespace tracm
 			// 
 			// AddToQueue
 			// 
+			this.AddToQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.AddToQueue.Location = new System.Drawing.Point(364, 294);
 			this.AddToQueue.Name = "AddToQueue";
 			this.AddToQueue.Size = new System.Drawing.Size(75, 23);
@@ -247,8 +248,7 @@ namespace tracm
 			// 
 			// VideoFileButton
 			// 
-			this.VideoFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.VideoFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.VideoFileButton.Location = new System.Drawing.Point(365, 14);
 			this.VideoFileButton.Name = "VideoFileButton";
 			this.VideoFileButton.Size = new System.Drawing.Size(75, 23);
@@ -372,6 +372,7 @@ namespace tracm
 			// 
 			// RefreshQueue
 			// 
+			this.RefreshQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.RefreshQueue.Location = new System.Drawing.Point(365, 303);
 			this.RefreshQueue.Name = "RefreshQueue";
 			this.RefreshQueue.Size = new System.Drawing.Size(75, 23);
@@ -382,6 +383,7 @@ namespace tracm
 			// 
 			// DeleteQueueItem
 			// 
+			this.DeleteQueueItem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.DeleteQueueItem.Location = new System.Drawing.Point(284, 302);
 			this.DeleteQueueItem.Name = "DeleteQueueItem";
 			this.DeleteQueueItem.Size = new System.Drawing.Size(75, 23);
@@ -440,8 +442,7 @@ namespace tracm
 			// 
 			// FileBrowse
 			// 
-			this.FileBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.FileBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.FileBrowse.Location = new System.Drawing.Point(353, 16);
 			this.FileBrowse.Name = "FileBrowse";
 			this.FileBrowse.Size = new System.Drawing.Size(75, 23);
