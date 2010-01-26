@@ -54,6 +54,8 @@ namespace tracm.Queue
 				label = s.CurrentState;
 				if (s.ShowProgressBar == false || String.IsNullOrEmpty(label) == false)
 					progressVal = 0;
+				if (s.HasError)
+					this.ErrorText = s.ErrorText;
 			}
 
 			// Draws the cell grid

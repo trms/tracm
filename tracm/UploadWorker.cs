@@ -34,25 +34,21 @@ namespace tracm
 		{
 			string server = Settings.Default.ACMServer;
 			int idx = server.IndexOf(':');
-			if(idx != -1)
+			if (idx != -1)
 				server = server.Substring(0, idx);
 
-			try
-			{
-				// upload file via FTP
-				FTPLib.FTP ftp = new FTPLib.FTP(server, Settings.Default.ACMUsername, Settings.Default.ACMPassword);
-				ftp.Connect();
+			// upload file via FTP
+			FTPLib.FTP ftp = new FTPLib.FTP(server, Settings.Default.ACMUsername, Settings.Default.ACMPassword);
+			ftp.Connect();
 
-				string xmlPath = CreateXML();
-				UploadFile(ftp, xmlPath);
-				UploadFile(ftp, m_path);
-				File.Delete(xmlPath);
+			string xmlPath = CreateXML();
+			UploadFile(ftp, xmlPath);
+			UploadFile(ftp, m_path);
+			File.Delete(xmlPath);
 
-				ftp.Disconnect();
+			ftp.Disconnect();
 
-				Scs.addContent(Path.GetFileName(xmlPath));
-			}
-			catch { }
+			Scs.addContent(Path.GetFileName(xmlPath));
 		}
 
 		private void UploadFile(FTPLib.FTP ftp, string path)

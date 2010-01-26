@@ -12,6 +12,7 @@ namespace tracm.Queue
 		private State m_progressState = State.NotStarted;
 		public delegate void ProgressChanged();
 		public event ProgressChanged ProgressChangedEvent;
+		private string m_errorString = null;
 
 		public enum State
 		{
@@ -19,6 +20,7 @@ namespace tracm.Queue
 			Running,
 			Cancelling,
 			Cancelled,
+			Error,
 			Complete
 		}
 
@@ -83,6 +85,9 @@ namespace tracm.Queue
 					case State.Cancelled:
 						result = "Cancelled";
 						break;
+					case State.Error:
+						result = "Error";
+						break;
 					case State.Complete:
 						result = "Done";
 						break;
@@ -110,7 +115,13 @@ namespace tracm.Queue
 				m_progressState = State.Cancelled;
 				Changed();
 			}
+		}
 
+		public void Error(string errorString)
+		{
+			m_progressState = State.Error;
+			m_errorString = errorString;
+			Changed();
 		}
 
 		public void Finish()
@@ -118,7 +129,7 @@ namespace tracm.Queue
 			m_progressValue = (int)ProgressValue.Maximum;
 			if (m_progressState == State.Cancelling)
 				m_progressState = State.Cancelled;
-			else
+			else if(m_progressState != State.Error)
 				m_progressState = State.Complete;
 			Changed();
 		}
@@ -136,7 +147,7 @@ namespace tracm.Queue
 		{
 			get
 			{
-				bool result = (m_progressState == State.Cancelled || m_progressState == State.Complete);
+				bool result = (m_progressState == State.Cancelled || m_progressState == State.Complete || m_progressState == State.Error);
 				return result;
 			}
 		}
@@ -156,6 +167,23 @@ namespace tracm.Queue
 			{
 				bool result = m_progressState == State.Cancelled;
 				return result;
+			}
+		}
+
+		public bool HasError
+		{
+			get
+			{
+				bool result = m_progressState == State.Error;
+				return result;
+			}
+		}
+
+		public string ErrorText
+		{
+			get
+			{
+				return m_errorString;
 			}
 		}
 	}
@@ -201,10 +229,22 @@ namespace tracm.Queue
 			if (m_progress.IsStarted)
 				return;
 
-			WorkDelegate d = new WorkDelegate(WorkMethod);
+			WorkDelegate d = new WorkDelegate(DoWork);
 			m_startTime = DateTime.Now;
 			m_progress.Start();
 			d.BeginInvoke(new AsyncCallback(CallbackMethod), d);
+		}
+
+		private void DoWork()
+		{
+			try
+			{
+				WorkMethod();
+			}
+			catch (Exception ex)
+			{
+				m_progress.Error(ex.Message);
+			}
 		}
 
 		/// <summary>

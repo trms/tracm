@@ -34,30 +34,24 @@ Princeton, NJ 08544
 		protected override void WorkMethod()
 		{
 			List<int> dlq = new List<int>();
-			try
+			dlq = Scs.getDownloadQueue();
+			foreach (int content_id in dlq)
 			{
-				dlq = Scs.getDownloadQueue();
-				foreach (int content_id in dlq)
-				{
-					string data = Scs.getContentMetadata(content_id.ToString());
-					string filename = String.Format("Content{0}.mpg", content_id);
-					long size = 0;
-					Match m = Regex.Match(data, "<formatIdentifier>([^<]*)");
-					if (m.Success)
-						filename = m.Groups[1].Value;
-					m = Regex.Match(data, @"<formatFileSize>(\d+)");
-					if (m.Success)
-						size = Convert.ToInt64(m.Groups[1].Value);
-					string URL = Scs.getQueuedDownloadUrl(content_id.ToString());
-					URL = System.Web.HttpUtility.UrlDecode(URL);
-					URL = System.Web.HttpUtility.HtmlDecode(URL);
-					if (IsRunning == false)
-						break;
-					m_files.Add(new DownloadWorker(content_id, URL, filename, size));
-				}
-			}
-			catch
-			{
+				string data = Scs.getContentMetadata(content_id.ToString());
+				string filename = String.Format("Content{0}.mpg", content_id);
+				long size = 0;
+				Match m = Regex.Match(data, "<formatIdentifier>([^<]*)");
+				if (m.Success)
+					filename = m.Groups[1].Value;
+				m = Regex.Match(data, @"<formatFileSize>(\d+)");
+				if (m.Success)
+					size = Convert.ToInt64(m.Groups[1].Value);
+				string URL = Scs.getQueuedDownloadUrl(content_id.ToString());
+				URL = System.Web.HttpUtility.UrlDecode(URL);
+				URL = System.Web.HttpUtility.HtmlDecode(URL);
+				if (IsRunning == false)
+					break;
+				m_files.Add(new DownloadWorker(content_id, URL, filename, size));
 			}
 		}
 
