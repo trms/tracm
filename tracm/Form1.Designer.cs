@@ -433,7 +433,7 @@ namespace tracm
 			this.groupBoxFiles.Controls.Add(this.FileBrowse);
 			this.groupBoxFiles.Controls.Add(this.DownloadPath);
 			this.groupBoxFiles.Controls.Add(this.labelDownloadFolder);
-			this.groupBoxFiles.Location = new System.Drawing.Point(6, 183);
+			this.groupBoxFiles.Location = new System.Drawing.Point(6, 227);
 			this.groupBoxFiles.Name = "groupBoxFiles";
 			this.groupBoxFiles.Size = new System.Drawing.Size(434, 48);
 			this.groupBoxFiles.TabIndex = 8;
@@ -482,7 +482,7 @@ namespace tracm
 			this.groupBoxCablecast.Controls.Add(this.labelCablecastPassword);
 			this.groupBoxCablecast.Location = new System.Drawing.Point(6, 119);
 			this.groupBoxCablecast.Name = "groupBoxCablecast";
-			this.groupBoxCablecast.Size = new System.Drawing.Size(434, 54);
+			this.groupBoxCablecast.Size = new System.Drawing.Size(434, 102);
 			this.groupBoxCablecast.TabIndex = 7;
 			this.groupBoxCablecast.TabStop = false;
 			this.groupBoxCablecast.Text = "Cablecast";
@@ -505,7 +505,6 @@ namespace tracm
 			this.CablecastPassword.Name = "CablecastPassword";
 			this.CablecastPassword.Size = new System.Drawing.Size(322, 20);
 			this.CablecastPassword.TabIndex = 5;
-			this.CablecastPassword.Visible = false;
 			this.CablecastPassword.Validating += new System.ComponentModel.CancelEventHandler(this.CablecastPassword_Validating);
 			// 
 			// labelCablecastServer
@@ -525,7 +524,6 @@ namespace tracm
 			this.CablecastUsername.Name = "CablecastUsername";
 			this.CablecastUsername.Size = new System.Drawing.Size(322, 20);
 			this.CablecastUsername.TabIndex = 4;
-			this.CablecastUsername.Visible = false;
 			this.CablecastUsername.Validating += new System.ComponentModel.CancelEventHandler(this.CablecastUsername_Validating);
 			// 
 			// labelCablecastUsername
@@ -536,7 +534,6 @@ namespace tracm
 			this.labelCablecastUsername.Size = new System.Drawing.Size(58, 13);
 			this.labelCablecastUsername.TabIndex = 1;
 			this.labelCablecastUsername.Text = "Username:";
-			this.labelCablecastUsername.Visible = false;
 			// 
 			// labelCablecastPassword
 			// 
@@ -546,7 +543,6 @@ namespace tracm
 			this.labelCablecastPassword.Size = new System.Drawing.Size(56, 13);
 			this.labelCablecastPassword.TabIndex = 2;
 			this.labelCablecastPassword.Text = "Password:";
-			this.labelCablecastPassword.Visible = false;
 			// 
 			// groupBoxACM
 			// 

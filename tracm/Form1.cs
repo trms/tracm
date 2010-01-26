@@ -18,10 +18,13 @@ namespace tracm
     {
 		private BindingList<WorkItem> m_list = new BindingList<WorkItem>();
 		private object m_lockObject = new object();
+		private bool m_cablecastCanCreateShows = false;
        
         public MainForm()
         {
             InitializeComponent();
+
+			VerifyCablecast();
 
 			lock (m_lockObject)
 			{
@@ -336,6 +339,7 @@ namespace tracm
 		{
 			Settings.Default.CablecastServer = CablecastServer.Text;
 			Settings.Default.Save();
+			VerifyCablecast();
 		}
 
 		private void CablecastUsername_Validating(object sender, CancelEventArgs e)
@@ -368,7 +372,7 @@ namespace tracm
 			}
 		}
 
-		void webService_GetShowInformationCompleted(object sender, tracm.Cablecast.GetShowInformationCompletedEventArgs e)
+		private void webService_GetShowInformationCompleted(object sender, tracm.Cablecast.GetShowInformationCompletedEventArgs e)
 		{
 			Cablecast.CablecastWS webService = (Cablecast.CablecastWS)e.UserState;
 			Cablecast.ShowInfo showInfo = (Cablecast.ShowInfo)e.Result;
@@ -379,10 +383,32 @@ namespace tracm
 				Genre.Text = showInfo.Category;
 
 			// requires 4.9 -->
-			Cablecast.ReelInfo[] reels = webService.GetShowReels(showInfo.ShowID);
-			if (reels.Length > 0)
-				Cue.Text = reels[0].Cue.ToString();
+			if (m_cablecastCanCreateShows)
+			{
+				Cablecast.ReelInfo[] reels = webService.GetShowReels(showInfo.ShowID);
+				if (reels.Length > 0)
+					Cue.Text = reels[0].Cue.ToString();
+			}
 		}
 
+		private void VerifyCablecast()
+		{
+			// check web service version for cablecast 4.9
+			if (String.IsNullOrEmpty(Settings.Default.CablecastServer) == false)
+			{
+				Cablecast.CablecastWS webService = new Cablecast.CablecastWS();
+				webService.Url = String.Format("http://{0}/CablecastWS/CablecastWS.asmx", Properties.Settings.Default.CablecastServer.Trim());
+				webService.WSVersionCompleted += new tracm.Cablecast.WSVersionCompletedEventHandler(webService_WSVersionCompleted);
+				webService.WSVersionAsync();
+			}
+		}
+
+		private void webService_WSVersionCompleted(object sender, tracm.Cablecast.WSVersionCompletedEventArgs e)
+		{
+			int version = 0;
+			Int32.TryParse(e.Result.Replace(".", ""), out version);
+			if (version >= 300)
+				m_cablecastCanCreateShows = true;
+		}
     }
 }
