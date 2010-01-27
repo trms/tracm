@@ -273,6 +273,9 @@ namespace tracm.Queue
 		{
 			m_run = false;
 			m_progress.Cancel();
+
+			if (m_next != null)
+				m_next.Cancel();
 		}
 
 		public override string ToString()
