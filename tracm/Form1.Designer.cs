@@ -156,7 +156,7 @@ namespace tracm
 			// TranscodeIndicator
 			// 
 			this.TranscodeIndicator.AutoSize = true;
-			this.TranscodeIndicator.Location = new System.Drawing.Point(69, 294);
+			this.TranscodeIndicator.Location = new System.Drawing.Point(9, 299);
 			this.TranscodeIndicator.Name = "TranscodeIndicator";
 			this.TranscodeIndicator.Size = new System.Drawing.Size(0, 13);
 			this.TranscodeIndicator.TabIndex = 22;
