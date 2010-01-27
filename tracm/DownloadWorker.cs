@@ -67,6 +67,18 @@ namespace tracm
 				Scs.removeQueuedDownload(m_contentID.ToString(), true);
 			}
 			catch { }
+
+			if (String.IsNullOrEmpty(Properties.Settings.Default.CablecastServer) == false && tracm.MainForm.CablecastCanCreateShows)
+			{
+				// create show record in cablecast
+				//Cablecast.CablecastWS webService = new Cablecast.CablecastWS();
+				//webService.Url = String.Format("http://{0}/CablecastWS/CablecastWS.asmx", Properties.Settings.Default.CablecastServer.Trim());
+				//tracm.Cablecast.NewReel reel = new tracm.Cablecast.NewReel();
+				//int showID = webService.CreateNewShowRecord(0, 22, "test", "test", 0, false, 0, );
+				// rename file to include show ID
+				//File.Move(m_path, Path.Combine(Path.GetDirectoryName(m_path), String.Format("{0}-{1}", showID, Path.GetFileName(m_path))));
+
+			}
 		}
 
 		public override string ToString()

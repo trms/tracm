@@ -18,7 +18,7 @@ namespace tracm
     {
 		private BindingList<WorkItem> m_list = new BindingList<WorkItem>();
 		private object m_lockObject = new object();
-		private bool m_cablecastCanCreateShows = false;
+		private static bool m_cablecastCanCreateShows = false;
        
         public MainForm()
         {
@@ -409,6 +409,11 @@ namespace tracm
 			Int32.TryParse(e.Result.Replace(".", ""), out version);
 			if (version >= 300)
 				m_cablecastCanCreateShows = true;
+		}
+
+		public static bool CablecastCanCreateShows
+		{
+			get { return m_cablecastCanCreateShows; }
 		}
     }
 }
