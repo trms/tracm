@@ -18,13 +18,29 @@ namespace tracm
     {
 		private BindingList<WorkItem> m_list = new BindingList<WorkItem>();
 		private object m_lockObject = new object();
-		private static bool m_cablecastCanCreateShows = false;
-       
+
+		private class NameID
+		{
+			public int ID = 0;
+			public string Name = String.Empty;
+
+			public NameID(int id, string name)
+			{
+				ID = id;
+				Name = name;
+			}
+
+			public override string ToString()
+			{
+				return Name;
+			}
+		}
+
         public MainForm()
         {
             InitializeComponent();
 
-			VerifyCablecast();
+			CablecastFactory.Update();
 
 			lock (m_lockObject)
 			{
@@ -116,9 +132,43 @@ namespace tracm
             CablecastPassword.Text = Settings.Default.CablecastPassword;
             DownloadPath.Text = Settings.Default.DownloadPath;
 			passiveFTP.Checked = Settings.Default.PassiveFTP;
+			useCablecast.Checked = Settings.Default.UseCablecast;
 
 			TranscodeIndicator.Text = String.Empty;
+
+			useCablecast_CheckedChanged(this, new EventArgs());
+
+			CablecastFactory.CanUseShowsChangedEvent += new CablecastFactory.CanUseShowsChanged(CablecastFactory_CanUseShowsChangedEvent);
+			CablecastFactory.LocationsChangedEvent += new CablecastFactory.LocationsChanged(CablecastFactory_LocationsChangedEvent);
         }
+
+		private void cablecastLocation_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Settings.Default.CablecastLocation = ((NameID)cablecastLocation.SelectedItem).ID;
+			Settings.Default.Save();
+		}
+
+		private void CablecastFactory_LocationsChangedEvent(tracm.Cablecast.Location[] locations)
+		{
+			int idx = 0;
+			cablecastLocation.Items.Clear();
+			foreach (tracm.Cablecast.Location location in locations)
+			{
+				if (location.LocationID == Settings.Default.CablecastLocation)
+					idx = cablecastLocation.Items.Count;
+				cablecastLocation.Items.Add(new NameID(location.LocationID, location.Name));
+			}
+
+			if (cablecastLocation.Items.Count > 0)
+				cablecastLocation.SelectedIndex = idx;
+		}
+
+		private void CablecastFactory_CanUseShowsChangedEvent(bool canUseShows)
+		{
+			useCablecast.Enabled = canUseShows;
+			if (canUseShows == false)
+				cablecastGroup.Enabled = false;
+		}
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -343,7 +393,7 @@ namespace tracm
 		{
 			Settings.Default.CablecastServer = CablecastServer.Text;
 			Settings.Default.Save();
-			VerifyCablecast();
+			CablecastFactory.Update();
 		}
 
 		private void CablecastUsername_Validating(object sender, CancelEventArgs e)
@@ -373,19 +423,23 @@ namespace tracm
 		private void Inentifier_Validating(object sender, CancelEventArgs e)
 		{
 			int showID = 0;
-			if(Int32.TryParse(Inentifier.Text, out showID) && (String.IsNullOrEmpty(Settings.Default.CablecastServer) == false))
+			if (Int32.TryParse(Inentifier.Text, out showID))
 			{
-				Cablecast.CablecastWS webService = new Cablecast.CablecastWS();
-				webService.Url = String.Format("http://{0}/CablecastWS/CablecastWS.asmx", Properties.Settings.Default.CablecastServer.Trim());
-				webService.GetShowInformationCompleted += new tracm.Cablecast.GetShowInformationCompletedEventHandler(webService_GetShowInformationCompleted);
-				webService.GetShowInformationAsync(showID, webService);
+				Cablecast.CablecastWS webService = CablecastFactory.Create();
+				if (webService != null)
+				{
+					{
+						webService.GetShowInformationCompleted += new tracm.Cablecast.GetShowInformationCompletedEventHandler(webService_GetShowInformationCompleted);
+						webService.GetShowInformationAsync(showID, webService);
+					}
+				}
 			}
 		}
 
 		private void webService_GetShowInformationCompleted(object sender, tracm.Cablecast.GetShowInformationCompletedEventArgs e)
 		{
 			Cablecast.CablecastWS webService = (Cablecast.CablecastWS)e.UserState;
-			Cablecast.ShowInfo showInfo = (Cablecast.ShowInfo)e.Result;
+			Cablecast.ShowInfo showInfo = e.Result;
 			Title.Text = showInfo.Title;
 			if (String.IsNullOrEmpty(Producer.Text))
 				Producer.Text = showInfo.Producer;
@@ -393,7 +447,7 @@ namespace tracm
 				Genre.Text = showInfo.Category;
 
 			// requires 4.9 -->
-			if (m_cablecastCanCreateShows)
+			if (CablecastFactory.CanCreateShows)
 			{
 				Cablecast.ReelInfo[] reels = webService.GetShowReels(showInfo.ShowID);
 				if (reels.Length > 0)
@@ -401,34 +455,19 @@ namespace tracm
 			}
 		}
 
-		private void VerifyCablecast()
-		{
-			// check web service version for cablecast 4.9
-			if (String.IsNullOrEmpty(Settings.Default.CablecastServer) == false)
-			{
-				Cablecast.CablecastWS webService = new Cablecast.CablecastWS();
-				webService.Url = String.Format("http://{0}/CablecastWS/CablecastWS.asmx", Properties.Settings.Default.CablecastServer.Trim());
-				webService.WSVersionCompleted += new tracm.Cablecast.WSVersionCompletedEventHandler(webService_WSVersionCompleted);
-				webService.WSVersionAsync();
-			}
-		}
-
-		private void webService_WSVersionCompleted(object sender, tracm.Cablecast.WSVersionCompletedEventArgs e)
-		{
-			int version = 0;
-			Int32.TryParse(e.Result.Replace(".", ""), out version);
-			if (version >= 300)
-				m_cablecastCanCreateShows = true;
-		}
-
-		public static bool CablecastCanCreateShows
-		{
-			get { return m_cablecastCanCreateShows; }
-		}
-
 		private void useCablecast_CheckedChanged(object sender, EventArgs e)
 		{
 			cablecastGroup.Enabled = useCablecast.Checked;
+			Settings.Default.UseCablecast = useCablecast.Checked;
+			Settings.Default.Save();
+		}
+		
+		private void useCablecast_EnabledChanged(object sender, EventArgs e)
+		{
+			if (useCablecast.Enabled == false)
+				cablecastGroup.Enabled = false;
+			else
+				useCablecast_CheckedChanged(this, new EventArgs());
 		}
 
 		private void UpdateQueueCount()

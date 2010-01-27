@@ -28,6 +28,7 @@ namespace tracm
         /// </summary>
         private void InitializeComponent()
         {
+			this.components = new System.ComponentModel.Container();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabWelcome = new System.Windows.Forms.TabPage();
 			this.tabUpload = new System.Windows.Forms.TabPage();
@@ -55,6 +56,7 @@ namespace tracm
 			this.labelVideoFile = new System.Windows.Forms.Label();
 			this.tabDownload = new System.Windows.Forms.TabPage();
 			this.cablecastGroup = new System.Windows.Forms.GroupBox();
+			this.label9 = new System.Windows.Forms.Label();
 			this.cablecastLocation = new System.Windows.Forms.ComboBox();
 			this.useCablecast = new System.Windows.Forms.CheckBox();
 			this.RefreshQueue = new System.Windows.Forms.Button();
@@ -84,7 +86,9 @@ namespace tracm
 			this.labelACMPassword = new System.Windows.Forms.Label();
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-			this.label9 = new System.Windows.Forms.Label();
+			this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
+			this.label10 = new System.Windows.Forms.Label();
+			this.cablecastFormats = new System.Windows.Forms.ComboBox();
 			this.tabControl1.SuspendLayout();
 			this.tabUpload.SuspendLayout();
 			this.tabDownload.SuspendLayout();
@@ -95,6 +99,7 @@ namespace tracm
 			this.groupBoxFiles.SuspendLayout();
 			this.groupBoxCablecast.SuspendLayout();
 			this.groupBoxACM.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locationBindingSource)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -373,6 +378,8 @@ namespace tracm
 			// 
 			this.cablecastGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cablecastGroup.Controls.Add(this.cablecastFormats);
+			this.cablecastGroup.Controls.Add(this.label10);
 			this.cablecastGroup.Controls.Add(this.label9);
 			this.cablecastGroup.Controls.Add(this.cablecastLocation);
 			this.cablecastGroup.Location = new System.Drawing.Point(8, 39);
@@ -381,6 +388,15 @@ namespace tracm
 			this.cablecastGroup.TabIndex = 5;
 			this.cablecastGroup.TabStop = false;
 			this.cablecastGroup.Text = "Cablecast Options";
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(6, 22);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(51, 13);
+			this.label9.TabIndex = 1;
+			this.label9.Text = "Location:";
 			// 
 			// cablecastLocation
 			// 
@@ -392,10 +408,12 @@ namespace tracm
 			this.cablecastLocation.Name = "cablecastLocation";
 			this.cablecastLocation.Size = new System.Drawing.Size(363, 21);
 			this.cablecastLocation.TabIndex = 0;
+			this.cablecastLocation.SelectedIndexChanged += new System.EventHandler(this.cablecastLocation_SelectedIndexChanged);
 			// 
 			// useCablecast
 			// 
 			this.useCablecast.AutoSize = true;
+			this.useCablecast.Enabled = false;
 			this.useCablecast.Location = new System.Drawing.Point(8, 16);
 			this.useCablecast.Name = "useCablecast";
 			this.useCablecast.Size = new System.Drawing.Size(142, 17);
@@ -403,6 +421,7 @@ namespace tracm
 			this.useCablecast.Text = "Add Shows to Cablecast";
 			this.useCablecast.UseVisualStyleBackColor = true;
 			this.useCablecast.CheckedChanged += new System.EventHandler(this.useCablecast_CheckedChanged);
+			this.useCablecast.EnabledChanged += new System.EventHandler(this.useCablecast_EnabledChanged);
 			// 
 			// RefreshQueue
 			// 
@@ -692,14 +711,29 @@ namespace tracm
 			// 
 			this.openFileDialog1.FileName = "openFileDialog1";
 			// 
-			// label9
+			// locationBindingSource
 			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(6, 22);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(51, 13);
-			this.label9.TabIndex = 1;
-			this.label9.Text = "Location:";
+			this.locationBindingSource.DataSource = typeof(tracm.Cablecast.Location);
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(15, 49);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(42, 13);
+			this.label10.TabIndex = 2;
+			this.label10.Text = "Format:";
+			// 
+			// cablecastFormats
+			// 
+			this.cablecastFormats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cablecastFormats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cablecastFormats.FormattingEnabled = true;
+			this.cablecastFormats.Location = new System.Drawing.Point(63, 46);
+			this.cablecastFormats.Name = "cablecastFormats";
+			this.cablecastFormats.Size = new System.Drawing.Size(363, 21);
+			this.cablecastFormats.TabIndex = 3;
 			// 
 			// MainForm
 			// 
@@ -728,6 +762,7 @@ namespace tracm
 			this.groupBoxCablecast.PerformLayout();
 			this.groupBoxACM.ResumeLayout(false);
 			this.groupBoxACM.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locationBindingSource)).EndInit();
 			this.ResumeLayout(false);
 
         }
@@ -791,6 +826,9 @@ namespace tracm
 		private System.Windows.Forms.ComboBox cablecastLocation;
 		private System.Windows.Forms.CheckBox passiveFTP;
 		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.BindingSource locationBindingSource;
+		private System.Windows.Forms.ComboBox cablecastFormats;
+		private System.Windows.Forms.Label label10;
 
     }
 }

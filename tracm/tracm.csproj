@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CablecastFactory.cs" />
     <Compile Include="DeleteWorker.cs" />
     <Compile Include="DownloadWorker.cs" />
     <Compile Include="Form1.cs">
@@ -111,6 +112,9 @@
     <None Include="Web References\Cablecast\Format.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\Cablecast\Location.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\Cablecast\Producer.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -141,10 +145,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://demo.trms.com/CablecastWS/CablecastWS.asmx">
+    <WebReferenceUrl Include="http://localhost/CablecastWS/CablecastWS.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\Cablecast\</RelPath>
-      <UpdateFromURL>http://demo.trms.com/CablecastWS/CablecastWS.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/CablecastWS/CablecastWS.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

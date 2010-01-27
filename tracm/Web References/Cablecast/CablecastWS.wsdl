@@ -193,6 +193,27 @@
           <s:element minOccurs="0" maxOccurs="1" name="PodcastUrl" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetLocations">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetLocationsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLocationsResult" type="tns:ArrayOfLocation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfLocation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Location" type="tns:Location" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Location">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetChannels">
         <s:complexType />
       </s:element>
@@ -808,6 +829,12 @@
   <wsdl:message name="GetProjectsSoapOut">
     <wsdl:part name="parameters" element="tns:GetProjectsResponse" />
   </wsdl:message>
+  <wsdl:message name="GetLocationsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLocations" />
+  </wsdl:message>
+  <wsdl:message name="GetLocationsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLocationsResponse" />
+  </wsdl:message>
   <wsdl:message name="GetChannelsSoapIn">
     <wsdl:part name="parameters" element="tns:GetChannels" />
   </wsdl:message>
@@ -1002,6 +1029,11 @@ Setting "restrictToShowID" to a positive, non-zero value will return schedule in
       <wsdl:input message="tns:GetProjectsSoapIn" />
       <wsdl:output message="tns:GetProjectsSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetLocations">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of all the locations on this Cablecast server.</wsdl:documentation>
+      <wsdl:input message="tns:GetLocationsSoapIn" />
+      <wsdl:output message="tns:GetLocationsSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetChannels">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of all the channels on this Cablecast server.</wsdl:documentation>
       <wsdl:input message="tns:GetChannelsSoapIn" />
@@ -1053,7 +1085,7 @@ Data versions must match between web services</wsdl:documentation>
       <wsdl:output message="tns:CreateNewShowRecordSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="UpdateShowRecord">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates an existing Show Record</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates an existing Show Record.  All fields are required.  Blank or empty fields will overwrite existing show data.</wsdl:documentation>
       <wsdl:input message="tns:UpdateShowRecordSoapIn" />
       <wsdl:output message="tns:UpdateShowRecordSoapOut" />
     </wsdl:operation>
@@ -1063,7 +1095,7 @@ Data versions must match between web services</wsdl:documentation>
       <wsdl:output message="tns:CreateNewProducerSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="UpdateProducer">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates a Producers information.  Returns true or false as to wether producer was updated</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates a Producers information.  All fields are required.  Blank or empty fields will overwrite existing producer data.</wsdl:documentation>
       <wsdl:input message="tns:UpdateProducerSoapIn" />
       <wsdl:output message="tns:UpdateProducerSoapOut" />
     </wsdl:operation>
@@ -1073,7 +1105,7 @@ Data versions must match between web services</wsdl:documentation>
       <wsdl:output message="tns:CreateNewProjectSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="UpdateProject">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates a Projects information.  Returns true or false as to wether project was updated</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates a Projects information.  All fields are rquired.  Blank or empty fields will overwrite existing project data.</wsdl:documentation>
       <wsdl:input message="tns:UpdateProjectSoapIn" />
       <wsdl:output message="tns:UpdateProjectSoapOut" />
     </wsdl:operation>
@@ -1098,7 +1130,7 @@ Data versions must match between web services</wsdl:documentation>
       <wsdl:output message="tns:AddReelSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="UpdateReel">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the given Reel.  Reel must belong to ShowID provided</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the given Reel.  Reel must belong to ShowID provided.  All feilds are required.  Blank or empty fields will overwrite existing reel data.</wsdl:documentation>
       <wsdl:input message="tns:UpdateReelSoapIn" />
       <wsdl:output message="tns:UpdateReelSoapOut" />
     </wsdl:operation>
@@ -1107,7 +1139,7 @@ Data versions must match between web services</wsdl:documentation>
 1)Reel is last reel added to show.
 2)Reel is not a shows only reel
 A Show Must have at least one Reel.
-Method Returns true/false to whether reel was removed.</wsdl:documentation>
+</wsdl:documentation>
       <wsdl:input message="tns:DeleteReelSoapIn" />
       <wsdl:output message="tns:DeleteReelSoapOut" />
     </wsdl:operation>
@@ -1117,12 +1149,12 @@ Method Returns true/false to whether reel was removed.</wsdl:documentation>
       <wsdl:output message="tns:GetProducerInfoSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateRecordRun">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Records the given scheduled run.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Records the given scheduled run. To obtain a list of record devices use the GetRecordDevices method.</wsdl:documentation>
       <wsdl:input message="tns:CreateRecordRunSoapIn" />
       <wsdl:output message="tns:CreateRecordRunSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="RemoveRecordRun">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes supplied run from Schedule</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes supplied Record Run from the Record Schedule</wsdl:documentation>
       <wsdl:input message="tns:RemoveRecordRunSoapIn" />
       <wsdl:output message="tns:RemoveRecordRunSoapOut" />
     </wsdl:operation>
@@ -1132,7 +1164,7 @@ Method Returns true/false to whether reel was removed.</wsdl:documentation>
       <wsdl:output message="tns:GetRecordDevicesSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetFormats">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of available Formats given location.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of available Formats at the given location.</wsdl:documentation>
       <wsdl:input message="tns:GetFormatsSoapIn" />
       <wsdl:output message="tns:GetFormatsSoapOut" />
     </wsdl:operation>
@@ -1204,6 +1236,15 @@ Method Returns true/false to whether reel was removed.</wsdl:documentation>
     </wsdl:operation>
     <wsdl:operation name="GetProjects">
       <soap:operation soapAction="http://www.trms.com/CablecastWS/GetProjects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLocations">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/GetLocations" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1511,6 +1552,15 @@ Method Returns true/false to whether reel was removed.</wsdl:documentation>
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetLocations">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetLocations" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetChannels">
       <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetChannels" style="document" />
       <wsdl:input>
@@ -1740,10 +1790,10 @@ Method Returns true/false to whether reel was removed.</wsdl:documentation>
   <wsdl:service name="CablecastWS">
     <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This is the Cablecast Web Service</wsdl:documentation>
     <wsdl:port name="CablecastWSSoap" binding="tns:CablecastWSSoap">
-      <soap:address location="http://demo.trms.com/CablecastWS/CablecastWS.asmx" />
+      <soap:address location="http://localhost/CablecastWS/CablecastWS.asmx" />
     </wsdl:port>
     <wsdl:port name="CablecastWSSoap12" binding="tns:CablecastWSSoap12">
-      <soap12:address location="http://demo.trms.com/CablecastWS/CablecastWS.asmx" />
+      <soap12:address location="http://localhost/CablecastWS/CablecastWS.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

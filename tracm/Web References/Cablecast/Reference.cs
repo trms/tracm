@@ -45,6 +45,8 @@ namespace tracm.Cablecast {
         
         private System.Threading.SendOrPostCallback GetProjectsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetLocationsOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetChannelsOperationCompleted;
         
         private System.Threading.SendOrPostCallback SimpleShowSearchOperationCompleted;
@@ -156,6 +158,9 @@ namespace tracm.Cablecast {
         
         /// <remarks/>
         public event GetProjectsCompletedEventHandler GetProjectsCompleted;
+        
+        /// <remarks/>
+        public event GetLocationsCompletedEventHandler GetLocationsCompleted;
         
         /// <remarks/>
         public event GetChannelsCompletedEventHandler GetChannelsCompleted;
@@ -474,6 +479,34 @@ namespace tracm.Cablecast {
             if ((this.GetProjectsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetProjectsCompleted(this, new GetProjectsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.trms.com/CablecastWS/GetLocations", RequestNamespace="http://www.trms.com/CablecastWS/", ResponseNamespace="http://www.trms.com/CablecastWS/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
+        public Location[] GetLocations() {
+            object[] results = this.Invoke("GetLocations", new object[0]);
+            return ((Location[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetLocationsAsync() {
+            this.GetLocationsAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetLocationsAsync(object userState) {
+            if ((this.GetLocationsOperationCompleted == null)) {
+                this.GetLocationsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetLocationsOperationCompleted);
+            }
+            this.InvokeAsync("GetLocations", new object[0], this.GetLocationsOperationCompleted, userState);
+        }
+        
+        private void OnGetLocationsOperationCompleted(object arg) {
+            if ((this.GetLocationsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetLocationsCompleted(this, new GetLocationsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2197,6 +2230,39 @@ namespace tracm.Cablecast {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.trms.com/CablecastWS/")]
+    public partial class Location {
+        
+        private int locationIDField;
+        
+        private string nameField;
+        
+        /// <remarks/>
+        public int LocationID {
+            get {
+                return this.locationIDField;
+            }
+            set {
+                this.locationIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3082")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.trms.com/CablecastWS/")]
     public partial class Project {
         
         private int projectIDField;
@@ -2647,6 +2713,32 @@ namespace tracm.Cablecast {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((Project[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.3053")]
+    public delegate void GetLocationsCompletedEventHandler(object sender, GetLocationsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.3053")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetLocationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetLocationsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Location[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Location[])(this.results[0]));
             }
         }
     }

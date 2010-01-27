@@ -51,7 +51,7 @@ Princeton, NJ 08544
 				URL = System.Web.HttpUtility.HtmlDecode(URL);
 				if (IsRunning == false)
 					break;
-				m_files.Add(new DownloadWorker(content_id, URL, filename, size));
+				m_files.Add(new DownloadWorker(content_id, URL, filename, size, data));
 			}
 		}
 

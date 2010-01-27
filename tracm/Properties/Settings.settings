@@ -24,10 +24,16 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="tracm_Cablecast_CablecastWS" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://demo.trms.com/CablecastWS/CablecastWS.asmx</Value>
+      <Value Profile="(Default)">http://localhost/CablecastWS/CablecastWS.asmx</Value>
     </Setting>
     <Setting Name="PassiveFTP" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="UseCablecast" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="CablecastLocation" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

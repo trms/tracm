@@ -110,7 +110,7 @@ namespace tracm.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://demo.trms.com/CablecastWS/CablecastWS.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost/CablecastWS/CablecastWS.asmx")]
         public string tracm_Cablecast_CablecastWS {
             get {
                 return ((string)(this["tracm_Cablecast_CablecastWS"]));
@@ -126,6 +126,30 @@ namespace tracm.Properties {
             }
             set {
                 this["PassiveFTP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseCablecast {
+            get {
+                return ((bool)(this["UseCablecast"]));
+            }
+            set {
+                this["UseCablecast"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CablecastLocation {
+            get {
+                return ((int)(this["CablecastLocation"]));
+            }
+            set {
+                this["CablecastLocation"] = value;
             }
         }
     }
