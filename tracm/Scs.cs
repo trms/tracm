@@ -30,7 +30,7 @@ namespace tracm
 
             try
             {
-				data = getData(String.Format("<?xml version ='1.0' encoding 'UTF-8'?><request><type>addContent</type><version_number>0.3</version_number><username>{0}</username><filename>{1}</filename></request>", Settings.Default.ACMUsername, FileName));
+				data = getData(String.Format("<?xml version ='1.0' encoding='UTF-8'?><request><type>addContent</type><version_number>0.3</version_number><username>{0}</username><filename>{1}</filename></request>", Settings.Default.ACMUsername, FileName));
                 Match m = Regex.Match(data, "response status=\"([^\"]*)");
                 if (m.Success)
                     status = m.Groups[1].Value;
@@ -53,7 +53,7 @@ namespace tracm
 
             try
             {
-				data = getData(String.Format("<?xml version ='1.0' encoding 'UTF-8'?><request><type>getDownloadQueue</type><version_number>0.3</version_number><username>{0}</username></request>", Settings.Default.ACMUsername));
+				data = getData(String.Format("<?xml version ='1.0' encoding='UTF-8'?><request><type>getDownloadQueue</type><version_number>0.3</version_number><username>{0}</username></request>", Settings.Default.ACMUsername));
                 Match m = Regex.Match(data, "response status=\"([^\"]*)");
                 if (m.Success)
                     status = m.Groups[1].Value;
@@ -76,7 +76,7 @@ namespace tracm
 
             try
             {
-				data = getData(String.Format("<?xml version ='1.0' encoding 'UTF-8'?><request><type>getContentMetadata</type><version_number>0.3</version_number><username>{0}</username><content_id>{1}</content_id></request>", Settings.Default.ACMUsername, content_id));
+				data = getData(String.Format("<?xml version ='1.0' encoding='UTF-8'?><request><type>getContentMetadata</type><version_number>0.3</version_number><username>{0}</username><content_id>{1}</content_id></request>", Settings.Default.ACMUsername, content_id));
 				Match m = Regex.Match(data, "response status=\"([^\"]*)");
 				if (m.Success)
 					status = m.Groups[1].Value;
@@ -97,7 +97,7 @@ namespace tracm
 
             try
             {
-				data = getData(String.Format("<?xml version ='1.0' encoding 'UTF-8'?><request><type>getQueuedDownloadUrl</type><version_number>0.3</version_number><username>{0}</username><content_id>{1}</content_id></request>", Settings.Default.ACMUsername, content_id));
+				data = getData(String.Format("<?xml version ='1.0' encoding='UTF-8'?><request><type>getQueuedDownloadUrl</type><version_number>0.3</version_number><username>{0}</username><content_id>{1}</content_id></request>", Settings.Default.ACMUsername, content_id));
 
                 Match m = Regex.Match(data, "response status=\"([^\"]*)");
                 if (m.Success)
@@ -122,7 +122,7 @@ namespace tracm
 
             try
             {
-				data = getData(String.Format("<?xml version ='1.0' encoding 'UTF-8'?><request><type>removeQueuedDownload</type><version_number>0.3</version_number><username>{0}</username><content_id>{1}</content_id><downloaded>{2}</downloaded></request>", Settings.Default.ACMUsername, content_id, Downloaded.ToString().ToLower()));
+				data = getData(String.Format("<?xml version ='1.0' encoding='UTF-8'?><request><type>removeQueuedDownload</type><version_number>0.3</version_number><username>{0}</username><content_id>{1}</content_id><downloaded>{2}</downloaded></request>", Settings.Default.ACMUsername, content_id, Downloaded.ToString().ToLower()));
                 Match m = Regex.Match(data, "response status=\"([^\"]*)");
                 if (m.Success)
                     status = m.Groups[1].Value;

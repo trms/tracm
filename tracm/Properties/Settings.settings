@@ -26,5 +26,8 @@
     <Setting Name="tracm_Cablecast_CablecastWS" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://demo.trms.com/CablecastWS/CablecastWS.asmx</Value>
     </Setting>
+    <Setting Name="PassiveFTP" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

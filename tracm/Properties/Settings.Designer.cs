@@ -116,5 +116,17 @@ namespace tracm.Properties {
                 return ((string)(this["tracm_Cablecast_CablecastWS"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PassiveFTP {
+            get {
+                return ((bool)(this["PassiveFTP"]));
+            }
+            set {
+                this["PassiveFTP"] = value;
+            }
+        }
     }
 }

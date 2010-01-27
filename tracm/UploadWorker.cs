@@ -9,6 +9,7 @@ namespace tracm
 {
 	public class UploadWorker : WorkItem
 	{
+		private string m_id;
 		private string m_path;
 		private string m_title;
 		private string m_subject;
@@ -18,8 +19,9 @@ namespace tracm
 		private int m_cue;
 		private int m_length;
 
-		public UploadWorker(string path, string title, string subject, string description, string genre, string producer, int cue, int length)
+		public UploadWorker(string id, string path, string title, string subject, string description, string genre, string producer, int cue, int length)
 		{
+			m_id = id;
 			m_path = path;
 			m_title = title;
 			m_subject = subject;
@@ -40,6 +42,7 @@ namespace tracm
 			// upload file via FTP
 			FTPLib.FTP ftp = new FTPLib.FTP(server, Settings.Default.ACMUsername, Settings.Default.ACMPassword);
 			ftp.Connect();
+			ftp.PassiveMode = Properties.Settings.Default.PassiveFTP;
 
 			string xmlPath = CreateXML();
 			UploadFile(ftp, xmlPath);
@@ -48,7 +51,13 @@ namespace tracm
 
 			ftp.Disconnect();
 
-			Scs.addContent(Path.GetFileName(xmlPath));
+			/* <?xml version="1.0" encoding="UTF-8"?>
+<response status="fail">
+  <error_code>INTERNAL_ERROR</error_code>
+  <error_message>Internal server error parsing PBCore XML /media/psg/vol1/users/tightrope/TheKeyandthePortal-download.mpg.xml.</error_message>
+</response>
+*/
+			Scs.addContent(Path.GetFileName(m_path));
 		}
 
 		private void UploadFile(FTPLib.FTP ftp, string path)
@@ -87,14 +96,64 @@ namespace tracm
 				//Create the XML data
 				StringBuilder xml = new StringBuilder();
 
-				xml.AppendLine("<?xml version='1.0' encoding='UTF-8'?><PBCoreDescriptionDocument xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.pbcore.org/PBCore/PBCoreNamespace.html http://www.pbcore.org/PBCore/PBCoreSchema.xsd' xmlns:fmp='http://www.filemaker.com/fmpxmlresult' xmlns='http://www.pbcore.org/PBCore/PBCoreNamespace.html'>");
+				/*
+<?xml version="1.0" encoding="UTF-8"?>
+<response status="ok">
+<?xml version='1.0' encoding='UTF-8'?>
+<PBCoreDescriptionDocument xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.pbcore.org/PBCore/PBCoreNamespace.html http://www.pbcore.org/PBCore/PBCoreSchema.xsd' xmlns:fmp='http://www.filemaker.com/fmpxmlresult' xmlns='http://www.pbcore.org/PBCore/PBCoreNamespace.html'>
+<pbcoreIdentifier><identifier>4</identifier><identifierSource>test</identifierSource></pbcoreIdentifier>
+				 * <pbcoreTitle><title>test</title><titleType>Program</titleType></pbcoreTitle>
+				 * <pbcoreTitle><title>test</title><titleType>Episode</titleType></pbcoreTitle>
+				 * <pbcoreSubject><subject>test</subject></pbcoreSubject>
+				 * <pbcoreDescription><description>test</description><descriptionType>Program</descriptionType></pbcoreDescription>
+				 * <pbcoreGenre><genre>Action</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre>
+				 * <pbcoreAudienceRating><audienceRating>E</audienceRating></pbcoreAudienceRating>
+				 * <pbcoreCreator><creator>test</creator><creatorRole>Producer</creatorRole></pbcoreCreator>
+				 * <pbcoreRightsSummary><rightsSummary>http://creativecommons.org/licenses/by-nc/3.0/</rightsSummary></pbcoreRightsSummary>
+				 * <pbcoreInstantiation>
+					 * <formatPhysical>Hard Drive</formatPhysical>
+					 * <formatDigital>video/MP2P</formatDigital>
+					 * <formatLocation> USA </formatLocation>
+					 * <formatGenerations>Moving image/Master</formatGenerations>
+					 * <formatStandard>NTSC video (INTERLACED)</formatStandard>
+					 * <formatFileSize>25739264</formatFileSize>
+					 * <formatTimeStart>00:00:00</formatTimeStart>
+					 * <formatDuration>00:00:36</formatDuration>
+					 * <formatDataRate>Video 6000000 bits/sec;Audio 224000 bits/sec</formatDataRate>
+					 * <formatFrameSize>720x480</formatFrameSize>
+					 * <formatAspectRatio>4:3</formatAspectRatio>
+					 * <formatFrameRate>29.97 fps</formatFrameRate>
+					 * <pbcoreFormatID>
+						 * <formatIdentifier>Stop_hate_teen_30-nolead.mpg</formatIdentifier>
+						 * <formatIdentifierSource>Admin, PSG</formatIdentifierSource>
+					 * </pbcoreFormatID>
+				 * </pbcoreInstantiation>
+				 * <pbcoreExtension><extension>indemnification:test[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>
+				 * <pbcoreExtension><extension>tags:test[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>
+				 * <pbcoreExtension><extension>producer_address:test[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>
+				 * <pbcoreExtension><extension>producer_email:test@test.com[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>
+				 * </PBCoreDescriptionDocument></response>
+				*/
+
+				xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+				xml.AppendLine("<PBCoreDescriptionDocument xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html http://www.pbcore.org/PBCore/PBCoreSchema.xsd\" xmlns:fmp=\"http://www.filemaker.com/fmpxmlresult\" xmlns=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html\">");
+				xml.AppendFormat("<pbcoreIdentifier><identifier>{0}</identifier><identifierSource>{1}</identifierSource></pbcoreIdentifier>", m_id, m_producer); xml.AppendLine();
 				xml.AppendFormat("<pbcoreTitle><title>{0}</title><titleType>Program</titleType></pbcoreTitle>", m_title); xml.AppendLine();
 				xml.AppendFormat("<pbcoreSubject><subject>{0}</subject></pbcoreSubject>", m_subject); xml.AppendLine();
 				xml.AppendFormat("<pbcoreDescription><description>{0}</description><descriptionType>Program</descriptionType></pbcoreDescription>", m_description); xml.AppendLine();
 				xml.AppendFormat("<pbcoreGenre><genre>{0}</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre><pbcoreCreator><creator>{1}</creator><creatorRole>Producer</creatorRole></pbcoreCreator>", m_genre, m_producer); xml.AppendLine();
 				xml.AppendLine("<pbcoreInstantiation>");
+				xml.AppendLine("<formatPhysical>Hard Drive</formatPhysical>");
+				xml.AppendLine("<formatDigital>video/MP2P</formatDigital>");
+				xml.AppendLine("<formatLocation>USA</formatLocation>");
+				xml.AppendLine("<formatGenerations>Moving image/Master</formatGenerations>");
+				xml.AppendLine("<formatStandard>MPEG video</formatStandard>");
+				xml.AppendFormat("<formatFileSize>{0}</formatFileSize>", new FileInfo(m_path).Length); xml.AppendLine();
 				xml.AppendFormat("<formatTimeStart>{0}</formatTimeStart>", SecondsToLength(m_cue)); xml.AppendLine();
 				xml.AppendFormat("<formatDuration>{0}</formatDuration>", SecondsToLength(m_length)); xml.AppendLine();
+				xml.AppendLine("<formatFrameSize>720x480</formatFrameSize>");
+				xml.AppendLine("<formatAspectRatio>4:3</formatAspectRatio>");
+				xml.AppendLine("<formatFrameRate>29.97</formatFrameRate>");
 				xml.AppendLine("<pbcoreFormatID>");
 				xml.AppendFormat("<formatIdentifier>{0}</formatIdentifier>", Path.GetFileName(m_path)); xml.AppendLine();
 				xml.AppendFormat("<formatIdentifierSource>{0}</formatIdentifierSource>", m_producer); xml.AppendLine();

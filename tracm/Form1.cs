@@ -213,7 +213,7 @@ namespace tracm
 				VideoProcessor vp = new VideoProcessor(openFileDialog1.FileName);
 				Length.Text = vp.LengthInSeconds.ToString();
 				// check if the file is compatible
-				if (vp.VideoFormat != "mpeg2video" || vp.AudioFormat != "mp2")
+				if (vp.VideoFormat != "mpeg2video" || vp.AudioFormat != "mp2" || vp.FrameRate != 29.97 || vp.Height != 480 || vp.Width != 720)
 					TranscodeIndicator.Text = "* NOTE: This file will be transcoded before being queued";
 				else
 					TranscodeIndicator.Text = String.Empty;
@@ -225,7 +225,7 @@ namespace tracm
 			if (String.IsNullOrEmpty(TranscodeIndicator.Text))
 			{
 				// straight upload
-				UploadWorker upload = new UploadWorker(FilePath.Text, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text));
+				UploadWorker upload = new UploadWorker(Inentifier.Text, FilePath.Text, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text));
 				upload.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
 				m_list.Add(upload);
 				upload.Work();
@@ -234,7 +234,7 @@ namespace tracm
 			{
 				// otherwise we have to transcode, then upload
 				TranscodeWorker tw = new TranscodeWorker(FilePath.Text);
-				UploadWorker upload = new UploadWorker(tw.TempFile, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text));
+				UploadWorker upload = new UploadWorker(Inentifier.Text, tw.TempFile, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text));
 				DeleteWorker dw = new DeleteWorker(tw.TempFile);
 
 				tw.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
