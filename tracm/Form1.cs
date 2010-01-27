@@ -115,6 +115,7 @@ namespace tracm
             CablecastUsername.Text = Settings.Default.CablecastUsername;
             CablecastPassword.Text = Settings.Default.CablecastPassword;
             DownloadPath.Text = Settings.Default.DownloadPath;
+			passiveFTP.Checked = Settings.Default.PassiveFTP;
 
 			TranscodeIndicator.Text = String.Empty;
         }
@@ -261,6 +262,9 @@ namespace tracm
         private void RefreshQueue_Click(object sender, EventArgs e)
         {
             RefreshDownloadQueue();
+
+			//Switch the UI to the queue tab and clear the current form
+			tabControl1.SelectedTab = tabQueue;
         }
 
         private void RefreshDownloadQueue()
@@ -360,6 +364,12 @@ namespace tracm
 			Settings.Default.Save();
 		}
 
+		private void passiveFTP_CheckedChanged(object sender, EventArgs e)
+		{
+			Settings.Default.PassiveFTP = passiveFTP.Checked;
+			Settings.Default.Save();
+		}
+
 		private void Inentifier_Validating(object sender, CancelEventArgs e)
 		{
 			int showID = 0;
@@ -414,6 +424,11 @@ namespace tracm
 		public static bool CablecastCanCreateShows
 		{
 			get { return m_cablecastCanCreateShows; }
+		}
+
+		private void useCablecast_CheckedChanged(object sender, EventArgs e)
+		{
+			cablecastGroup.Enabled = useCablecast.Checked;
 		}
     }
 }

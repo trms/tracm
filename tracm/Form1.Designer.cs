@@ -53,9 +53,13 @@ namespace tracm
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.labelVideoFile = new System.Windows.Forms.Label();
+			this.tabDownload = new System.Windows.Forms.TabPage();
+			this.cablecastGroup = new System.Windows.Forms.GroupBox();
+			this.cablecastLocation = new System.Windows.Forms.ComboBox();
+			this.useCablecast = new System.Windows.Forms.CheckBox();
+			this.RefreshQueue = new System.Windows.Forms.Button();
 			this.tabQueue = new System.Windows.Forms.TabPage();
 			this.QueueErrorLabel = new System.Windows.Forms.Label();
-			this.RefreshQueue = new System.Windows.Forms.Button();
 			this.DeleteQueueItem = new System.Windows.Forms.Button();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.tabSettings = new System.Windows.Forms.TabPage();
@@ -71,6 +75,7 @@ namespace tracm
 			this.labelCablecastUsername = new System.Windows.Forms.Label();
 			this.labelCablecastPassword = new System.Windows.Forms.Label();
 			this.groupBoxACM = new System.Windows.Forms.GroupBox();
+			this.passiveFTP = new System.Windows.Forms.CheckBox();
 			this.ACMServer = new System.Windows.Forms.TextBox();
 			this.ACMPassword = new System.Windows.Forms.TextBox();
 			this.labelACMServer = new System.Windows.Forms.Label();
@@ -79,8 +84,11 @@ namespace tracm
 			this.labelACMPassword = new System.Windows.Forms.Label();
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+			this.label9 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabUpload.SuspendLayout();
+			this.tabDownload.SuspendLayout();
+			this.cablecastGroup.SuspendLayout();
 			this.tabQueue.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.tabSettings.SuspendLayout();
@@ -93,6 +101,7 @@ namespace tracm
 			// 
 			this.tabControl1.Controls.Add(this.tabWelcome);
 			this.tabControl1.Controls.Add(this.tabUpload);
+			this.tabControl1.Controls.Add(this.tabDownload);
 			this.tabControl1.Controls.Add(this.tabQueue);
 			this.tabControl1.Controls.Add(this.tabSettings);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -164,11 +173,11 @@ namespace tracm
 			// AddToQueue
 			// 
 			this.AddToQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.AddToQueue.Location = new System.Drawing.Point(364, 294);
+			this.AddToQueue.Location = new System.Drawing.Point(341, 294);
 			this.AddToQueue.Name = "AddToQueue";
-			this.AddToQueue.Size = new System.Drawing.Size(75, 23);
+			this.AddToQueue.Size = new System.Drawing.Size(98, 23);
 			this.AddToQueue.TabIndex = 19;
-			this.AddToQueue.Text = "Queue";
+			this.AddToQueue.Text = "Add to Queue";
 			this.AddToQueue.UseVisualStyleBackColor = true;
 			this.AddToQueue.Click += new System.EventHandler(this.AddToQueue_Click);
 			// 
@@ -348,10 +357,67 @@ namespace tracm
 			this.labelVideoFile.TabIndex = 0;
 			this.labelVideoFile.Text = "Video File:";
 			// 
+			// tabDownload
+			// 
+			this.tabDownload.Controls.Add(this.cablecastGroup);
+			this.tabDownload.Controls.Add(this.useCablecast);
+			this.tabDownload.Controls.Add(this.RefreshQueue);
+			this.tabDownload.Location = new System.Drawing.Point(4, 22);
+			this.tabDownload.Name = "tabDownload";
+			this.tabDownload.Size = new System.Drawing.Size(448, 328);
+			this.tabDownload.TabIndex = 4;
+			this.tabDownload.Text = "Download";
+			this.tabDownload.UseVisualStyleBackColor = true;
+			// 
+			// cablecastGroup
+			// 
+			this.cablecastGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cablecastGroup.Controls.Add(this.label9);
+			this.cablecastGroup.Controls.Add(this.cablecastLocation);
+			this.cablecastGroup.Location = new System.Drawing.Point(8, 39);
+			this.cablecastGroup.Name = "cablecastGroup";
+			this.cablecastGroup.Size = new System.Drawing.Size(432, 100);
+			this.cablecastGroup.TabIndex = 5;
+			this.cablecastGroup.TabStop = false;
+			this.cablecastGroup.Text = "Cablecast Options";
+			// 
+			// cablecastLocation
+			// 
+			this.cablecastLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cablecastLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cablecastLocation.FormattingEnabled = true;
+			this.cablecastLocation.Location = new System.Drawing.Point(63, 19);
+			this.cablecastLocation.Name = "cablecastLocation";
+			this.cablecastLocation.Size = new System.Drawing.Size(363, 21);
+			this.cablecastLocation.TabIndex = 0;
+			// 
+			// useCablecast
+			// 
+			this.useCablecast.AutoSize = true;
+			this.useCablecast.Location = new System.Drawing.Point(8, 16);
+			this.useCablecast.Name = "useCablecast";
+			this.useCablecast.Size = new System.Drawing.Size(142, 17);
+			this.useCablecast.TabIndex = 4;
+			this.useCablecast.Text = "Add Shows to Cablecast";
+			this.useCablecast.UseVisualStyleBackColor = true;
+			this.useCablecast.CheckedChanged += new System.EventHandler(this.useCablecast_CheckedChanged);
+			// 
+			// RefreshQueue
+			// 
+			this.RefreshQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.RefreshQueue.Location = new System.Drawing.Point(365, 297);
+			this.RefreshQueue.Name = "RefreshQueue";
+			this.RefreshQueue.Size = new System.Drawing.Size(75, 23);
+			this.RefreshQueue.TabIndex = 3;
+			this.RefreshQueue.Text = "Refresh";
+			this.RefreshQueue.UseVisualStyleBackColor = true;
+			this.RefreshQueue.Click += new System.EventHandler(this.RefreshQueue_Click);
+			// 
 			// tabQueue
 			// 
 			this.tabQueue.Controls.Add(this.QueueErrorLabel);
-			this.tabQueue.Controls.Add(this.RefreshQueue);
 			this.tabQueue.Controls.Add(this.DeleteQueueItem);
 			this.tabQueue.Controls.Add(this.dataGridView1);
 			this.tabQueue.Location = new System.Drawing.Point(4, 22);
@@ -370,25 +436,14 @@ namespace tracm
 			this.QueueErrorLabel.Size = new System.Drawing.Size(0, 13);
 			this.QueueErrorLabel.TabIndex = 3;
 			// 
-			// RefreshQueue
-			// 
-			this.RefreshQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.RefreshQueue.Location = new System.Drawing.Point(365, 303);
-			this.RefreshQueue.Name = "RefreshQueue";
-			this.RefreshQueue.Size = new System.Drawing.Size(75, 23);
-			this.RefreshQueue.TabIndex = 2;
-			this.RefreshQueue.Text = "Refresh";
-			this.RefreshQueue.UseVisualStyleBackColor = true;
-			this.RefreshQueue.Click += new System.EventHandler(this.RefreshQueue_Click);
-			// 
 			// DeleteQueueItem
 			// 
 			this.DeleteQueueItem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.DeleteQueueItem.Location = new System.Drawing.Point(284, 302);
+			this.DeleteQueueItem.Location = new System.Drawing.Point(314, 302);
 			this.DeleteQueueItem.Name = "DeleteQueueItem";
-			this.DeleteQueueItem.Size = new System.Drawing.Size(75, 23);
+			this.DeleteQueueItem.Size = new System.Drawing.Size(126, 23);
 			this.DeleteQueueItem.TabIndex = 1;
-			this.DeleteQueueItem.Text = "Remove";
+			this.DeleteQueueItem.Text = "Remove Completed";
 			this.DeleteQueueItem.UseVisualStyleBackColor = true;
 			this.DeleteQueueItem.Click += new System.EventHandler(this.DeleteQueueItem_Click);
 			// 
@@ -433,7 +488,7 @@ namespace tracm
 			this.groupBoxFiles.Controls.Add(this.FileBrowse);
 			this.groupBoxFiles.Controls.Add(this.DownloadPath);
 			this.groupBoxFiles.Controls.Add(this.labelDownloadFolder);
-			this.groupBoxFiles.Location = new System.Drawing.Point(6, 227);
+			this.groupBoxFiles.Location = new System.Drawing.Point(6, 249);
 			this.groupBoxFiles.Name = "groupBoxFiles";
 			this.groupBoxFiles.Size = new System.Drawing.Size(434, 48);
 			this.groupBoxFiles.TabIndex = 8;
@@ -480,7 +535,7 @@ namespace tracm
 			this.groupBoxCablecast.Controls.Add(this.CablecastUsername);
 			this.groupBoxCablecast.Controls.Add(this.labelCablecastUsername);
 			this.groupBoxCablecast.Controls.Add(this.labelCablecastPassword);
-			this.groupBoxCablecast.Location = new System.Drawing.Point(6, 119);
+			this.groupBoxCablecast.Location = new System.Drawing.Point(6, 141);
 			this.groupBoxCablecast.Name = "groupBoxCablecast";
 			this.groupBoxCablecast.Size = new System.Drawing.Size(434, 102);
 			this.groupBoxCablecast.TabIndex = 7;
@@ -505,6 +560,7 @@ namespace tracm
 			this.CablecastPassword.Name = "CablecastPassword";
 			this.CablecastPassword.Size = new System.Drawing.Size(322, 20);
 			this.CablecastPassword.TabIndex = 5;
+			this.CablecastPassword.UseSystemPasswordChar = true;
 			this.CablecastPassword.Validating += new System.ComponentModel.CancelEventHandler(this.CablecastPassword_Validating);
 			// 
 			// labelCablecastServer
@@ -548,6 +604,7 @@ namespace tracm
 			// 
 			this.groupBoxACM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBoxACM.Controls.Add(this.passiveFTP);
 			this.groupBoxACM.Controls.Add(this.ACMServer);
 			this.groupBoxACM.Controls.Add(this.ACMPassword);
 			this.groupBoxACM.Controls.Add(this.labelACMServer);
@@ -556,10 +613,21 @@ namespace tracm
 			this.groupBoxACM.Controls.Add(this.labelACMPassword);
 			this.groupBoxACM.Location = new System.Drawing.Point(6, 12);
 			this.groupBoxACM.Name = "groupBoxACM";
-			this.groupBoxACM.Size = new System.Drawing.Size(434, 101);
+			this.groupBoxACM.Size = new System.Drawing.Size(434, 123);
 			this.groupBoxACM.TabIndex = 6;
 			this.groupBoxACM.TabStop = false;
 			this.groupBoxACM.Text = "ACM SCS";
+			// 
+			// passiveFTP
+			// 
+			this.passiveFTP.AutoSize = true;
+			this.passiveFTP.Location = new System.Drawing.Point(105, 98);
+			this.passiveFTP.Name = "passiveFTP";
+			this.passiveFTP.Size = new System.Drawing.Size(108, 17);
+			this.passiveFTP.TabIndex = 6;
+			this.passiveFTP.Text = "Use Passive FTP";
+			this.passiveFTP.UseVisualStyleBackColor = true;
+			this.passiveFTP.CheckedChanged += new System.EventHandler(this.passiveFTP_CheckedChanged);
 			// 
 			// ACMServer
 			// 
@@ -577,9 +645,9 @@ namespace tracm
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.ACMPassword.Location = new System.Drawing.Point(105, 71);
 			this.ACMPassword.Name = "ACMPassword";
-			this.ACMPassword.PasswordChar = '*';
 			this.ACMPassword.Size = new System.Drawing.Size(322, 20);
 			this.ACMPassword.TabIndex = 5;
+			this.ACMPassword.UseSystemPasswordChar = true;
 			this.ACMPassword.Validating += new System.ComponentModel.CancelEventHandler(this.ACMPassword_Validating);
 			// 
 			// labelACMServer
@@ -623,6 +691,15 @@ namespace tracm
 			// 
 			this.openFileDialog1.FileName = "openFileDialog1";
 			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(6, 22);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(51, 13);
+			this.label9.TabIndex = 1;
+			this.label9.Text = "Location:";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -636,6 +713,10 @@ namespace tracm
 			this.tabControl1.ResumeLayout(false);
 			this.tabUpload.ResumeLayout(false);
 			this.tabUpload.PerformLayout();
+			this.tabDownload.ResumeLayout(false);
+			this.tabDownload.PerformLayout();
+			this.cablecastGroup.ResumeLayout(false);
+			this.cablecastGroup.PerformLayout();
 			this.tabQueue.ResumeLayout(false);
 			this.tabQueue.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -699,10 +780,16 @@ namespace tracm
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.DataGridView dataGridView1;
 		private System.Windows.Forms.Label QueueError;
-        private System.Windows.Forms.Button RefreshQueue;
         private System.Windows.Forms.Button DeleteQueueItem;
 		private System.Windows.Forms.Label QueueErrorLabel;
 		private System.Windows.Forms.Label TranscodeIndicator;
+		private System.Windows.Forms.TabPage tabDownload;
+		private System.Windows.Forms.Button RefreshQueue;
+		private System.Windows.Forms.CheckBox useCablecast;
+		private System.Windows.Forms.GroupBox cablecastGroup;
+		private System.Windows.Forms.ComboBox cablecastLocation;
+		private System.Windows.Forms.CheckBox passiveFTP;
+		private System.Windows.Forms.Label label9;
 
     }
 }
