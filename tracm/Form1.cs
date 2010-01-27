@@ -430,5 +430,24 @@ namespace tracm
 		{
 			cablecastGroup.Enabled = useCablecast.Checked;
 		}
+
+		private void UpdateQueueCount()
+		{
+			int count = 0;
+			lock (m_lockObject)
+			{
+				for (int i = 0; i < m_list.Count; i++)
+				{
+					if (m_list[i].Progress.IsDone == false)
+						count++;
+				}
+			}
+			tabQueue.Text = count == 0 ? "Queue" : String.Format("Queue ({0})", count);
+		}
+
+		private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+		{
+			UpdateQueueCount();
+		}
     }
 }

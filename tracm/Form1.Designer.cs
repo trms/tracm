@@ -466,6 +466,7 @@ namespace tracm
 			this.dataGridView1.ShowEditingIcon = false;
 			this.dataGridView1.Size = new System.Drawing.Size(448, 297);
 			this.dataGridView1.TabIndex = 0;
+			this.dataGridView1.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView1_CellPainting);
 			this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
 			this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
 			// 
