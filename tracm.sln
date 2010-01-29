@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ftp", "ftp\ftp.csproj", "{4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tracm", "tracm\tracm.csproj", "{F4728FA8-84F0-49B1-8EFD-6E0A36487365}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "tracm Installer", "tracm Installer\tracm Installer.vdproj", "{24E34F50-88A0-4046-B9A4-8088DD218F73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,8 @@ Global
 		{F4728FA8-84F0-49B1-8EFD-6E0A36487365}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4728FA8-84F0-49B1-8EFD-6E0A36487365}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4728FA8-84F0-49B1-8EFD-6E0A36487365}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24E34F50-88A0-4046-B9A4-8088DD218F73}.Debug|Any CPU.ActiveCfg = Debug
+		{24E34F50-88A0-4046-B9A4-8088DD218F73}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
