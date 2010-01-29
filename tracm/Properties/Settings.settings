@@ -3,13 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="ACMServer" Type="System.String" Scope="User">
-      <Value Profile="(Default)">psg6.princeton.edu</Value>
+      <Value Profile="(Default)">psg2a.princeton.edu:3000</Value>
     </Setting>
     <Setting Name="ACMUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)">tightrope</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ACMPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)">scs4tightrope</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="CablecastServer" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

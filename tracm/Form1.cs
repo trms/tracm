@@ -534,5 +534,13 @@ namespace tracm
 			UpdateQueueCount();
 		}
 
+		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if ((tabControl1.SelectedTab == tabUpload || tabControl1.SelectedTab == tabDownload) && String.IsNullOrEmpty(Properties.Settings.Default.DownloadPath))
+			{
+				tabControl1.SelectedTab = tabSettings;
+				MessageBox.Show("Please set a download folder before connecting to the SCS server");
+			}
+		}
     }
 }

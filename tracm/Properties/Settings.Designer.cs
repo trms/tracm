@@ -25,7 +25,7 @@ namespace tracm.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("psg6.princeton.edu")]
+        [global::System.Configuration.DefaultSettingValueAttribute("psg2a.princeton.edu:3000")]
         public string ACMServer {
             get {
                 return ((string)(this["ACMServer"]));
@@ -37,7 +37,7 @@ namespace tracm.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("tightrope")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ACMUsername {
             get {
                 return ((string)(this["ACMUsername"]));
@@ -49,7 +49,7 @@ namespace tracm.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("scs4tightrope")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ACMPassword {
             get {
                 return ((string)(this["ACMPassword"]));

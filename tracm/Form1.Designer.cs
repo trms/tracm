@@ -55,6 +55,7 @@ namespace tracm
 			this.label1 = new System.Windows.Forms.Label();
 			this.labelVideoFile = new System.Windows.Forms.Label();
 			this.tabDownload = new System.Windows.Forms.TabPage();
+			this.label11 = new System.Windows.Forms.Label();
 			this.cablecastGroup = new System.Windows.Forms.GroupBox();
 			this.cablecastFormats = new System.Windows.Forms.ComboBox();
 			this.label10 = new System.Windows.Forms.Label();
@@ -89,7 +90,6 @@ namespace tracm
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
-			this.label11 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabUpload.SuspendLayout();
 			this.tabDownload.SuspendLayout();
@@ -116,6 +116,7 @@ namespace tracm
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(456, 354);
 			this.tabControl1.TabIndex = 0;
+			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			// 
 			// tabWelcome
 			// 
@@ -375,6 +376,15 @@ namespace tracm
 			this.tabDownload.TabIndex = 4;
 			this.tabDownload.Text = "Download";
 			this.tabDownload.UseVisualStyleBackColor = true;
+			// 
+			// label11
+			// 
+			this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(172, 17);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(0, 13);
+			this.label11.TabIndex = 6;
 			// 
 			// cablecastGroup
 			// 
@@ -736,15 +746,6 @@ namespace tracm
 			// locationBindingSource
 			// 
 			this.locationBindingSource.DataSource = typeof(tracm.Cablecast.Location);
-			// 
-			// label11
-			// 
-			this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(172, 17);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(0, 13);
-			this.label11.TabIndex = 6;
 			// 
 			// MainForm
 			// 
