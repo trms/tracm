@@ -152,5 +152,17 @@ namespace tracm.Properties {
                 this["CablecastLocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CablecastFormat {
+            get {
+                return ((int)(this["CablecastFormat"]));
+            }
+            set {
+                this["CablecastFormat"] = value;
+            }
+        }
     }
 }

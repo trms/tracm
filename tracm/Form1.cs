@@ -146,6 +146,30 @@ namespace tracm
 		{
 			Settings.Default.CablecastLocation = ((NameID)cablecastLocation.SelectedItem).ID;
 			Settings.Default.Save();
+
+			Cablecast.CablecastWS webService = CablecastFactory.Create();
+			webService.GetFormatsCompleted += new tracm.Cablecast.GetFormatsCompletedEventHandler(webService_GetFormatsCompleted);
+			webService.GetFormatsAsync(Settings.Default.CablecastLocation);
+		}
+
+		void webService_GetCategoriesCompleted(object sender, tracm.Cablecast.GetCategoriesCompletedEventArgs e)
+		{
+			throw new Exception("The method or operation is not implemented.");
+		}
+
+		void webService_GetFormatsCompleted(object sender, tracm.Cablecast.GetFormatsCompletedEventArgs e)
+		{
+			int idx = 0;
+			Cablecast.Format[] formats = e.Result;
+			cablecastFormats.Items.Clear();
+			foreach (tracm.Cablecast.Format format in formats)
+			{
+				if (format.FormatID == Settings.Default.CablecastFormat)
+					idx = cablecastFormats.Items.Count;
+				cablecastFormats.Items.Add(new NameID(format.FormatID, format.Name));
+			}
+			if (cablecastFormats.Items.Count > 0)
+				cablecastFormats.SelectedIndex = idx;
 		}
 
 		private void CablecastFactory_LocationsChangedEvent(tracm.Cablecast.Location[] locations)
@@ -161,6 +185,12 @@ namespace tracm
 
 			if (cablecastLocation.Items.Count > 0)
 				cablecastLocation.SelectedIndex = idx;
+		}
+
+		private void cablecastFormats_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Settings.Default.CablecastFormat = ((NameID)cablecastFormats.SelectedItem).ID;
+			Settings.Default.Save();
 		}
 
 		private void CablecastFactory_CanUseShowsChangedEvent(bool canUseShows)
@@ -473,15 +503,22 @@ namespace tracm
 		private void UpdateQueueCount()
 		{
 			int count = 0;
-			lock (m_lockObject)
+			if (System.Threading.Monitor.TryEnter(m_lockObject))
 			{
-				for (int i = 0; i < m_list.Count; i++)
+				try
 				{
-					if (m_list[i].Progress.IsDone == false)
-						count++;
+					for (int i = 0; i < m_list.Count; i++)
+					{
+						if (m_list[i].Progress.IsDone == false)
+							count++;
+					}
 				}
+				finally
+				{
+					System.Threading.Monitor.Exit(m_lockObject);
+				}
+				tabQueue.Text = count == 0 ? "Queue" : String.Format("Queue ({0})", count);
 			}
-			tabQueue.Text = count == 0 ? "Queue" : String.Format("Queue ({0})", count);
 		}
 
 		private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)

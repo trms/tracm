@@ -56,6 +56,8 @@ namespace tracm
 			this.labelVideoFile = new System.Windows.Forms.Label();
 			this.tabDownload = new System.Windows.Forms.TabPage();
 			this.cablecastGroup = new System.Windows.Forms.GroupBox();
+			this.cablecastFormats = new System.Windows.Forms.ComboBox();
+			this.label10 = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
 			this.cablecastLocation = new System.Windows.Forms.ComboBox();
 			this.useCablecast = new System.Windows.Forms.CheckBox();
@@ -87,8 +89,6 @@ namespace tracm
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
-			this.label10 = new System.Windows.Forms.Label();
-			this.cablecastFormats = new System.Windows.Forms.ComboBox();
 			this.tabControl1.SuspendLayout();
 			this.tabUpload.SuspendLayout();
 			this.tabDownload.SuspendLayout();
@@ -388,6 +388,27 @@ namespace tracm
 			this.cablecastGroup.TabIndex = 5;
 			this.cablecastGroup.TabStop = false;
 			this.cablecastGroup.Text = "Cablecast Options";
+			// 
+			// cablecastFormats
+			// 
+			this.cablecastFormats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cablecastFormats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cablecastFormats.FormattingEnabled = true;
+			this.cablecastFormats.Location = new System.Drawing.Point(63, 46);
+			this.cablecastFormats.Name = "cablecastFormats";
+			this.cablecastFormats.Size = new System.Drawing.Size(363, 21);
+			this.cablecastFormats.TabIndex = 3;
+			this.cablecastFormats.SelectedIndexChanged += new System.EventHandler(this.cablecastFormats_SelectedIndexChanged);
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(15, 49);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(42, 13);
+			this.label10.TabIndex = 2;
+			this.label10.Text = "Format:";
 			// 
 			// label9
 			// 
@@ -714,26 +735,6 @@ namespace tracm
 			// locationBindingSource
 			// 
 			this.locationBindingSource.DataSource = typeof(tracm.Cablecast.Location);
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(15, 49);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(42, 13);
-			this.label10.TabIndex = 2;
-			this.label10.Text = "Format:";
-			// 
-			// cablecastFormats
-			// 
-			this.cablecastFormats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.cablecastFormats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cablecastFormats.FormattingEnabled = true;
-			this.cablecastFormats.Location = new System.Drawing.Point(63, 46);
-			this.cablecastFormats.Name = "cablecastFormats";
-			this.cablecastFormats.Size = new System.Drawing.Size(363, 21);
-			this.cablecastFormats.TabIndex = 3;
 			// 
 			// MainForm
 			// 
