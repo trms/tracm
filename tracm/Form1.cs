@@ -137,6 +137,8 @@ namespace tracm
 			TranscodeIndicator.Text = String.Empty;
 
 			useCablecast_CheckedChanged(this, new EventArgs());
+			useCablecast_EnabledChanged(this, new EventArgs());
+
 
 			CablecastFactory.CanUseShowsChangedEvent += new CablecastFactory.CanUseShowsChanged(CablecastFactory_CanUseShowsChangedEvent);
 			CablecastFactory.LocationsChangedEvent += new CablecastFactory.LocationsChanged(CablecastFactory_LocationsChangedEvent);
@@ -495,9 +497,15 @@ namespace tracm
 		private void useCablecast_EnabledChanged(object sender, EventArgs e)
 		{
 			if (useCablecast.Enabled == false)
+			{
 				cablecastGroup.Enabled = false;
+				label11.Text = "* Creating shows requires Cablecast 4.9";
+			}
 			else
+			{
+				label11.Text = String.Empty;
 				useCablecast_CheckedChanged(this, new EventArgs());
+			}
 		}
 
 		private void UpdateQueueCount()
@@ -525,5 +533,6 @@ namespace tracm
 		{
 			UpdateQueueCount();
 		}
+
     }
 }

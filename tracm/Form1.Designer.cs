@@ -89,6 +89,7 @@ namespace tracm
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
+			this.label11 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabUpload.SuspendLayout();
 			this.tabDownload.SuspendLayout();
@@ -364,6 +365,7 @@ namespace tracm
 			// 
 			// tabDownload
 			// 
+			this.tabDownload.Controls.Add(this.label11);
 			this.tabDownload.Controls.Add(this.cablecastGroup);
 			this.tabDownload.Controls.Add(this.useCablecast);
 			this.tabDownload.Controls.Add(this.RefreshQueue);
@@ -376,12 +378,11 @@ namespace tracm
 			// 
 			// cablecastGroup
 			// 
-			this.cablecastGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
 			this.cablecastGroup.Controls.Add(this.cablecastFormats);
 			this.cablecastGroup.Controls.Add(this.label10);
 			this.cablecastGroup.Controls.Add(this.label9);
 			this.cablecastGroup.Controls.Add(this.cablecastLocation);
+			this.cablecastGroup.Enabled = false;
 			this.cablecastGroup.Location = new System.Drawing.Point(8, 39);
 			this.cablecastGroup.Name = "cablecastGroup";
 			this.cablecastGroup.Size = new System.Drawing.Size(432, 100);
@@ -447,11 +448,11 @@ namespace tracm
 			// RefreshQueue
 			// 
 			this.RefreshQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.RefreshQueue.Location = new System.Drawing.Point(365, 297);
+			this.RefreshQueue.Location = new System.Drawing.Point(313, 297);
 			this.RefreshQueue.Name = "RefreshQueue";
-			this.RefreshQueue.Size = new System.Drawing.Size(75, 23);
+			this.RefreshQueue.Size = new System.Drawing.Size(127, 23);
 			this.RefreshQueue.TabIndex = 3;
-			this.RefreshQueue.Text = "Refresh";
+			this.RefreshQueue.Text = "Refresh SCS Queue";
 			this.RefreshQueue.UseVisualStyleBackColor = true;
 			this.RefreshQueue.Click += new System.EventHandler(this.RefreshQueue_Click);
 			// 
@@ -736,6 +737,15 @@ namespace tracm
 			// 
 			this.locationBindingSource.DataSource = typeof(tracm.Cablecast.Location);
 			// 
+			// label11
+			// 
+			this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(172, 17);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(0, 13);
+			this.label11.TabIndex = 6;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -830,6 +840,7 @@ namespace tracm
 		private System.Windows.Forms.BindingSource locationBindingSource;
 		private System.Windows.Forms.ComboBox cablecastFormats;
 		private System.Windows.Forms.Label label10;
+		private System.Windows.Forms.Label label11;
 
     }
 }
