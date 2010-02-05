@@ -9,6 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>tracm</RootNamespace>
     <AssemblyName>tracm</AssemblyName>
+    <ApplicationIcon>tracm-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -98,6 +99,7 @@
     <Content Include="ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="tracm-icon.ico" />
     <None Include="Web References\Cablecast\CablecastWS.disco" />
     <None Include="Web References\Cablecast\CablecastWS.wsdl" />
     <None Include="Web References\Cablecast\Category.datasource">
