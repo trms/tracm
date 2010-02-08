@@ -44,6 +44,7 @@ namespace tracm
 		private int m_height = 0;
 		private string m_audioFormat = String.Empty;
 		private int m_audioRate = 0;
+		private int m_audioBitRate = 0;
 		private string m_audioChannels = String.Empty;
 		private double m_frameRate = 29.97;
 		private int m_length = 0;
@@ -185,12 +186,13 @@ Stream #0.1[0x80]: Audio: liba52, 48000 Hz, stereo, 384 kb/s
 			{
 				m_bitRate = 1000 * Convert.ToInt32(m.Groups[1].Value);
 			}
-			m = Regex.Match(details, @"Audio: ([^,]*), ([^\s]*)\s\w*, ([^,\r\n]*)");
+			m = Regex.Match(details, @"Audio: ([^,]*), ([^\s]*)\s\w*, ([^,\r\n]*), ([^\s]*)");
 			if (m.Success)
 			{
 				m_audioFormat = m.Groups[1].Value;
 				m_audioRate = Convert.ToInt32(m.Groups[2].Value);
 				m_audioChannels = m.Groups[3].Value;
+				m_audioBitRate = 1000 * Convert.ToInt32(m.Groups[4].Value);
 			}
 
 			m_originalVideoFormat = m_videoFormat;
@@ -352,6 +354,11 @@ Stream #0.1[0x80]: Audio: liba52, 48000 Hz, stereo, 384 kb/s
 		public int BitRate
 		{
 			get { return m_bitRate; }
+		}
+
+		public int AudioBitRate
+		{
+			get { return m_audioBitRate; }
 		}
 
 		public int LengthInSeconds

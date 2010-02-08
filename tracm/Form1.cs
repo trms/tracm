@@ -36,6 +36,8 @@ namespace tracm
     {
 		private BindingList<WorkItem> m_list = new BindingList<WorkItem>();
 		private object m_lockObject = new object();
+		private int videoBitrate = 0;
+		private int audioBitrate = 0;
 
 		private class NameID
 		{
@@ -318,6 +320,9 @@ namespace tracm
 					TranscodeIndicator.Text = "* NOTE: This file will be transcoded before being queued";
 				else
 					TranscodeIndicator.Text = String.Empty;
+
+				videoBitrate = vp.BitRate;
+				audioBitrate = vp.AudioBitRate;
             }
         }
 
@@ -326,7 +331,7 @@ namespace tracm
 			if (String.IsNullOrEmpty(TranscodeIndicator.Text))
 			{
 				// straight upload
-				UploadWorker upload = new UploadWorker(Inentifier.Text, FilePath.Text, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text));
+				UploadWorker upload = new UploadWorker(Inentifier.Text, FilePath.Text, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text), videoBitrate, audioBitrate);
 				upload.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
 				m_list.Add(upload);
 				upload.Work();
@@ -335,7 +340,7 @@ namespace tracm
 			{
 				// otherwise we have to transcode, then upload
 				TranscodeWorker tw = new TranscodeWorker(FilePath.Text);
-				UploadWorker upload = new UploadWorker(Inentifier.Text, tw.TempFile, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text));
+				UploadWorker upload = new UploadWorker(Inentifier.Text, tw.TempFile, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text), videoBitrate, audioBitrate);
 				DeleteWorker dw = new DeleteWorker(tw.TempFile);
 
 				tw.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
