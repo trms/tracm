@@ -99,6 +99,9 @@
     <Content Include="ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="pthreadGC2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="tracm-icon.ico" />
     <None Include="Web References\Cablecast\CablecastWS.disco" />
     <None Include="Web References\Cablecast\CablecastWS.wsdl" />
