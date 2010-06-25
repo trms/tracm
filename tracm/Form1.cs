@@ -331,7 +331,7 @@ namespace tracm
 			if (String.IsNullOrEmpty(TranscodeIndicator.Text))
 			{
 				// straight upload
-				UploadWorker upload = new UploadWorker(Inentifier.Text, FilePath.Text, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text), videoBitrate, audioBitrate);
+				UploadWorker upload = new UploadWorker(Inentifier.Text, FilePath.Text, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Email.Text, Tags.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text), videoBitrate, audioBitrate);
 				upload.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
 				m_list.Add(upload);
 				upload.Work();
@@ -340,7 +340,7 @@ namespace tracm
 			{
 				// otherwise we have to transcode, then upload
 				TranscodeWorker tw = new TranscodeWorker(FilePath.Text);
-				UploadWorker upload = new UploadWorker(Inentifier.Text, tw.TempFile, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text), videoBitrate, audioBitrate);
+				UploadWorker upload = new UploadWorker(Inentifier.Text, tw.TempFile, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Email.Text, Tags.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text), videoBitrate, audioBitrate);
 				DeleteWorker dw = new DeleteWorker(tw.TempFile);
 
 				tw.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
@@ -495,7 +495,7 @@ namespace tracm
 		{
 			Cablecast.CablecastWS webService = (Cablecast.CablecastWS)e.UserState;
 			Cablecast.ShowInfo showInfo = e.Result;
-			Title.Text = showInfo.Title;
+            Title.Text = showInfo.Title;
 			if (String.IsNullOrEmpty(Producer.Text))
 				Producer.Text = showInfo.Producer;
 			if (String.IsNullOrEmpty(Genre.Text))
@@ -504,6 +504,9 @@ namespace tracm
 			// requires 4.9 -->
 			if (CablecastFactory.CanCreateShows)
 			{
+                Cablecast.ProducerInfo producerInfo = webService.GetProducerInfo(showInfo.ProducerID, CablecastUsername.Text, CablecastPassword.Text);
+                if (String.IsNullOrEmpty(Email.Text))
+                    Email.Text = producerInfo.Email;
 				Cablecast.ReelInfo[] reels = webService.GetShowReels(showInfo.ShowID);
 				if (reels.Length > 0)
 					Cue.Text = reels[0].Cue.ToString();
@@ -565,5 +568,30 @@ namespace tracm
 				MessageBox.Show("Please set a download folder before connecting to the SCS server");
 			}
 		}
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Cue_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Producer_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

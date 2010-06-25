@@ -34,12 +34,14 @@ namespace tracm
 		private string m_description;
 		private string m_genre;
 		private string m_producer;
+        private string m_email;
+        private string m_tags;
 		private int m_cue;
 		private int m_length;
 		private int m_bitRate;
 		private int m_audioBitRate;
 
-		public UploadWorker(string id, string path, string title, string subject, string description, string genre, string producer, int cue, int length, int videoBitrate, int audioBitrate)
+		public UploadWorker(string id, string path, string title, string subject, string description, string genre, string producer, string email, string tags, int cue, int length, int videoBitrate, int audioBitrate)
 		{
 			m_id = id;
 			m_path = path;
@@ -48,6 +50,8 @@ namespace tracm
 			m_description = description;
 			m_genre = genre;
 			m_producer = producer;
+            m_email = email;
+            m_tags = tags;
 			m_cue = cue;
 			m_length = length;
 			m_bitRate = videoBitrate;
@@ -161,35 +165,35 @@ namespace tracm
 				xml.AppendLine("<PBCoreDescriptionDocument xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html http://www.pbcore.org/PBCore/PBCoreSchema.xsd\" xmlns:fmp=\"http://www.filemaker.com/fmpxmlresult\" xmlns=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html\">");
 				xml.AppendFormat("<pbcoreIdentifier><identifier>{0}</identifier><identifierSource>{1}</identifierSource></pbcoreIdentifier>", m_id, m_producer); xml.AppendLine();
 				xml.AppendFormat("<pbcoreTitle><title>{0}</title><titleType>Program</titleType></pbcoreTitle>", m_title); xml.AppendLine();
-				xml.AppendFormat("<pbcoreSubject><subject>{0}</subject></pbcoreSubject>", m_subject); xml.AppendLine();
+                xml.AppendFormat("<pbcoreTitle><title>{0}</title><titleType>Episode</titleType></pbcoreTitle>", m_title); xml.AppendLine();
+                xml.AppendFormat("<pbcoreSubject><subject>{0}</subject></pbcoreSubject>", m_subject); xml.AppendLine();
 				xml.AppendFormat("<pbcoreDescription><description>{0}</description><descriptionType>Program</descriptionType></pbcoreDescription>", m_description); xml.AppendLine();
-				xml.AppendFormat("<pbcoreGenre><genre>{0}</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre>", m_genre); xml.AppendLine();
+                xml.AppendFormat("<pbcoreGenre><genre>{0}</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre>", m_genre); xml.AppendLine();
 				xml.AppendLine("<pbcoreAudienceRating><audienceRating>E</audienceRating></pbcoreAudienceRating>");
 				xml.AppendFormat("<pbcoreCreator><creator>{0}</creator><creatorRole>Producer</creatorRole></pbcoreCreator>", m_producer); xml.AppendLine();
 				xml.AppendLine("<pbcoreRightsSummary><rightsSummary>http://creativecommons.org/licenses/by-nc/3.0/</rightsSummary></pbcoreRightsSummary>");
 				xml.AppendLine("<pbcoreInstantiation>");
-				xml.AppendFormat("<dateCreated>{0:yyyy-MM-dd}</dateCreated>", DateTime.Now); xml.AppendLine();
 				xml.AppendLine("<formatPhysical>Hard Drive</formatPhysical>");
-				xml.AppendLine("<formatDigital>MP2</formatDigital>");
+				xml.AppendLine("<formatDigital>video/MP2P</formatDigital>");
 				xml.AppendLine("<formatLocation>USA</formatLocation>");
 				xml.AppendLine("<formatGenerations>Moving image/Master</formatGenerations>");
-				xml.AppendLine("<formatStandard>MPEG video</formatStandard>");
+                xml.AppendLine("<formatStandard>NTSC video (INTERLACED)</formatStandard>");
 				xml.AppendFormat("<formatFileSize>{0}</formatFileSize>", new FileInfo(m_path).Length); xml.AppendLine();
 				xml.AppendFormat("<formatTimeStart>{0}</formatTimeStart>", SecondsToLength(m_cue)); xml.AppendLine();
 				xml.AppendFormat("<formatDuration>{0}</formatDuration>", SecondsToLength(m_length)); xml.AppendLine();
 				xml.AppendFormat("<formatDataRate>Video {0} bits/sec;Audio {1} bits/sec</formatDataRate>", m_bitRate, m_audioBitRate); xml.AppendLine();
 				xml.AppendLine("<formatFrameSize>720x480</formatFrameSize>");
 				xml.AppendLine("<formatAspectRatio>4:3</formatAspectRatio>");
-				xml.AppendLine("<formatFrameRate>29.97</formatFrameRate>");
+				xml.AppendLine("<formatFrameRate>29.97 fps</formatFrameRate>");
 				xml.AppendLine("<pbcoreFormatID>");
 				xml.AppendFormat("<formatIdentifier>{0}</formatIdentifier>", Path.GetFileName(m_path)); xml.AppendLine();
 				xml.AppendFormat("<formatIdentifierSource>{0}</formatIdentifierSource>", m_producer); xml.AppendLine();
 				xml.AppendLine("</pbcoreFormatID>");
 				xml.AppendLine("</pbcoreInstantiation>");
 				xml.AppendFormat("<pbcoreExtension><extension>indemnification:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", m_producer); xml.AppendLine();
-				xml.AppendFormat("<pbcoreExtension><extension>tags:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", m_producer); xml.AppendLine();
+				xml.AppendFormat("<pbcoreExtension><extension>tags:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", m_tags); xml.AppendLine();
 				xml.AppendFormat("<pbcoreExtension><extension>producer_address:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", m_producer); xml.AppendLine();
-				xml.AppendFormat("<pbcoreExtension><extension>producer_email:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", m_producer); xml.AppendLine();
+				xml.AppendFormat("<pbcoreExtension><extension>producer_email:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", m_email); xml.AppendLine();
 				xml.AppendLine("</PBCoreDescriptionDocument>");
 
 				//Write the file

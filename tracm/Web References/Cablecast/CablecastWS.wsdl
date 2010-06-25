@@ -40,16 +40,24 @@
       <s:complexType name="ShowInfo">
         <s:sequence>
           <s:element minOccurs="1" maxOccurs="1" name="ShowID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="LocalID" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="InternalTitle" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CategoryID" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Comments" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="CustomFields" type="tns:ArrayOfCustomField" />
           <s:element minOccurs="1" maxOccurs="1" name="EventDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastModified" type="s:dateTime" />
           <s:element minOccurs="0" maxOccurs="1" name="Producer" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProducerID" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Project" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProjectID" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="TotalSeconds" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="StreamingFileURL" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="CGExempt" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="OnDemand" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="OnDemandStatus" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="ArrayOfCustomField">
@@ -233,6 +241,7 @@
         <s:sequence>
           <s:element minOccurs="1" maxOccurs="1" name="ChannelID" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PrimaryLocationID" type="s:int" />
         </s:sequence>
       </s:complexType>
       <s:element name="SimpleShowSearch">
@@ -390,6 +399,8 @@
             <s:element minOccurs="1" maxOccurs="1" name="EventDate" type="s:dateTime" />
             <s:element minOccurs="0" maxOccurs="1" name="Comments" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="CustomFields" type="tns:ArrayOfCustomField" />
+            <s:element minOccurs="1" maxOccurs="1" name="OnDemand" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="OnDemandStatus" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
           </s:sequence>
@@ -430,6 +441,8 @@
             <s:element minOccurs="1" maxOccurs="1" name="EventDate" type="s:dateTime" />
             <s:element minOccurs="0" maxOccurs="1" name="Comments" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="CustomFields" type="tns:ArrayOfCustomField" />
+            <s:element minOccurs="1" maxOccurs="1" name="OnDemand" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="OnDemandStatus" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
           </s:sequence>
@@ -607,6 +620,10 @@
           <s:element minOccurs="1" maxOccurs="1" name="Chapter" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="ReelNumber" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="MediaID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="FormatID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DispositionID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DispositionDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="MediaName" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="AddReel">
@@ -777,8 +794,41 @@
           <s:element minOccurs="1" maxOccurs="1" name="FormatID" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="PrimitiveType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UNCPath" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="CustomSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Field" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SearchString" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CustomSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CustomSearchResult" type="tns:ArrayOfShowInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LastModifiedSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LocationID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="SearchDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="DateComparator" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LastModifiedSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LastModifiedSearchResult" type="tns:ArrayOfShowInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="WSVersionSoapIn">
@@ -985,6 +1035,18 @@
   <wsdl:message name="GetFormatsSoapOut">
     <wsdl:part name="parameters" element="tns:GetFormatsResponse" />
   </wsdl:message>
+  <wsdl:message name="CustomSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:CustomSearch" />
+  </wsdl:message>
+  <wsdl:message name="CustomSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:CustomSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="LastModifiedSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:LastModifiedSearch" />
+  </wsdl:message>
+  <wsdl:message name="LastModifiedSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:LastModifiedSearchResponse" />
+  </wsdl:message>
   <wsdl:portType name="CablecastWSSoap">
     <wsdl:operation name="WSVersion">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the version of this web service.</wsdl:documentation>
@@ -1167,6 +1229,16 @@ A Show Must have at least one Reel.
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a list of available Formats at the given location.</wsdl:documentation>
       <wsdl:input message="tns:GetFormatsSoapIn" />
       <wsdl:output message="tns:GetFormatsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CustomSearch">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Allows Searching by CustomFields.  Field is the name of the Custom Field.  If "LocalID" is used for Field than shows will be searched by the LocalID value. Fields and Search Values are case sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:CustomSearchSoapIn" />
+      <wsdl:output message="tns:CustomSearchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LastModifiedSearch">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns shows at this site that were modified in the range requested by the SearchDate and DateComarator.  DateComparator is a string consisting of "&lt;", "&gt;", "&lt;=", or "&gt;="</wsdl:documentation>
+      <wsdl:input message="tns:LastModifiedSearchSoapIn" />
+      <wsdl:output message="tns:LastModifiedSearchSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="CablecastWSSoap" type="tns:CablecastWSSoap">
@@ -1477,6 +1549,24 @@ A Show Must have at least one Reel.
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="CustomSearch">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/CustomSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LastModifiedSearch">
+      <soap:operation soapAction="http://www.trms.com/CablecastWS/LastModifiedSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="CablecastWSSoap12" type="tns:CablecastWSSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1779,6 +1869,24 @@ A Show Must have at least one Reel.
     </wsdl:operation>
     <wsdl:operation name="GetFormats">
       <soap12:operation soapAction="http://www.trms.com/CablecastWS/GetFormats" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CustomSearch">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/CustomSearch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LastModifiedSearch">
+      <soap12:operation soapAction="http://www.trms.com/CablecastWS/LastModifiedSearch" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
