@@ -36,6 +36,10 @@ namespace tracm
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabUpload = new System.Windows.Forms.TabPage();
+            this.Tags = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.Email = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.TranscodeIndicator = new System.Windows.Forms.Label();
             this.QueueError = new System.Windows.Forms.Label();
             this.AddToQueue = new System.Windows.Forms.Button();
@@ -94,10 +98,6 @@ namespace tracm
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.Email = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.Tags = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabWelcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -125,7 +125,7 @@ namespace tracm
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(456, 384);
+            this.tabControl1.Size = new System.Drawing.Size(456, 399);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -201,15 +201,54 @@ namespace tracm
             this.tabUpload.Location = new System.Drawing.Point(4, 22);
             this.tabUpload.Name = "tabUpload";
             this.tabUpload.Padding = new System.Windows.Forms.Padding(3);
-            this.tabUpload.Size = new System.Drawing.Size(448, 358);
+            this.tabUpload.Size = new System.Drawing.Size(448, 373);
             this.tabUpload.TabIndex = 1;
             this.tabUpload.Text = "Upload";
             this.tabUpload.UseVisualStyleBackColor = true;
             // 
+            // Tags
+            // 
+            this.Tags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Tags.Location = new System.Drawing.Point(72, 192);
+            this.Tags.Name = "Tags";
+            this.Tags.Size = new System.Drawing.Size(368, 20);
+            this.Tags.TabIndex = 17;
+            this.Tags.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(9, 195);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(31, 13);
+            this.label13.TabIndex = 25;
+            this.label13.Text = "Tags";
+            // 
+            // Email
+            // 
+            this.Email.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Email.Location = new System.Drawing.Point(72, 164);
+            this.Email.Name = "Email";
+            this.Email.Size = new System.Drawing.Size(368, 20);
+            this.Email.TabIndex = 16;
+            this.Email.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(9, 167);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(32, 13);
+            this.label12.TabIndex = 23;
+            this.label12.Text = "Email";
+            this.label12.Click += new System.EventHandler(this.label12_Click);
+            // 
             // TranscodeIndicator
             // 
             this.TranscodeIndicator.AutoSize = true;
-            this.TranscodeIndicator.Location = new System.Drawing.Point(9, 299);
+            this.TranscodeIndicator.Location = new System.Drawing.Point(9, 349);
             this.TranscodeIndicator.Name = "TranscodeIndicator";
             this.TranscodeIndicator.Size = new System.Drawing.Size(0, 13);
             this.TranscodeIndicator.TabIndex = 22;
@@ -226,7 +265,7 @@ namespace tracm
             // AddToQueue
             // 
             this.AddToQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddToQueue.Location = new System.Drawing.Point(341, 324);
+            this.AddToQueue.Location = new System.Drawing.Point(341, 339);
             this.AddToQueue.Name = "AddToQueue";
             this.AddToQueue.Size = new System.Drawing.Size(98, 23);
             this.AddToQueue.TabIndex = 21;
@@ -330,6 +369,7 @@ namespace tracm
             this.FilePath.Name = "FilePath";
             this.FilePath.Size = new System.Drawing.Size(287, 20);
             this.FilePath.TabIndex = 9;
+            this.FilePath.TextChanged += new System.EventHandler(this.FilePath_TextChanged);
             // 
             // label8
             // 
@@ -420,7 +460,7 @@ namespace tracm
             this.tabDownload.Controls.Add(this.RefreshQueue);
             this.tabDownload.Location = new System.Drawing.Point(4, 22);
             this.tabDownload.Name = "tabDownload";
-            this.tabDownload.Size = new System.Drawing.Size(448, 358);
+            this.tabDownload.Size = new System.Drawing.Size(448, 373);
             this.tabDownload.TabIndex = 4;
             this.tabDownload.Text = "Download";
             this.tabDownload.UseVisualStyleBackColor = true;
@@ -506,7 +546,7 @@ namespace tracm
             // RefreshQueue
             // 
             this.RefreshQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.RefreshQueue.Location = new System.Drawing.Point(313, 327);
+            this.RefreshQueue.Location = new System.Drawing.Point(313, 342);
             this.RefreshQueue.Name = "RefreshQueue";
             this.RefreshQueue.Size = new System.Drawing.Size(127, 23);
             this.RefreshQueue.TabIndex = 3;
@@ -576,7 +616,7 @@ namespace tracm
             this.tabSettings.Controls.Add(this.groupBoxACM);
             this.tabSettings.Location = new System.Drawing.Point(4, 22);
             this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Size = new System.Drawing.Size(448, 328);
+            this.tabSettings.Size = new System.Drawing.Size(448, 358);
             this.tabSettings.TabIndex = 3;
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
@@ -795,50 +835,11 @@ namespace tracm
             // 
             this.locationBindingSource.DataSource = typeof(tracm.Cablecast.Location);
             // 
-            // Email
-            // 
-            this.Email.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.Email.Location = new System.Drawing.Point(72, 164);
-            this.Email.Name = "Email";
-            this.Email.Size = new System.Drawing.Size(368, 20);
-            this.Email.TabIndex = 16;
-            this.Email.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(9, 167);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(32, 13);
-            this.label12.TabIndex = 23;
-            this.label12.Text = "Email";
-            this.label12.Click += new System.EventHandler(this.label12_Click);
-            // 
-            // Tags
-            // 
-            this.Tags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.Tags.Location = new System.Drawing.Point(72, 192);
-            this.Tags.Name = "Tags";
-            this.Tags.Size = new System.Drawing.Size(368, 20);
-            this.Tags.TabIndex = 17;
-            this.Tags.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(9, 195);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(31, 13);
-            this.label13.TabIndex = 25;
-            this.label13.Text = "Tags";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(456, 384);
+            this.ClientSize = new System.Drawing.Size(456, 399);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";

@@ -300,6 +300,8 @@ namespace tracm
 				Genre.Text = String.Empty;
 				Producer.Text = String.Empty;
 				Description.Text = String.Empty;
+                Tags.Text = String.Empty;
+                Email.Text = String.Empty;
 				Cue.Text = "0";
 
 				string title = Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
@@ -590,6 +592,11 @@ namespace tracm
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FilePath_TextChanged(object sender, EventArgs e)
         {
 
         }
