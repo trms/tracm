@@ -805,6 +805,9 @@ namespace tracm.Cablecast {
                     [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)] CustomField[] CustomFields, 
                     bool OnDemand, 
                     string OnDemandStatus, 
+                    [System.Xml.Serialization.XmlElementAttribute("BugText")] string BugText1, 
+                    [System.Xml.Serialization.XmlElementAttribute("CrawlText")] string CrawlText1, 
+                    int CrawlLengthInSeconds, 
                     string username, 
                     string password) {
             object[] results = this.Invoke("CreateNewShowRecord", new object[] {
@@ -822,6 +825,9 @@ namespace tracm.Cablecast {
                         CustomFields,
                         OnDemand,
                         OnDemandStatus,
+                        BugText1,
+                        CrawlText1,
+                        CrawlLengthInSeconds,
                         username,
                         password});
             return ((int)(results[0]));
@@ -843,9 +849,12 @@ namespace tracm.Cablecast {
                     CustomField[] CustomFields, 
                     bool OnDemand, 
                     string OnDemandStatus, 
+                    string BugText1, 
+                    string CrawlText1, 
+                    int CrawlLengthInSeconds, 
                     string username, 
                     string password) {
-            this.CreateNewShowRecordAsync(LocalID, LocationID, Title, CGTitle, ProjectID, CGExempt, ProducerID, Reels, CategoryID, EventDate, Comments, CustomFields, OnDemand, OnDemandStatus, username, password, null);
+            this.CreateNewShowRecordAsync(LocalID, LocationID, Title, CGTitle, ProjectID, CGExempt, ProducerID, Reels, CategoryID, EventDate, Comments, CustomFields, OnDemand, OnDemandStatus, BugText1, CrawlText1, CrawlLengthInSeconds, username, password, null);
         }
         
         /// <remarks/>
@@ -864,6 +873,9 @@ namespace tracm.Cablecast {
                     CustomField[] CustomFields, 
                     bool OnDemand, 
                     string OnDemandStatus, 
+                    string BugText1, 
+                    string CrawlText1, 
+                    int CrawlLengthInSeconds, 
                     string username, 
                     string password, 
                     object userState) {
@@ -885,6 +897,9 @@ namespace tracm.Cablecast {
                         CustomFields,
                         OnDemand,
                         OnDemandStatus,
+                        BugText1,
+                        CrawlText1,
+                        CrawlLengthInSeconds,
                         username,
                         password}, this.CreateNewShowRecordOperationCompleted, userState);
         }
@@ -898,7 +913,25 @@ namespace tracm.Cablecast {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.trms.com/CablecastWS/UpdateShowRecord", RequestNamespace="http://www.trms.com/CablecastWS/", ResponseNamespace="http://www.trms.com/CablecastWS/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int UpdateShowRecord(int ShowID, string LocalID, string Title, string CGTitle, int ProjectID, bool CGExempt, int ProducerID, int CategoryID, System.DateTime EventDate, string Comments, [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)] CustomField[] CustomFields, bool OnDemand, string OnDemandStatus, string username, string password) {
+        public int UpdateShowRecord(
+                    int ShowID, 
+                    string LocalID, 
+                    string Title, 
+                    string CGTitle, 
+                    int ProjectID, 
+                    bool CGExempt, 
+                    int ProducerID, 
+                    int CategoryID, 
+                    System.DateTime EventDate, 
+                    string Comments, 
+                    [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)] CustomField[] CustomFields, 
+                    bool OnDemand, 
+                    string OnDemandStatus, 
+                    [System.Xml.Serialization.XmlElementAttribute("BugText")] string BugText1, 
+                    [System.Xml.Serialization.XmlElementAttribute("CrawlText")] string CrawlText1, 
+                    int CrawlLengthInSeconds, 
+                    string username, 
+                    string password) {
             object[] results = this.Invoke("UpdateShowRecord", new object[] {
                         ShowID,
                         LocalID,
@@ -913,14 +946,12 @@ namespace tracm.Cablecast {
                         CustomFields,
                         OnDemand,
                         OnDemandStatus,
+                        BugText1,
+                        CrawlText1,
+                        CrawlLengthInSeconds,
                         username,
                         password});
             return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void UpdateShowRecordAsync(int ShowID, string LocalID, string Title, string CGTitle, int ProjectID, bool CGExempt, int ProducerID, int CategoryID, System.DateTime EventDate, string Comments, CustomField[] CustomFields, bool OnDemand, string OnDemandStatus, string username, string password) {
-            this.UpdateShowRecordAsync(ShowID, LocalID, Title, CGTitle, ProjectID, CGExempt, ProducerID, CategoryID, EventDate, Comments, CustomFields, OnDemand, OnDemandStatus, username, password, null);
         }
         
         /// <remarks/>
@@ -938,6 +969,32 @@ namespace tracm.Cablecast {
                     CustomField[] CustomFields, 
                     bool OnDemand, 
                     string OnDemandStatus, 
+                    string BugText1, 
+                    string CrawlText1, 
+                    int CrawlLengthInSeconds, 
+                    string username, 
+                    string password) {
+            this.UpdateShowRecordAsync(ShowID, LocalID, Title, CGTitle, ProjectID, CGExempt, ProducerID, CategoryID, EventDate, Comments, CustomFields, OnDemand, OnDemandStatus, BugText1, CrawlText1, CrawlLengthInSeconds, username, password, null);
+        }
+        
+        /// <remarks/>
+        public void UpdateShowRecordAsync(
+                    int ShowID, 
+                    string LocalID, 
+                    string Title, 
+                    string CGTitle, 
+                    int ProjectID, 
+                    bool CGExempt, 
+                    int ProducerID, 
+                    int CategoryID, 
+                    System.DateTime EventDate, 
+                    string Comments, 
+                    CustomField[] CustomFields, 
+                    bool OnDemand, 
+                    string OnDemandStatus, 
+                    string BugText1, 
+                    string CrawlText1, 
+                    int CrawlLengthInSeconds, 
                     string username, 
                     string password, 
                     object userState) {
@@ -958,6 +1015,9 @@ namespace tracm.Cablecast {
                         CustomFields,
                         OnDemand,
                         OnDemandStatus,
+                        BugText1,
+                        CrawlText1,
+                        CrawlLengthInSeconds,
                         username,
                         password}, this.UpdateShowRecordOperationCompleted, userState);
         }
@@ -1702,6 +1762,12 @@ namespace tracm.Cablecast {
         
         private string onDemandStatusField;
         
+        private string bugTextField;
+        
+        private string crawlTextField;
+        
+        private int crawlLengthInSecondsField;
+        
         /// <remarks/>
         public int ShowID {
             get {
@@ -1890,6 +1956,36 @@ namespace tracm.Cablecast {
             }
             set {
                 this.onDemandStatusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BugText {
+            get {
+                return this.bugTextField;
+            }
+            set {
+                this.bugTextField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string CrawlText {
+            get {
+                return this.crawlTextField;
+            }
+            set {
+                this.crawlTextField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int CrawlLengthInSeconds {
+            get {
+                return this.crawlLengthInSecondsField;
+            }
+            set {
+                this.crawlLengthInSecondsField = value;
             }
         }
     }

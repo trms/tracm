@@ -58,6 +58,9 @@
           <s:element minOccurs="1" maxOccurs="1" name="CGExempt" type="s:boolean" />
           <s:element minOccurs="1" maxOccurs="1" name="OnDemand" type="s:boolean" />
           <s:element minOccurs="0" maxOccurs="1" name="OnDemandStatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BugText" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CrawlText" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CrawlLengthInSeconds" type="s:int" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="ArrayOfCustomField">
@@ -401,6 +404,9 @@
             <s:element minOccurs="0" maxOccurs="1" name="CustomFields" type="tns:ArrayOfCustomField" />
             <s:element minOccurs="1" maxOccurs="1" name="OnDemand" type="s:boolean" />
             <s:element minOccurs="0" maxOccurs="1" name="OnDemandStatus" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BugText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CrawlText" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CrawlLengthInSeconds" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
           </s:sequence>
@@ -443,6 +449,9 @@
             <s:element minOccurs="0" maxOccurs="1" name="CustomFields" type="tns:ArrayOfCustomField" />
             <s:element minOccurs="1" maxOccurs="1" name="OnDemand" type="s:boolean" />
             <s:element minOccurs="0" maxOccurs="1" name="OnDemandStatus" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BugText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CrawlText" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CrawlLengthInSeconds" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
           </s:sequence>

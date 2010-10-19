@@ -173,7 +173,7 @@ Princeton, NJ 08544
 				reel.Title = 0;
 				tracm.Cablecast.NewReel[] reels = { reel };
 				tracm.Cablecast.CustomField[] customFields = new tracm.Cablecast.CustomField[0];
-				int showID = webService.CreateNewShowRecord(id, Properties.Settings.Default.CablecastLocation, title, title, -1, false, 0, reels, 0, DateTime.Now, summary.ToString(), customFields, false,"", Properties.Settings.Default.CablecastUsername, Properties.Settings.Default.CablecastPassword);
+				int showID = webService.CreateNewShowRecord(id, Properties.Settings.Default.CablecastLocation, title, title, -1, false, 0, reels, 0, DateTime.Now, summary.ToString(), customFields, false,"", "", "", reels[0].LengthSeconds, Properties.Settings.Default.CablecastUsername, Properties.Settings.Default.CablecastPassword);
 				if (showID > 0)
 				{
 					// rename file to include show ID
