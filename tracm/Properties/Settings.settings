@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="ACMServer" Type="System.String" Scope="User">
-      <Value Profile="(Default)">psg2a.princeton.edu:3000</Value>
+      <Value Profile="(Default)">cmdn.telvue.com</Value>
     </Setting>
     <Setting Name="ACMUsername" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
