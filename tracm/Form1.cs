@@ -330,35 +330,49 @@ namespace tracm
 
         private void AddToQueue_Click(object sender, EventArgs e)
         {
-			if (String.IsNullOrEmpty(TranscodeIndicator.Text))
-			{
-				// straight upload
-				UploadWorker upload = new UploadWorker(Inentifier.Text, FilePath.Text, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Email.Text, Tags.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text), videoBitrate, audioBitrate);
-				upload.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
-				m_list.Add(upload);
-				upload.Work();
-			}
-			else
-			{
-				// otherwise we have to transcode, then upload
-				TranscodeWorker tw = new TranscodeWorker(FilePath.Text);
-				UploadWorker upload = new UploadWorker(Inentifier.Text, tw.TempFile, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Email.Text, Tags.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text), videoBitrate, audioBitrate);
-				DeleteWorker dw = new DeleteWorker(tw.TempFile);
+            if(String.IsNullOrEmpty(Title.Text) ||
+                String.IsNullOrEmpty(Subject.Text) ||
+                String.IsNullOrEmpty(Description.Text) ||
+                String.IsNullOrEmpty(Genre.Text) ||
+                String.IsNullOrEmpty(Producer.Text) ||
+                String.IsNullOrEmpty(Email.Text) ||
+                String.IsNullOrEmpty(Tags.Text))
+            {
+                var dialogResult = MessageBox.Show("Please fill out all fields.");
+            }
+            else
+            {
+			    if (String.IsNullOrEmpty(TranscodeIndicator.Text))
+			    {
+				        // straight upload
+				        UploadWorker upload = new UploadWorker(Inentifier.Text, FilePath.Text, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Email.Text, Tags.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text), videoBitrate, audioBitrate);
+				        upload.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
+				        m_list.Add(upload);
+				        upload.Work();
+			    }
+			    else
+			    {
+				    // otherwise we have to transcode, then upload
+				    TranscodeWorker tw = new TranscodeWorker(FilePath.Text);
+				    UploadWorker upload = new UploadWorker(Inentifier.Text, tw.TempFile, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Email.Text, Tags.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text), videoBitrate, audioBitrate);
+				    DeleteWorker dw = new DeleteWorker(tw.TempFile);
 
-				tw.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
-				upload.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
-				dw.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
-				tw.NextItem = upload;
-				upload.NextItem = dw;
+				    tw.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
+				    upload.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
+				    dw.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
+				    tw.NextItem = upload;
+				    upload.NextItem = dw;
 
-				m_list.Add(tw);
-				m_list.Add(upload);
-				m_list.Add(dw);
-				tw.Work();
-			}
+				    m_list.Add(tw);
+				    m_list.Add(upload);
+				    m_list.Add(dw);
+				    tw.Work();
+			    }
 
-            //Switch the UI to the queue tab and clear the current form
-            tabControl1.SelectedTab = tabQueue;
+                //Switch the UI to the queue tab and clear the current form
+                tabControl1.SelectedTab = tabQueue;
+            }
+
         }
 
         private void DeleteQueueItem_Click(object sender, EventArgs e)
