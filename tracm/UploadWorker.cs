@@ -73,7 +73,6 @@ namespace tracm
 			string xmlPath = CreateXML();
 			UploadFile(ftp, xmlPath);
 			UploadFile(ftp, m_path);
-			File.Delete(xmlPath);
 
 			ftp.Disconnect();
 
@@ -83,7 +82,7 @@ namespace tracm
   <error_message>Internal server error parsing PBCore XML /media/psg/vol1/users/tightrope/TheKeyandthePortal-download.mpg.xml.</error_message>
 </response>
 */
-			Scs.addContent(Path.GetFileName(m_path));
+			Scs.addContent(m_path);
 		}
 
 		private void UploadFile(FTPLib.FTP ftp, string path)
@@ -112,7 +111,8 @@ namespace tracm
 
 		private string CreateXML()
 		{
-			string path = String.Format("{0}.xml", m_path);
+            var filename = Path.GetFileName(m_path);
+			string path = String.Format("{0}.xml", Path.Combine(Settings.Default.LogsPath, filename));
 			try
 			{
 				//Delete the file is if exists
@@ -122,7 +122,8 @@ namespace tracm
 				//Create the XML data
 				StringBuilder xml = new StringBuilder();
 
-				/*
+                #region Sample XML
+                /*
 <?xml version="1.0" encoding="UTF-8"?>
 <response status="ok">
 <?xml version='1.0' encoding='UTF-8'?>
@@ -160,8 +161,9 @@ namespace tracm
 				 * <pbcoreExtension><extension>producer_email:test@test.com[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>
 				 * </PBCoreDescriptionDocument></response>
 				*/
-
-				xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                #endregion
+                
+                xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 				xml.AppendLine("<PBCoreDescriptionDocument xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html http://www.pbcore.org/PBCore/PBCoreSchema.xsd\" xmlns:fmp=\"http://www.filemaker.com/fmpxmlresult\" xmlns=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html\">");
 				xml.AppendFormat("<pbcoreIdentifier><identifier>{0}</identifier><identifierSource>{1}</identifierSource></pbcoreIdentifier>", m_id, m_producer); xml.AppendLine();
 				xml.AppendFormat("<pbcoreTitle><title>{0}</title><titleType>Program</titleType></pbcoreTitle>", m_title); xml.AppendLine();

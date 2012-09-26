@@ -41,14 +41,28 @@ namespace tracm
 
     public static class Scs
     {
-        public static void addContent(string FileName)
+        public static void addContent(string path)
         {
+            var filename = Path.GetFileName(path);
+            var responseXMLPath = String.Format("{0}-RESPONSE.xml", Path.Combine(Settings.Default.LogsPath, filename));
+            if (File.Exists(responseXMLPath))
+            {
+                File.Delete(responseXMLPath);
+            }
+
             string status = "fail";
             string data = String.Empty;
 
             try
             {
-				data = getData(String.Format("<?xml version ='1.0' encoding='UTF-8'?><request><type>addContent</type><version_number>0.3</version_number><username>{0}</username><filename>{1}</filename></request>", Settings.Default.ACMUsername, FileName));
+				data = getData(String.Format("<?xml version ='1.0' encoding='UTF-8'?><request><type>addContent</type><version_number>0.3</version_number><username>{0}</username><filename>{1}</filename></request>", Settings.Default.ACMUsername, filename));
+                
+                //Write the file
+                FileInfo t = new FileInfo(responseXMLPath);
+                StreamWriter sw = t.CreateText();
+                sw.Write(data);
+                sw.Close();
+
                 Match m = Regex.Match(data, "response status=\"([^\"]*)");
                 if (m.Success)
                     status = m.Groups[1].Value;

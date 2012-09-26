@@ -98,6 +98,10 @@ namespace tracm
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.groupBoxLogs = new System.Windows.Forms.GroupBox();
+            this.labelLogs = new System.Windows.Forms.Label();
+            this.LogsPath = new System.Windows.Forms.TextBox();
+            this.LogsBrowse = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabWelcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -112,6 +116,7 @@ namespace tracm
             this.groupBoxCablecast.SuspendLayout();
             this.groupBoxACM.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locationBindingSource)).BeginInit();
+            this.groupBoxLogs.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -137,7 +142,7 @@ namespace tracm
             this.tabWelcome.Location = new System.Drawing.Point(4, 22);
             this.tabWelcome.Name = "tabWelcome";
             this.tabWelcome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabWelcome.Size = new System.Drawing.Size(448, 358);
+            this.tabWelcome.Size = new System.Drawing.Size(448, 373);
             this.tabWelcome.TabIndex = 0;
             this.tabWelcome.Text = "Welcome";
             this.tabWelcome.UseVisualStyleBackColor = true;
@@ -208,8 +213,8 @@ namespace tracm
             // 
             // Tags
             // 
-            this.Tags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Tags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Tags.Location = new System.Drawing.Point(72, 192);
             this.Tags.Name = "Tags";
             this.Tags.Size = new System.Drawing.Size(368, 20);
@@ -227,8 +232,8 @@ namespace tracm
             // 
             // Email
             // 
-            this.Email.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Email.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Email.Location = new System.Drawing.Point(72, 164);
             this.Email.Name = "Email";
             this.Email.Size = new System.Drawing.Size(368, 20);
@@ -275,8 +280,8 @@ namespace tracm
             // 
             // Length
             // 
-            this.Length.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Length.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Length.Location = new System.Drawing.Point(72, 313);
             this.Length.Name = "Length";
             this.Length.Size = new System.Drawing.Size(112, 20);
@@ -284,8 +289,8 @@ namespace tracm
             // 
             // Cue
             // 
-            this.Cue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Cue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Cue.Location = new System.Drawing.Point(72, 287);
             this.Cue.Name = "Cue";
             this.Cue.Size = new System.Drawing.Size(112, 20);
@@ -294,8 +299,8 @@ namespace tracm
             // 
             // Description
             // 
-            this.Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Description.Location = new System.Drawing.Point(72, 221);
             this.Description.Multiline = true;
             this.Description.Name = "Description";
@@ -304,8 +309,8 @@ namespace tracm
             // 
             // Producer
             // 
-            this.Producer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Producer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Producer.Location = new System.Drawing.Point(72, 137);
             this.Producer.Name = "Producer";
             this.Producer.Size = new System.Drawing.Size(368, 20);
@@ -314,8 +319,8 @@ namespace tracm
             // 
             // Genre
             // 
-            this.Genre.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Genre.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Genre.Location = new System.Drawing.Point(72, 111);
             this.Genre.Name = "Genre";
             this.Genre.Size = new System.Drawing.Size(368, 20);
@@ -323,8 +328,8 @@ namespace tracm
             // 
             // Subject
             // 
-            this.Subject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Subject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Subject.Location = new System.Drawing.Point(72, 85);
             this.Subject.Name = "Subject";
             this.Subject.Size = new System.Drawing.Size(368, 20);
@@ -332,8 +337,8 @@ namespace tracm
             // 
             // Title
             // 
-            this.Title.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Title.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Title.Location = new System.Drawing.Point(72, 59);
             this.Title.Name = "Title";
             this.Title.Size = new System.Drawing.Size(368, 20);
@@ -341,8 +346,8 @@ namespace tracm
             // 
             // Inentifier
             // 
-            this.Inentifier.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Inentifier.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Inentifier.Location = new System.Drawing.Point(72, 33);
             this.Inentifier.Name = "Inentifier";
             this.Inentifier.Size = new System.Drawing.Size(112, 20);
@@ -362,8 +367,8 @@ namespace tracm
             // 
             // FilePath
             // 
-            this.FilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.FilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.FilePath.Enabled = false;
             this.FilePath.Location = new System.Drawing.Point(72, 7);
             this.FilePath.Name = "FilePath";
@@ -490,8 +495,8 @@ namespace tracm
             // 
             // cablecastFormats
             // 
-            this.cablecastFormats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cablecastFormats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cablecastFormats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cablecastFormats.FormattingEnabled = true;
             this.cablecastFormats.Location = new System.Drawing.Point(63, 46);
@@ -520,8 +525,8 @@ namespace tracm
             // 
             // cablecastLocation
             // 
-            this.cablecastLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cablecastLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cablecastLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cablecastLocation.FormattingEnabled = true;
             this.cablecastLocation.Location = new System.Drawing.Point(63, 19);
@@ -561,7 +566,7 @@ namespace tracm
             this.tabQueue.Controls.Add(this.dataGridView1);
             this.tabQueue.Location = new System.Drawing.Point(4, 22);
             this.tabQueue.Name = "tabQueue";
-            this.tabQueue.Size = new System.Drawing.Size(448, 358);
+            this.tabQueue.Size = new System.Drawing.Size(448, 373);
             this.tabQueue.TabIndex = 2;
             this.tabQueue.Text = "Queue";
             this.tabQueue.UseVisualStyleBackColor = true;
@@ -592,9 +597,9 @@ namespace tracm
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
@@ -605,26 +610,27 @@ namespace tracm
             this.dataGridView1.ShowEditingIcon = false;
             this.dataGridView1.Size = new System.Drawing.Size(448, 327);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView1_CellPainting);
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // tabSettings
             // 
+            this.tabSettings.Controls.Add(this.groupBoxLogs);
             this.tabSettings.Controls.Add(this.groupBoxFiles);
             this.tabSettings.Controls.Add(this.groupBoxCablecast);
             this.tabSettings.Controls.Add(this.groupBoxACM);
             this.tabSettings.Location = new System.Drawing.Point(4, 22);
             this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Size = new System.Drawing.Size(448, 358);
+            this.tabSettings.Size = new System.Drawing.Size(448, 373);
             this.tabSettings.TabIndex = 3;
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
             // groupBoxFiles
             // 
-            this.groupBoxFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxFiles.Controls.Add(this.FileBrowse);
             this.groupBoxFiles.Controls.Add(this.DownloadPath);
             this.groupBoxFiles.Controls.Add(this.labelDownloadFolder);
@@ -648,8 +654,8 @@ namespace tracm
             // 
             // DownloadPath
             // 
-            this.DownloadPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.DownloadPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.DownloadPath.Location = new System.Drawing.Point(105, 19);
             this.DownloadPath.Name = "DownloadPath";
             this.DownloadPath.Size = new System.Drawing.Size(241, 20);
@@ -667,8 +673,8 @@ namespace tracm
             // 
             // groupBoxCablecast
             // 
-            this.groupBoxCablecast.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxCablecast.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxCablecast.Controls.Add(this.CablecastServer);
             this.groupBoxCablecast.Controls.Add(this.CablecastPassword);
             this.groupBoxCablecast.Controls.Add(this.labelCablecastServer);
@@ -684,8 +690,8 @@ namespace tracm
             // 
             // CablecastServer
             // 
-            this.CablecastServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.CablecastServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CablecastServer.Location = new System.Drawing.Point(105, 19);
             this.CablecastServer.Name = "CablecastServer";
             this.CablecastServer.Size = new System.Drawing.Size(322, 20);
@@ -694,8 +700,8 @@ namespace tracm
             // 
             // CablecastPassword
             // 
-            this.CablecastPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.CablecastPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CablecastPassword.Location = new System.Drawing.Point(105, 71);
             this.CablecastPassword.Name = "CablecastPassword";
             this.CablecastPassword.Size = new System.Drawing.Size(322, 20);
@@ -714,8 +720,8 @@ namespace tracm
             // 
             // CablecastUsername
             // 
-            this.CablecastUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.CablecastUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CablecastUsername.Location = new System.Drawing.Point(105, 45);
             this.CablecastUsername.Name = "CablecastUsername";
             this.CablecastUsername.Size = new System.Drawing.Size(322, 20);
@@ -742,8 +748,8 @@ namespace tracm
             // 
             // groupBoxACM
             // 
-            this.groupBoxACM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxACM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxACM.Controls.Add(this.passiveFTP);
             this.groupBoxACM.Controls.Add(this.ACMServer);
             this.groupBoxACM.Controls.Add(this.ACMPassword);
@@ -771,8 +777,8 @@ namespace tracm
             // 
             // ACMServer
             // 
-            this.ACMServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.ACMServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ACMServer.Location = new System.Drawing.Point(105, 19);
             this.ACMServer.Name = "ACMServer";
             this.ACMServer.Size = new System.Drawing.Size(322, 20);
@@ -781,8 +787,8 @@ namespace tracm
             // 
             // ACMPassword
             // 
-            this.ACMPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.ACMPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ACMPassword.Location = new System.Drawing.Point(105, 71);
             this.ACMPassword.Name = "ACMPassword";
             this.ACMPassword.Size = new System.Drawing.Size(322, 20);
@@ -801,8 +807,8 @@ namespace tracm
             // 
             // ACMUsername
             // 
-            this.ACMUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.ACMUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ACMUsername.Location = new System.Drawing.Point(105, 45);
             this.ACMUsername.Name = "ACMUsername";
             this.ACMUsername.Size = new System.Drawing.Size(322, 20);
@@ -835,6 +841,45 @@ namespace tracm
             // 
             this.locationBindingSource.DataSource = typeof(tracm.Cablecast.Location);
             // 
+            // groupBoxLogs
+            // 
+            this.groupBoxLogs.Controls.Add(this.LogsBrowse);
+            this.groupBoxLogs.Controls.Add(this.LogsPath);
+            this.groupBoxLogs.Controls.Add(this.labelLogs);
+            this.groupBoxLogs.Location = new System.Drawing.Point(6, 309);
+            this.groupBoxLogs.Name = "groupBoxLogs";
+            this.groupBoxLogs.Size = new System.Drawing.Size(434, 48);
+            this.groupBoxLogs.TabIndex = 9;
+            this.groupBoxLogs.TabStop = false;
+            this.groupBoxLogs.Text = "Logs";
+            // 
+            // labelLogs
+            // 
+            this.labelLogs.AutoSize = true;
+            this.labelLogs.Location = new System.Drawing.Point(12, 22);
+            this.labelLogs.Name = "labelLogs";
+            this.labelLogs.Size = new System.Drawing.Size(62, 13);
+            this.labelLogs.TabIndex = 0;
+            this.labelLogs.Text = "Logs Folder";
+            // 
+            // LogsPath
+            // 
+            this.LogsPath.Location = new System.Drawing.Point(105, 19);
+            this.LogsPath.Name = "LogsPath";
+            this.LogsPath.Size = new System.Drawing.Size(241, 20);
+            this.LogsPath.TabIndex = 1;
+            this.LogsPath.Validating += new System.ComponentModel.CancelEventHandler(this.LogsPath_Validating);
+            // 
+            // LogsBrowse
+            // 
+            this.LogsBrowse.Location = new System.Drawing.Point(353, 17);
+            this.LogsBrowse.Name = "LogsBrowse";
+            this.LogsBrowse.Size = new System.Drawing.Size(75, 23);
+            this.LogsBrowse.TabIndex = 2;
+            this.LogsBrowse.Text = "Browse...";
+            this.LogsBrowse.UseVisualStyleBackColor = true;
+            this.LogsBrowse.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -844,8 +889,8 @@ namespace tracm
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "tracm";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabWelcome.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -867,6 +912,8 @@ namespace tracm
             this.groupBoxACM.ResumeLayout(false);
             this.groupBoxACM.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locationBindingSource)).EndInit();
+            this.groupBoxLogs.ResumeLayout(false);
+            this.groupBoxLogs.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -941,6 +988,10 @@ namespace tracm
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox Email;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.GroupBox groupBoxLogs;
+        private System.Windows.Forms.Button LogsBrowse;
+        private System.Windows.Forms.TextBox LogsPath;
+        private System.Windows.Forms.Label labelLogs;
 
     }
 }

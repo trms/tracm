@@ -151,6 +151,14 @@ namespace tracm
             CablecastUsername.Text = Settings.Default.CablecastUsername;
             CablecastPassword.Text = Settings.Default.CablecastPassword;
             DownloadPath.Text = Settings.Default.DownloadPath;
+            
+            //Check if Logs path exists and create it if not.
+            if (!Directory.Exists(Settings.Default.LogsPath))
+            {
+                Directory.CreateDirectory(Settings.Default.LogsPath);
+            }
+            LogsPath.Text = Settings.Default.LogsPath;
+            
 			passiveFTP.Checked = Settings.Default.PassiveFTP;
 			useCablecast.Checked = Settings.Default.UseCablecast;
 
@@ -613,6 +621,22 @@ namespace tracm
         private void FilePath_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
+            {
+                LogsPath.Text = folderBrowserDialog1.SelectedPath;
+                Settings.Default.LogsPath = LogsPath.Text;
+                Settings.Default.Save();
+            }
+        }
+
+        private void LogsPath_Validating(object sender, CancelEventArgs e)
+        {
+            Settings.Default.LogsPath = LogsPath.Text;
+            Settings.Default.Save();
         }
     }
 }
