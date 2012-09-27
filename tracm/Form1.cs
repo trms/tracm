@@ -638,5 +638,31 @@ namespace tracm
             Settings.Default.LogsPath = LogsPath.Text;
             Settings.Default.Save();
         }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uxQueueRemoveButton_Click(object sender, EventArgs e)
+        {
+            Match m = Regex.Match(uxQueueRemoveURL.Text, @"^http:\/\/\S+\/content\/show\/(\d+)$");
+            if (m.Success)
+            {
+                try
+                {
+                    var contentID = m.Groups[1].Value;
+                    Scs.removeQueuedDownload(contentID, false);
+                }
+                catch
+                {
+                    var dialogResult = MessageBox.Show("There was an error removing the program from the queue.");
+                }
+            }
+            else
+            {
+                var dialogResult = MessageBox.Show("Entered URL does not match expected format.");
+            }
+        }
     }
 }

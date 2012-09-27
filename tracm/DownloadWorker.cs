@@ -50,38 +50,55 @@ namespace tracm
 
 		protected override void WorkMethod()
 		{
-			using (WebClient wc = new WebClient())
-			{
-				using (Stream data = wc.OpenRead(new Uri(m_url)))
-				{
-					//write to temp file
-					long position = 0;
-					using (FileStream fs = new FileStream(m_path, FileMode.Create))
-					{
-						byte[] buffer = new byte[4096];
-						int len = 0;
-						while ((len = data.Read(buffer, 0, 4096)) != 0)
-						{
-							position += len;
-							try
-							{
-								ProgressValue = Convert.ToInt32(100.0 * (Convert.ToDouble(position) / Convert.ToDouble(m_fileSize)));
-							}
-							catch { }
-							fs.Write(buffer, 0, len);
-							if(IsRunning == false)
-							{
-								fs.Close();
-								data.Close();
-								File.Delete(m_path);
-								break;
-							}
-						}
-						fs.Close();
-					}
-					data.Close();
-				}
-			}
+            try
+            {
+                using (WebClient wc = new WebClient())
+                {
+                    using (Stream data = wc.OpenRead(new Uri(m_url)))
+                    {
+                        //write to temp file
+                        long position = 0;
+                        using (FileStream fs = new FileStream(m_path, FileMode.Create))
+                        {
+                            byte[] buffer = new byte[4096];
+                            int len = 0;
+                            while ((len = data.Read(buffer, 0, 4096)) != 0)
+                            {
+                                position += len;
+                                try
+                                {
+                                    ProgressValue = Convert.ToInt32(100.0 * (Convert.ToDouble(position) / Convert.ToDouble(m_fileSize)));
+                                }
+                                catch { }
+                                fs.Write(buffer, 0, len);
+                                if (IsRunning == false)
+                                {
+                                    fs.Close();
+                                    data.Close();
+                                    File.Delete(m_path);
+                                    try
+                                    {
+                                        Scs.removeQueuedDownload(m_contentID.ToString(), false);
+                                    }
+                                    catch { }
+                                    break;
+                                }
+                            }
+                            fs.Close();
+                        }
+                        data.Close();
+                    }
+                }
+            }
+            catch
+            {
+                //If anything goes wrong in the download, try to remove it
+                try
+                {
+                    Scs.removeQueuedDownload(m_contentID.ToString(), false);
+                }
+                catch { }
+            }
 
 			try
 			{

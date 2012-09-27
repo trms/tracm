@@ -76,6 +76,10 @@ namespace tracm
             this.DeleteQueueItem = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.groupBoxLogs = new System.Windows.Forms.GroupBox();
+            this.LogsBrowse = new System.Windows.Forms.Button();
+            this.LogsPath = new System.Windows.Forms.TextBox();
+            this.labelLogs = new System.Windows.Forms.Label();
             this.groupBoxFiles = new System.Windows.Forms.GroupBox();
             this.FileBrowse = new System.Windows.Forms.Button();
             this.DownloadPath = new System.Windows.Forms.TextBox();
@@ -98,10 +102,12 @@ namespace tracm
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.groupBoxLogs = new System.Windows.Forms.GroupBox();
-            this.labelLogs = new System.Windows.Forms.Label();
-            this.LogsPath = new System.Windows.Forms.TextBox();
-            this.LogsBrowse = new System.Windows.Forms.Button();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.uxQueueRemoveURL = new System.Windows.Forms.TextBox();
+            this.uxQueueRemoveButton = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabWelcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -112,11 +118,13 @@ namespace tracm
             this.tabQueue.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabSettings.SuspendLayout();
+            this.groupBoxLogs.SuspendLayout();
             this.groupBoxFiles.SuspendLayout();
             this.groupBoxCablecast.SuspendLayout();
             this.groupBoxACM.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locationBindingSource)).BeginInit();
-            this.groupBoxLogs.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -125,6 +133,7 @@ namespace tracm
             this.tabControl1.Controls.Add(this.tabUpload);
             this.tabControl1.Controls.Add(this.tabDownload);
             this.tabControl1.Controls.Add(this.tabQueue);
+            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabSettings);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -627,6 +636,45 @@ namespace tracm
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
+            // groupBoxLogs
+            // 
+            this.groupBoxLogs.Controls.Add(this.LogsBrowse);
+            this.groupBoxLogs.Controls.Add(this.LogsPath);
+            this.groupBoxLogs.Controls.Add(this.labelLogs);
+            this.groupBoxLogs.Location = new System.Drawing.Point(6, 309);
+            this.groupBoxLogs.Name = "groupBoxLogs";
+            this.groupBoxLogs.Size = new System.Drawing.Size(434, 48);
+            this.groupBoxLogs.TabIndex = 9;
+            this.groupBoxLogs.TabStop = false;
+            this.groupBoxLogs.Text = "Logs";
+            // 
+            // LogsBrowse
+            // 
+            this.LogsBrowse.Location = new System.Drawing.Point(353, 17);
+            this.LogsBrowse.Name = "LogsBrowse";
+            this.LogsBrowse.Size = new System.Drawing.Size(75, 23);
+            this.LogsBrowse.TabIndex = 2;
+            this.LogsBrowse.Text = "Browse...";
+            this.LogsBrowse.UseVisualStyleBackColor = true;
+            this.LogsBrowse.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // LogsPath
+            // 
+            this.LogsPath.Location = new System.Drawing.Point(105, 19);
+            this.LogsPath.Name = "LogsPath";
+            this.LogsPath.Size = new System.Drawing.Size(241, 20);
+            this.LogsPath.TabIndex = 1;
+            this.LogsPath.Validating += new System.ComponentModel.CancelEventHandler(this.LogsPath_Validating);
+            // 
+            // labelLogs
+            // 
+            this.labelLogs.AutoSize = true;
+            this.labelLogs.Location = new System.Drawing.Point(12, 22);
+            this.labelLogs.Name = "labelLogs";
+            this.labelLogs.Size = new System.Drawing.Size(62, 13);
+            this.labelLogs.TabIndex = 0;
+            this.labelLogs.Text = "Logs Folder";
+            // 
             // groupBoxFiles
             // 
             this.groupBoxFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -841,44 +889,65 @@ namespace tracm
             // 
             this.locationBindingSource.DataSource = typeof(tracm.Cablecast.Location);
             // 
-            // groupBoxLogs
+            // tabPage1
             // 
-            this.groupBoxLogs.Controls.Add(this.LogsBrowse);
-            this.groupBoxLogs.Controls.Add(this.LogsPath);
-            this.groupBoxLogs.Controls.Add(this.labelLogs);
-            this.groupBoxLogs.Location = new System.Drawing.Point(6, 309);
-            this.groupBoxLogs.Name = "groupBoxLogs";
-            this.groupBoxLogs.Size = new System.Drawing.Size(434, 48);
-            this.groupBoxLogs.TabIndex = 9;
-            this.groupBoxLogs.TabStop = false;
-            this.groupBoxLogs.Text = "Logs";
+            this.tabPage1.Controls.Add(this.groupBox1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(448, 373);
+            this.tabPage1.TabIndex = 5;
+            this.tabPage1.Text = "Maitenence";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // labelLogs
+            // groupBox1
             // 
-            this.labelLogs.AutoSize = true;
-            this.labelLogs.Location = new System.Drawing.Point(12, 22);
-            this.labelLogs.Name = "labelLogs";
-            this.labelLogs.Size = new System.Drawing.Size(62, 13);
-            this.labelLogs.TabIndex = 0;
-            this.labelLogs.Text = "Logs Folder";
+            this.groupBox1.Controls.Add(this.label15);
+            this.groupBox1.Controls.Add(this.uxQueueRemoveButton);
+            this.groupBox1.Controls.Add(this.uxQueueRemoveURL);
+            this.groupBox1.Controls.Add(this.label14);
+            this.groupBox1.Location = new System.Drawing.Point(8, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(432, 98);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Manually Remove From Queue";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
-            // LogsPath
+            // label14
             // 
-            this.LogsPath.Location = new System.Drawing.Point(105, 19);
-            this.LogsPath.Name = "LogsPath";
-            this.LogsPath.Size = new System.Drawing.Size(241, 20);
-            this.LogsPath.TabIndex = 1;
-            this.LogsPath.Validating += new System.ComponentModel.CancelEventHandler(this.LogsPath_Validating);
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(7, 24);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(100, 13);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "Content Page URL:";
             // 
-            // LogsBrowse
+            // uxQueueRemoveURL
             // 
-            this.LogsBrowse.Location = new System.Drawing.Point(353, 17);
-            this.LogsBrowse.Name = "LogsBrowse";
-            this.LogsBrowse.Size = new System.Drawing.Size(75, 23);
-            this.LogsBrowse.TabIndex = 2;
-            this.LogsBrowse.Text = "Browse...";
-            this.LogsBrowse.UseVisualStyleBackColor = true;
-            this.LogsBrowse.Click += new System.EventHandler(this.button1_Click);
+            this.uxQueueRemoveURL.Location = new System.Drawing.Point(41, 40);
+            this.uxQueueRemoveURL.Name = "uxQueueRemoveURL";
+            this.uxQueueRemoveURL.Size = new System.Drawing.Size(288, 20);
+            this.uxQueueRemoveURL.TabIndex = 1;
+            // 
+            // uxQueueRemoveButton
+            // 
+            this.uxQueueRemoveButton.Location = new System.Drawing.Point(335, 38);
+            this.uxQueueRemoveButton.Name = "uxQueueRemoveButton";
+            this.uxQueueRemoveButton.Size = new System.Drawing.Size(75, 23);
+            this.uxQueueRemoveButton.TabIndex = 2;
+            this.uxQueueRemoveButton.Text = "Remove";
+            this.uxQueueRemoveButton.UseVisualStyleBackColor = true;
+            this.uxQueueRemoveButton.Click += new System.EventHandler(this.uxQueueRemoveButton_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(41, 67);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(265, 13);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "Example: http://cmdn.telvue.com/content/show/1817";
             // 
             // MainForm
             // 
@@ -905,6 +974,8 @@ namespace tracm
             this.tabQueue.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabSettings.ResumeLayout(false);
+            this.groupBoxLogs.ResumeLayout(false);
+            this.groupBoxLogs.PerformLayout();
             this.groupBoxFiles.ResumeLayout(false);
             this.groupBoxFiles.PerformLayout();
             this.groupBoxCablecast.ResumeLayout(false);
@@ -912,8 +983,9 @@ namespace tracm
             this.groupBoxACM.ResumeLayout(false);
             this.groupBoxACM.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locationBindingSource)).EndInit();
-            this.groupBoxLogs.ResumeLayout(false);
-            this.groupBoxLogs.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -992,6 +1064,12 @@ namespace tracm
         private System.Windows.Forms.Button LogsBrowse;
         private System.Windows.Forms.TextBox LogsPath;
         private System.Windows.Forms.Label labelLogs;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button uxQueueRemoveButton;
+        private System.Windows.Forms.TextBox uxQueueRemoveURL;
+        private System.Windows.Forms.Label label14;
 
     }
 }
