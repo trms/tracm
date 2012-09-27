@@ -52,18 +52,21 @@ namespace tracm
 		{
             try
             {
-                using (WebClient wc = new WebClient())
+                WebRequest webRequest = WebRequest.Create(new Uri(m_url));
+                webRequest.Timeout = 30 * 60 * 1000; //Timeout super high at 30 minutes
+                using (WebResponse webResponse = webRequest.GetResponse())
                 {
-                    using (Stream data = wc.OpenRead(new Uri(m_url)))
+                    using (var data = webResponse.GetResponseStream())
                     {
                         //write to temp file
                         long position = 0;
                         using (FileStream fs = new FileStream(m_path, FileMode.Create))
                         {
                             byte[] buffer = new byte[4096];
-                            int len = 0;
-                            while ((len = data.Read(buffer, 0, 4096)) != 0)
+                            while (position < m_fileSize)
                             {
+                                //Console.WriteLine(String.Format("Downloaded: {0}", position));
+                                var len = data.Read(buffer, 0, 4096);
                                 position += len;
                                 try
                                 {
@@ -90,14 +93,22 @@ namespace tracm
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                //Write error file
+                string errorpath = Path.Combine(Settings.Default.LogsPath, String.Format("ContentID-{0}-error.txt", m_contentID));
+                FileInfo t = new FileInfo(errorpath);
+                StreamWriter sw = t.CreateText();
+                sw.Write(String.Format("Error Downloading: {0}", m_url));
+                sw.Write(ex.Message);
+                sw.Close();
                 //If anything goes wrong in the download, try to remove it
                 try
                 {
                     Scs.removeQueuedDownload(m_contentID.ToString(), false);
                 }
                 catch { }
+                throw;
             }
 
 			try
