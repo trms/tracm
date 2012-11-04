@@ -120,13 +120,6 @@ Just create an "input.avs" text file with this single line ...
 
 For ANY other help on Avisynth, please visit http://www.avisynth.org/. 
 		*/
-		private void ScanFileFormatAVS()
-		{
-			string details = RunFFMPEG(String.Format("-i \"{0}\"", AVSPath));
-			ScanFileFormat(details);
-			useAVS = true;
-		}
-
 		private void ScanFileFormatDirect()
 		{
 			string details = RunFFMPEG(String.Format("-i \"{0}\"", m_path));
@@ -213,24 +206,26 @@ Stream #0.1[0x80]: Audio: liba52, 48000 Hz, stereo, 384 kb/s
 			}
 		}
 
-		public void Transcode(OutputVideoFormat videoFormat, int bitrate, OutputAudioFormat audioFormat, string outputPath)
+		public void Transcode(string outputPath)
 		{
 			string path = m_path;
-			if (useAVS)
-				path = AVSPath;
-			string vcodec = " -vcodec copy";
-			// need to support other codecs/options here
-			if(videoFormat != OutputVideoFormat.copy)
-				vcodec = " -vcodec mpeg2video -b " + bitrate + "k -r 29.97 -s 720x480 -aspect 4:3";
-			int outputChannels = 2;
-			if (AudioChannels == "mono")
-				outputChannels = 1;
-			string acodec = " -acodec copy";
-			// need to support other formats/options here
-			if (audioFormat != OutputAudioFormat.copy)
-				acodec = String.Format(" -acodec mp2 -ab 192k -ar 48000 -ac {0}", outputChannels);
+            
+            // Video Options
+            // Following from archive.org for the Community Media Collection. Should enforce even more compaitable files
+            // -vcodec mpeg2video -r 29.97 -f dvd -copyts -g 15 -b:v 5000000 -maxrate 6000000 -minrate 4000000 -bufsize 635008 -packetsize 2048 -muxrate 10080000
+            string vcodec = " -vcodec mpeg2video -r 29.97 -f dvd -copyts -g 15 -b 5000000 -maxrate 6000000 -minrate 4000000 -bufsize 635008 -packetsize 2048 -muxrate 10080000 -s 720x480 -aspect 4:3";
+			
+            int outputChannels = 2;
+
+            //Audio Options
+            // Following from archive.org for the Community Media Collection. Should enforce even more compaitable files
+            // -acodec mp2 -ar 48000 -b:a 160k
+            string acodec = String.Format(" -acodec mp2 -ab 192k -ar 48000 -ac {0}", outputChannels);
+            
+
 			string result = RunFFMPEG(String.Format("-y -i \"{0}\" {1} {2} \"{3}\"", path, vcodec, acodec, outputPath));
-			if (result.Contains("Unknown format is not supported as input format"))
+			
+            if (result.Contains("Unknown format is not supported as input format"))
 				throw new Exception("Can't process this video format");
 		}
 

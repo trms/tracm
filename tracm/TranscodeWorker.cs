@@ -39,7 +39,7 @@ namespace tracm
 		{
 			m_vp = new VideoProcessor(m_path);
 			m_vp.Progress += new VideoProcessor.ProgressCallback(vp_Progress);
-			m_vp.Transcode(VideoProcessor.OutputVideoFormat.mpeg2, 4000, VideoProcessor.OutputAudioFormat.mp2, TempFile);
+			m_vp.Transcode(TempFile);
 
 			if (IsRunning == false && File.Exists(TempFile))
 				File.Delete(TempFile);
