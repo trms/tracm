@@ -70,7 +70,12 @@ namespace tracm
                                 position += len;
                                 try
                                 {
-                                    ProgressValue = Convert.ToInt32(100.0 * (Convert.ToDouble(position) / Convert.ToDouble(m_fileSize)));
+                                    //throttle progress updates so UI does not flicker
+                                    var progress = Convert.ToInt32(100.0 * (Convert.ToDouble(position) / Convert.ToDouble(m_fileSize)));
+                                    if (progress > ProgressValue)
+                                    {
+                                        ProgressValue = progress;
+                                    }
                                 }
                                 catch { }
                                 fs.Write(buffer, 0, len);

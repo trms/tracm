@@ -92,6 +92,7 @@ namespace tracm
 
 		private void UploadFile(FTPLib.FTP ftp, string path)
 		{
+            ProgressValue = 0;
 			ftp.OpenUpload(path, Path.GetFileName(path));
 			long fileSize = new FileInfo(path).Length;
 			long position = 0;
@@ -103,7 +104,12 @@ namespace tracm
 				position += bytes;
 				try
 				{
-					ProgressValue = Convert.ToInt32(100.0 * (Convert.ToDouble(position) / Convert.ToDouble(fileSize)));
+                    //throttle progress updates so UI does not flicker
+					var progress = Convert.ToInt32(100.0 * (Convert.ToDouble(position) / Convert.ToDouble(fileSize)));
+                    if (progress > ProgressValue)
+                    {
+                        ProgressValue = progress;
+                    }
 				}
 				catch { }
 			}

@@ -54,8 +54,11 @@ namespace tracm
 		{
 			double partial = Convert.ToDouble(current) / Convert.ToDouble(total);
 			int percent = Convert.ToInt32(100.0 * partial);
-
-			ProgressValue = percent;
+            //throttle progress updates so UI does not flicker
+            if (percent > ProgressValue)
+            {
+                ProgressValue = percent;
+            }
 
 			if (IsRunning == false)
 				m_vp.Cancel();
