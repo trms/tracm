@@ -161,12 +161,15 @@ namespace tracm
             
 			passiveFTP.Checked = Settings.Default.PassiveFTP;
 			useCablecast.Checked = Settings.Default.UseCablecast;
+            forceTranscode.Checked = Settings.Default.ForceTranscode;
 
 			TranscodeIndicator.Text = String.Empty;
 
 			useCablecast_CheckedChanged(this, new EventArgs());
 			useCablecast_EnabledChanged(this, new EventArgs());
 
+            //Load the genre dropdown
+            Genre.DataSource = new PBCoreGenre().Genres;
 
 			CablecastFactory.CanUseShowsChangedEvent += new CablecastFactory.CanUseShowsChanged(CablecastFactory_CanUseShowsChangedEvent);
 			CablecastFactory.LocationsChangedEvent += new CablecastFactory.LocationsChanged(CablecastFactory_LocationsChangedEvent);
@@ -350,7 +353,7 @@ namespace tracm
             }
             else
             {
-			    if (String.IsNullOrEmpty(TranscodeIndicator.Text))
+			    if (String.IsNullOrEmpty(TranscodeIndicator.Text) && Settings.Default.ForceTranscode == false)
 			    {
 				        // straight upload
 				        UploadWorker upload = new UploadWorker(Inentifier.Text, FilePath.Text, Title.Text, Subject.Text, Description.Text, Genre.Text, Producer.Text, Email.Text, Tags.Text, Convert.ToInt32(Cue.Text), Convert.ToInt32(Length.Text), videoBitrate, audioBitrate);
@@ -520,10 +523,8 @@ namespace tracm
 			Cablecast.CablecastWS webService = (Cablecast.CablecastWS)e.UserState;
 			Cablecast.ShowInfo showInfo = e.Result;
             Title.Text = showInfo.Title;
-			if (String.IsNullOrEmpty(Producer.Text))
-				Producer.Text = showInfo.Producer;
-			if (String.IsNullOrEmpty(Genre.Text))
-				Genre.Text = showInfo.Category;
+			Producer.Text = showInfo.Producer;
+			Genre.Text = showInfo.Category;
 
 			// requires 4.9 -->
 			if (CablecastFactory.CanCreateShows)
@@ -663,6 +664,12 @@ namespace tracm
             {
                 var dialogResult = MessageBox.Show("Entered URL does not match expected format.");
             }
+        }
+
+        private void forceTranscode_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.ForceTranscode = forceTranscode.Checked;
+            Settings.Default.Save();
         }
     }
 }

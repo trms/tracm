@@ -47,7 +47,6 @@ namespace tracm
             this.Cue = new System.Windows.Forms.TextBox();
             this.Description = new System.Windows.Forms.TextBox();
             this.Producer = new System.Windows.Forms.TextBox();
-            this.Genre = new System.Windows.Forms.TextBox();
             this.Subject = new System.Windows.Forms.TextBox();
             this.Title = new System.Windows.Forms.TextBox();
             this.Inentifier = new System.Windows.Forms.TextBox();
@@ -75,7 +74,14 @@ namespace tracm
             this.QueueErrorLabel = new System.Windows.Forms.Label();
             this.DeleteQueueItem = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.uxQueueRemoveButton = new System.Windows.Forms.Button();
+            this.uxQueueRemoveURL = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.transcodingGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBoxLogs = new System.Windows.Forms.GroupBox();
             this.LogsBrowse = new System.Windows.Forms.Button();
             this.LogsPath = new System.Windows.Forms.TextBox();
@@ -101,13 +107,9 @@ namespace tracm
             this.labelACMPassword = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.forceTranscode = new System.Windows.Forms.CheckBox();
             this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.uxQueueRemoveURL = new System.Windows.Forms.TextBox();
-            this.uxQueueRemoveButton = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
+            this.Genre = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabWelcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -117,14 +119,15 @@ namespace tracm
             this.cablecastGroup.SuspendLayout();
             this.tabQueue.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.tabPage1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabSettings.SuspendLayout();
+            this.transcodingGroupBox.SuspendLayout();
             this.groupBoxLogs.SuspendLayout();
             this.groupBoxFiles.SuspendLayout();
             this.groupBoxCablecast.SuspendLayout();
             this.groupBoxACM.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locationBindingSource)).BeginInit();
-            this.tabPage1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -139,7 +142,7 @@ namespace tracm
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(456, 399);
+            this.tabControl1.Size = new System.Drawing.Size(456, 455);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -151,7 +154,7 @@ namespace tracm
             this.tabWelcome.Location = new System.Drawing.Point(4, 22);
             this.tabWelcome.Name = "tabWelcome";
             this.tabWelcome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabWelcome.Size = new System.Drawing.Size(448, 373);
+            this.tabWelcome.Size = new System.Drawing.Size(448, 429);
             this.tabWelcome.TabIndex = 0;
             this.tabWelcome.Text = "Welcome";
             this.tabWelcome.UseVisualStyleBackColor = true;
@@ -186,6 +189,7 @@ namespace tracm
             // 
             // tabUpload
             // 
+            this.tabUpload.Controls.Add(this.Genre);
             this.tabUpload.Controls.Add(this.Tags);
             this.tabUpload.Controls.Add(this.label13);
             this.tabUpload.Controls.Add(this.Email);
@@ -197,7 +201,6 @@ namespace tracm
             this.tabUpload.Controls.Add(this.Cue);
             this.tabUpload.Controls.Add(this.Description);
             this.tabUpload.Controls.Add(this.Producer);
-            this.tabUpload.Controls.Add(this.Genre);
             this.tabUpload.Controls.Add(this.Subject);
             this.tabUpload.Controls.Add(this.Title);
             this.tabUpload.Controls.Add(this.Inentifier);
@@ -215,7 +218,7 @@ namespace tracm
             this.tabUpload.Location = new System.Drawing.Point(4, 22);
             this.tabUpload.Name = "tabUpload";
             this.tabUpload.Padding = new System.Windows.Forms.Padding(3);
-            this.tabUpload.Size = new System.Drawing.Size(448, 373);
+            this.tabUpload.Size = new System.Drawing.Size(448, 429);
             this.tabUpload.TabIndex = 1;
             this.tabUpload.Text = "Upload";
             this.tabUpload.UseVisualStyleBackColor = true;
@@ -325,15 +328,6 @@ namespace tracm
             this.Producer.Size = new System.Drawing.Size(368, 20);
             this.Producer.TabIndex = 15;
             this.Producer.TextChanged += new System.EventHandler(this.Producer_TextChanged);
-            // 
-            // Genre
-            // 
-            this.Genre.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Genre.Location = new System.Drawing.Point(72, 111);
-            this.Genre.Name = "Genre";
-            this.Genre.Size = new System.Drawing.Size(368, 20);
-            this.Genre.TabIndex = 14;
             // 
             // Subject
             // 
@@ -474,7 +468,7 @@ namespace tracm
             this.tabDownload.Controls.Add(this.RefreshQueue);
             this.tabDownload.Location = new System.Drawing.Point(4, 22);
             this.tabDownload.Name = "tabDownload";
-            this.tabDownload.Size = new System.Drawing.Size(448, 373);
+            this.tabDownload.Size = new System.Drawing.Size(448, 429);
             this.tabDownload.TabIndex = 4;
             this.tabDownload.Text = "Download";
             this.tabDownload.UseVisualStyleBackColor = true;
@@ -575,7 +569,7 @@ namespace tracm
             this.tabQueue.Controls.Add(this.dataGridView1);
             this.tabQueue.Location = new System.Drawing.Point(4, 22);
             this.tabQueue.Name = "tabQueue";
-            this.tabQueue.Size = new System.Drawing.Size(448, 373);
+            this.tabQueue.Size = new System.Drawing.Size(448, 429);
             this.tabQueue.TabIndex = 2;
             this.tabQueue.Text = "Queue";
             this.tabQueue.UseVisualStyleBackColor = true;
@@ -623,18 +617,89 @@ namespace tracm
             this.dataGridView1.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView1_CellPainting);
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.groupBox1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(448, 429);
+            this.tabPage1.TabIndex = 5;
+            this.tabPage1.Text = "Maitenence";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label15);
+            this.groupBox1.Controls.Add(this.uxQueueRemoveButton);
+            this.groupBox1.Controls.Add(this.uxQueueRemoveURL);
+            this.groupBox1.Controls.Add(this.label14);
+            this.groupBox1.Location = new System.Drawing.Point(8, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(432, 98);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Manually Remove From Queue";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(41, 67);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(265, 13);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "Example: http://cmdn.telvue.com/content/show/1817";
+            // 
+            // uxQueueRemoveButton
+            // 
+            this.uxQueueRemoveButton.Location = new System.Drawing.Point(335, 38);
+            this.uxQueueRemoveButton.Name = "uxQueueRemoveButton";
+            this.uxQueueRemoveButton.Size = new System.Drawing.Size(75, 23);
+            this.uxQueueRemoveButton.TabIndex = 2;
+            this.uxQueueRemoveButton.Text = "Remove";
+            this.uxQueueRemoveButton.UseVisualStyleBackColor = true;
+            this.uxQueueRemoveButton.Click += new System.EventHandler(this.uxQueueRemoveButton_Click);
+            // 
+            // uxQueueRemoveURL
+            // 
+            this.uxQueueRemoveURL.Location = new System.Drawing.Point(41, 40);
+            this.uxQueueRemoveURL.Name = "uxQueueRemoveURL";
+            this.uxQueueRemoveURL.Size = new System.Drawing.Size(288, 20);
+            this.uxQueueRemoveURL.TabIndex = 1;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(7, 24);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(100, 13);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "Content Page URL:";
+            // 
             // tabSettings
             // 
+            this.tabSettings.Controls.Add(this.transcodingGroupBox);
             this.tabSettings.Controls.Add(this.groupBoxLogs);
             this.tabSettings.Controls.Add(this.groupBoxFiles);
             this.tabSettings.Controls.Add(this.groupBoxCablecast);
             this.tabSettings.Controls.Add(this.groupBoxACM);
             this.tabSettings.Location = new System.Drawing.Point(4, 22);
             this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Size = new System.Drawing.Size(448, 373);
+            this.tabSettings.Size = new System.Drawing.Size(448, 429);
             this.tabSettings.TabIndex = 3;
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
+            // 
+            // transcodingGroupBox
+            // 
+            this.transcodingGroupBox.Controls.Add(this.forceTranscode);
+            this.transcodingGroupBox.Location = new System.Drawing.Point(6, 368);
+            this.transcodingGroupBox.Name = "transcodingGroupBox";
+            this.transcodingGroupBox.Size = new System.Drawing.Size(434, 58);
+            this.transcodingGroupBox.TabIndex = 10;
+            this.transcodingGroupBox.TabStop = false;
+            this.transcodingGroupBox.Text = "Transcoding";
             // 
             // groupBoxLogs
             // 
@@ -885,75 +950,35 @@ namespace tracm
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // forceTranscode
+            // 
+            this.forceTranscode.AutoSize = true;
+            this.forceTranscode.Location = new System.Drawing.Point(12, 25);
+            this.forceTranscode.Name = "forceTranscode";
+            this.forceTranscode.Size = new System.Drawing.Size(180, 17);
+            this.forceTranscode.TabIndex = 0;
+            this.forceTranscode.Text = "Transcode All files before upload";
+            this.forceTranscode.UseVisualStyleBackColor = true;
+            this.forceTranscode.CheckedChanged += new System.EventHandler(this.forceTranscode_CheckedChanged);
+            // 
             // locationBindingSource
             // 
             this.locationBindingSource.DataSource = typeof(tracm.Cablecast.Location);
             // 
-            // tabPage1
+            // Genre
             // 
-            this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(448, 373);
-            this.tabPage1.TabIndex = 5;
-            this.tabPage1.Text = "Maitenence";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.uxQueueRemoveButton);
-            this.groupBox1.Controls.Add(this.uxQueueRemoveURL);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Location = new System.Drawing.Point(8, 6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(432, 98);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Manually Remove From Queue";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(7, 24);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(100, 13);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "Content Page URL:";
-            // 
-            // uxQueueRemoveURL
-            // 
-            this.uxQueueRemoveURL.Location = new System.Drawing.Point(41, 40);
-            this.uxQueueRemoveURL.Name = "uxQueueRemoveURL";
-            this.uxQueueRemoveURL.Size = new System.Drawing.Size(288, 20);
-            this.uxQueueRemoveURL.TabIndex = 1;
-            // 
-            // uxQueueRemoveButton
-            // 
-            this.uxQueueRemoveButton.Location = new System.Drawing.Point(335, 38);
-            this.uxQueueRemoveButton.Name = "uxQueueRemoveButton";
-            this.uxQueueRemoveButton.Size = new System.Drawing.Size(75, 23);
-            this.uxQueueRemoveButton.TabIndex = 2;
-            this.uxQueueRemoveButton.Text = "Remove";
-            this.uxQueueRemoveButton.UseVisualStyleBackColor = true;
-            this.uxQueueRemoveButton.Click += new System.EventHandler(this.uxQueueRemoveButton_Click);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(41, 67);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(265, 13);
-            this.label15.TabIndex = 3;
-            this.label15.Text = "Example: http://cmdn.telvue.com/content/show/1817";
+            this.Genre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Genre.FormattingEnabled = true;
+            this.Genre.Location = new System.Drawing.Point(72, 110);
+            this.Genre.Name = "Genre";
+            this.Genre.Size = new System.Drawing.Size(223, 21);
+            this.Genre.TabIndex = 26;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(456, 399);
+            this.ClientSize = new System.Drawing.Size(456, 455);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
@@ -973,7 +998,12 @@ namespace tracm
             this.tabQueue.ResumeLayout(false);
             this.tabQueue.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.tabPage1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabSettings.ResumeLayout(false);
+            this.transcodingGroupBox.ResumeLayout(false);
+            this.transcodingGroupBox.PerformLayout();
             this.groupBoxLogs.ResumeLayout(false);
             this.groupBoxLogs.PerformLayout();
             this.groupBoxFiles.ResumeLayout(false);
@@ -983,9 +1013,6 @@ namespace tracm
             this.groupBoxACM.ResumeLayout(false);
             this.groupBoxACM.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locationBindingSource)).EndInit();
-            this.tabPage1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1029,7 +1056,6 @@ namespace tracm
         private System.Windows.Forms.TextBox Cue;
         private System.Windows.Forms.TextBox Description;
         private System.Windows.Forms.TextBox Producer;
-        private System.Windows.Forms.TextBox Genre;
         private System.Windows.Forms.TextBox Subject;
         private System.Windows.Forms.TextBox Title;
         private System.Windows.Forms.TextBox Inentifier;
@@ -1070,6 +1096,9 @@ namespace tracm
         private System.Windows.Forms.Button uxQueueRemoveButton;
         private System.Windows.Forms.TextBox uxQueueRemoveURL;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.GroupBox transcodingGroupBox;
+        private System.Windows.Forms.CheckBox forceTranscode;
+        private System.Windows.Forms.ComboBox Genre;
 
     }
 }

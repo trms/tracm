@@ -22,11 +22,16 @@ using System.IO;
 using System.Text;
 using tracm.Properties;
 using tracm.Queue;
+using System.Xml;
+using System.Security;
 
 namespace tracm
 {
 	public class UploadWorker : WorkItem
 	{
+        //define list of accepted pbcore genre
+        private List<string> m_genreList = new List<string>();
+
 		private string m_id;
 		private string m_path;
 		private string m_title;
@@ -165,14 +170,14 @@ namespace tracm
                 
                 xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 				xml.AppendLine("<PBCoreDescriptionDocument xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html http://www.pbcore.org/PBCore/PBCoreSchema.xsd\" xmlns:fmp=\"http://www.filemaker.com/fmpxmlresult\" xmlns=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html\">");
-				xml.AppendFormat("<pbcoreIdentifier><identifier>{0}</identifier><identifierSource>{1}</identifierSource></pbcoreIdentifier>", m_id, m_producer); xml.AppendLine();
-				xml.AppendFormat("<pbcoreTitle><title>{0}</title><titleType>Program</titleType></pbcoreTitle>", m_title); xml.AppendLine();
-                xml.AppendFormat("<pbcoreTitle><title>{0}</title><titleType>Episode</titleType></pbcoreTitle>", m_title); xml.AppendLine();
-                xml.AppendFormat("<pbcoreSubject><subject>{0}</subject></pbcoreSubject>", m_subject); xml.AppendLine();
-				xml.AppendFormat("<pbcoreDescription><description>{0}</description><descriptionType>Program</descriptionType></pbcoreDescription>", m_description); xml.AppendLine();
-                xml.AppendFormat("<pbcoreGenre><genre>{0}</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre>", m_genre); xml.AppendLine();
+				xml.AppendFormat("<pbcoreIdentifier><identifier>{0}</identifier><identifierSource>{1}</identifierSource></pbcoreIdentifier>", SecurityElement.Escape(m_id), SecurityElement.Escape(m_producer)); xml.AppendLine();
+				xml.AppendFormat("<pbcoreTitle><title>{0}</title><titleType>Program</titleType></pbcoreTitle>", SecurityElement.Escape(m_title)); xml.AppendLine();
+                xml.AppendFormat("<pbcoreTitle><title>{0}</title><titleType>Episode</titleType></pbcoreTitle>", SecurityElement.Escape(m_title)); xml.AppendLine();
+                xml.AppendFormat("<pbcoreSubject><subject>{0}</subject></pbcoreSubject>", SecurityElement.Escape(m_subject)); xml.AppendLine();
+				xml.AppendFormat("<pbcoreDescription><description>{0}</description><descriptionType>Program</descriptionType></pbcoreDescription>", SecurityElement.Escape(m_description)); xml.AppendLine();
+                xml.AppendFormat("<pbcoreGenre><genre>{0}</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre>", SecurityElement.Escape(m_genre)); xml.AppendLine();
 				xml.AppendLine("<pbcoreAudienceRating><audienceRating>E</audienceRating></pbcoreAudienceRating>");
-				xml.AppendFormat("<pbcoreCreator><creator>{0}</creator><creatorRole>Producer</creatorRole></pbcoreCreator>", m_producer); xml.AppendLine();
+				xml.AppendFormat("<pbcoreCreator><creator>{0}</creator><creatorRole>Producer</creatorRole></pbcoreCreator>", SecurityElement.Escape(m_producer)); xml.AppendLine();
 				xml.AppendLine("<pbcoreRightsSummary><rightsSummary>http://creativecommons.org/licenses/by-nc/3.0/</rightsSummary></pbcoreRightsSummary>");
 				xml.AppendLine("<pbcoreInstantiation>");
 				xml.AppendLine("<formatPhysical>Hard Drive</formatPhysical>");
@@ -192,9 +197,9 @@ namespace tracm
 				xml.AppendFormat("<formatIdentifierSource>{0}</formatIdentifierSource>", m_producer); xml.AppendLine();
 				xml.AppendLine("</pbcoreFormatID>");
 				xml.AppendLine("</pbcoreInstantiation>");
-				xml.AppendFormat("<pbcoreExtension><extension>indemnification:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", m_producer); xml.AppendLine();
+				xml.AppendFormat("<pbcoreExtension><extension>indemnification:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", SecurityElement.Escape(m_producer)); xml.AppendLine();
 				xml.AppendFormat("<pbcoreExtension><extension>tags:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", m_tags); xml.AppendLine();
-				xml.AppendFormat("<pbcoreExtension><extension>producer_address:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", m_producer); xml.AppendLine();
+				xml.AppendFormat("<pbcoreExtension><extension>producer_address:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", SecurityElement.Escape(m_producer)); xml.AppendLine();
 				xml.AppendFormat("<pbcoreExtension><extension>producer_email:{0}[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension>", m_email); xml.AppendLine();
 				xml.AppendLine("</PBCoreDescriptionDocument>");
 
