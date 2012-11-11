@@ -97,6 +97,12 @@ namespace tracm
 				column.DataPropertyName = "Action";
 				dataGridView1.Columns.Add(column);
 			}
+
+            //Setup queueTimer
+            queueTimer.Tick += new EventHandler(timer_Tick);
+            queueTimer.Interval = 1 * 60 * 1000;
+            queueTimer.Enabled = true;
+            queueTimer.Start();
         }
 
 		private delegate void AddDownloadCallback(DownloadWorker download);
@@ -162,6 +168,7 @@ namespace tracm
 			passiveFTP.Checked = Settings.Default.PassiveFTP;
 			useCablecast.Checked = Settings.Default.UseCablecast;
             forceTranscode.Checked = Settings.Default.ForceTranscode;
+            PollSCS.Checked = Settings.Default.PollSCS;
 
 			TranscodeIndicator.Text = String.Empty;
 
@@ -452,6 +459,30 @@ namespace tracm
 			}
 		}
 
+        private delegate bool IsIdleCallback();
+
+        private bool IsIdle()
+        {
+            if (this.InvokeRequired)
+            {
+                IsIdleCallback d = new IsIdleCallback(IsIdle);
+                return (bool)this.Invoke(d);
+            }
+            else
+            {
+                lock (m_lockObject)
+                {
+                    for (int i = 0; i < m_list.Count; i++)
+                    {
+                        if (m_list[i].Progress.IsRunning)
+                            return false;
+                    }
+
+                    return true;
+                }
+            }
+        }
+
 		// save settings immediately after changes are made
 		private void ACMServer_Validating(object sender, CancelEventArgs e)
 		{
@@ -670,6 +701,24 @@ namespace tracm
         {
             Settings.Default.ForceTranscode = forceTranscode.Checked;
             Settings.Default.Save();
+        }
+
+        private void PollSCS_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.PollSCS = PollSCS.Checked;
+            Settings.Default.Save();
+        }
+
+        public void timer_Tick(object sender, EventArgs e)
+        {
+            if (Settings.Default.PollSCS && IsIdle())
+            {
+                try
+                {
+                    RefreshDownloadQueue();
+                }
+                catch { }
+            }
         }
     }
 }

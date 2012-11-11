@@ -108,8 +108,10 @@ namespace tracm
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.forceTranscode = new System.Windows.Forms.CheckBox();
-            this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.Genre = new System.Windows.Forms.ComboBox();
+            this.PollSCS = new System.Windows.Forms.CheckBox();
+            this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.queueTimer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabWelcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -163,7 +165,7 @@ namespace tracm
             // 
             this.richTextBox1.Location = new System.Drawing.Point(6, 229);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(434, 96);
+            this.richTextBox1.Size = new System.Drawing.Size(434, 192);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
@@ -462,6 +464,7 @@ namespace tracm
             // 
             // tabDownload
             // 
+            this.tabDownload.Controls.Add(this.PollSCS);
             this.tabDownload.Controls.Add(this.label11);
             this.tabDownload.Controls.Add(this.cablecastGroup);
             this.tabDownload.Controls.Add(this.useCablecast);
@@ -554,7 +557,7 @@ namespace tracm
             // RefreshQueue
             // 
             this.RefreshQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.RefreshQueue.Location = new System.Drawing.Point(313, 342);
+            this.RefreshQueue.Location = new System.Drawing.Point(313, 145);
             this.RefreshQueue.Name = "RefreshQueue";
             this.RefreshQueue.Size = new System.Drawing.Size(127, 23);
             this.RefreshQueue.TabIndex = 3;
@@ -961,10 +964,6 @@ namespace tracm
             this.forceTranscode.UseVisualStyleBackColor = true;
             this.forceTranscode.CheckedChanged += new System.EventHandler(this.forceTranscode_CheckedChanged);
             // 
-            // locationBindingSource
-            // 
-            this.locationBindingSource.DataSource = typeof(tracm.Cablecast.Location);
-            // 
             // Genre
             // 
             this.Genre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -973,6 +972,25 @@ namespace tracm
             this.Genre.Name = "Genre";
             this.Genre.Size = new System.Drawing.Size(223, 21);
             this.Genre.TabIndex = 26;
+            // 
+            // PollSCS
+            // 
+            this.PollSCS.AutoSize = true;
+            this.PollSCS.Location = new System.Drawing.Point(8, 149);
+            this.PollSCS.Name = "PollSCS";
+            this.PollSCS.Size = new System.Drawing.Size(216, 17);
+            this.PollSCS.TabIndex = 7;
+            this.PollSCS.Text = "Automatically check for new downloads.";
+            this.PollSCS.UseVisualStyleBackColor = true;
+            this.PollSCS.CheckedChanged += new System.EventHandler(this.PollSCS_CheckedChanged);
+            // 
+            // locationBindingSource
+            // 
+            this.locationBindingSource.DataSource = typeof(tracm.Cablecast.Location);
+            // 
+            // queueTimer
+            // 
+            this.queueTimer.Interval = 300000;
             // 
             // MainForm
             // 
@@ -1099,6 +1117,8 @@ namespace tracm
         private System.Windows.Forms.GroupBox transcodingGroupBox;
         private System.Windows.Forms.CheckBox forceTranscode;
         private System.Windows.Forms.ComboBox Genre;
+        private System.Windows.Forms.CheckBox PollSCS;
+        private System.Windows.Forms.Timer queueTimer;
 
     }
 }
