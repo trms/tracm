@@ -48,173 +48,119 @@ namespace tracm
 				Progress.ShowProgressBar = false;
 		}
 
-		protected override void WorkMethod()
-		{
-            try
+        protected override void WorkMethod()
+        {
+            var worker = new RestartableDownload(m_url, m_path);
+            worker.OnProgressUpdate += new RestartableDownload.ProgressUpdateHandler(worker_OnProgressUpdate);
+            var downloaded = false;
+            //Retry up to 3 times
+            for (int attempt = 1; attempt <= 3; attempt++)
             {
-                WebRequest webRequest = WebRequest.Create(new Uri(m_url));
-                webRequest.Timeout = 30 * 60 * 1000; //Timeout super high at 30 minutes
-                using (WebResponse webResponse = webRequest.GetResponse())
-                {
-                    using (var data = webResponse.GetResponseStream())
-                    {
-                        //write to temp file
-                        long position = 0;
-                        using (FileStream fs = new FileStream(m_path, FileMode.Create))
-                        {
-                            byte[] buffer = new byte[4096];
-                            while (position < m_fileSize)
-                            {
-                                //Console.WriteLine(String.Format("Downloaded: {0}", position));
-                                var len = data.Read(buffer, 0, 4096);
-                                position += len;
-                                try
-                                {
-                                    //throttle progress updates so UI does not flicker
-                                    var progress = Convert.ToInt32(100.0 * (Convert.ToDouble(position) / Convert.ToDouble(m_fileSize)));
-                                    if (progress > ProgressValue)
-                                    {
-                                        ProgressValue = progress;
-                                    }
-                                }
-                                catch { }
-                                fs.Write(buffer, 0, len);
-                                if (IsRunning == false)
-                                {
-                                    fs.Close();
-                                    data.Close();
-                                    File.Delete(m_path);
-                                    try
-                                    {
-                                        Scs.removeQueuedDownload(m_contentID.ToString(), false);
-                                    }
-                                    catch { }
-                                    break;
-                                }
-                            }
-                            fs.Close();
-                        }
-                        data.Close();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                //Write error file
-                string errorpath = Path.Combine(Settings.Default.LogsPath, String.Format("ContentID-{0}-error.txt", m_contentID));
-                FileInfo t = new FileInfo(errorpath);
-                StreamWriter sw = t.CreateText();
-                sw.Write(String.Format("Error Downloading: {0}", m_url));
-                sw.Write(ex.Message);
-                sw.Close();
-                //If anything goes wrong in the download, try to remove it
                 try
                 {
-                    Scs.removeQueuedDownload(m_contentID.ToString(), false);
+                    worker.StartDownload();
+                    if (worker.DownloadComplete)
+                    {
+                        downloaded = true;
+                        break;
+                    }
                 }
-                catch { }
-                throw;
+                catch
+                {
+                    //TODO put some logging in here.
+                }
             }
 
-			try
-			{
-				Scs.removeQueuedDownload(m_contentID.ToString(), true);
-			}
-			catch { }
+            if (downloaded == false)
+            {
+                throw new Exception("Failed to download after 3 attempts");
+            }
 
-			/*
-<?xml version="1.0" encoding="UTF-8"?>
-<response status="ok">
-<?xml version='1.0' encoding='UTF-8'?><PBCoreDescriptionDocument xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.pbcore.org/PBCore/PBCoreNamespace.html http://www.pbcore.org/PBCore/PBCoreSchema.xsd' xmlns:fmp='http://www.filemaker.com/fmpxmlresult' xmlns='http://www.pbcore.org/PBCore/PBCoreNamespace.html'><pbcoreIdentifier><identifier>249</identifier><identifierSource>UChannel</identifierSource></pbcoreIdentifier><pbcoreTitle><title>Bob Schieffer</title><titleType>Program</titleType></pbcoreTitle><pbcoreTitle><title>Bob Schieffer</title><titleType>Episode</titleType></pbcoreTitle><pbcoreSubject><subject>Public Affairs</subject></pbcoreSubject><pbcoreDescription><description>Bob Schieffer</description><descriptionType>Program</descriptionType></pbcoreDescription><pbcoreGenre><genre>Community</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre><pbcoreGenre><genre>Educational</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre><pbcoreGenre><genre>News</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre><pbcoreGenre><genre>Politics</genre><genreAuthorityUsed>PBCore v1.1 http://www.pbcore.org</genreAuthorityUsed></pbcoreGenre><pbcoreAudienceRating><audienceRating>TV-PG</audienceRating></pbcoreAudienceRating><pbcoreCreator><creator>UChannel</creator><creatorRole>Producer</creatorRole></pbcoreCreator><pbcoreRightsSummary><rightsSummary>http://creativecommons.org/licenses/by-nc-nd/3.0/</rightsSummary></pbcoreRightsSummary><pbcoreInstantiation><formatPhysical>Hard Drive</formatPhysical><formatDigital>video/MP2P</formatDigital><formatLocation>
+            try
+            {
+                Scs.removeQueuedDownload(m_contentID.ToString(), true);
+            }
+            catch { }
 
+            #region Add to Cablecast
+            if (CablecastFactory.CanUseCablecast && CablecastFactory.CanCreateShows && Settings.Default.UseCablecast)
+            {
+                string id = String.Empty;
+                string title = Path.GetFileName(m_path);
+                string episodeTitle = String.Empty;
+                string producer = String.Empty;
+                string genre = String.Empty;
+                string rating = String.Empty;
+                int cueTime = 0;
+                int length = 0;
+                StringBuilder summary = new StringBuilder();
 
+                Match m = Regex.Match(m_metaData, "<pbcoreIdentifier><identifier>([^<]*)</identifier>");
+                if (m.Success)
+                    id = m.Groups[1].Value;
+                m = Regex.Match(m_metaData, "<pbcoreTitle><title>([^<]*)</title><titleType>Program</titleType></pbcoreTitle>");
+                if (m.Success)
+                    title = m.Groups[1].Value;
+                m = Regex.Match(m_metaData, "<pbcoreTitle><title>([^<]*)</title><titleType>Episode</titleType></pbcoreTitle>");
+                if (m.Success)
+                    episodeTitle = m.Groups[1].Value;
+                m = Regex.Match(m_metaData, "<pbcoreCreator><creator>([^<]*)</creator><creatorRole>Producer</creatorRole></pbcoreCreator>");
+                if (m.Success)
+                    producer = m.Groups[1].Value;
+                m = Regex.Match(m_metaData, "<pbcoreGenre><genre>([^<]*)</genre>");
+                if (m.Success)
+                    genre = m.Groups[1].Value;
+                m = Regex.Match(m_metaData, "<pbcoreAudienceRating><audienceRating>([^<]*)</audienceRating></pbcoreAudienceRating>");
+                if (m.Success)
+                    rating = m.Groups[1].Value;
+                m = Regex.Match(m_metaData, "<formatTimeStart>([\\d:]+)</formatTimeStart>");
+                if (m.Success)
+                    cueTime = LengthToSeconds(m.Groups[1].Value);
+                m = Regex.Match(m_metaData, "<formatDuration>([\\d:]+)</formatDuration>");
+                if (m.Success)
+                    length = LengthToSeconds(m.Groups[1].Value);
 
+                if (episodeTitle != String.Empty)
+                {
+                    summary.AppendFormat("Episode: {0}", episodeTitle);
+                    summary.AppendLine();
+                }
+                if (producer != String.Empty)
+                {
+                    summary.AppendFormat("Producer: {0}", producer);
+                    summary.AppendLine();
+                }
+                if (genre != String.Empty)
+                {
+                    summary.AppendFormat("Genre: {0}", genre);
+                    summary.AppendLine();
+                }
+                if (rating != String.Empty)
+                {
+                    summary.AppendFormat("Rating: {0}", rating);
+                    summary.AppendLine();
+                }
 
+                // create show record in cablecast
+                Cablecast.CablecastWS webService = CablecastFactory.Create();
+                tracm.Cablecast.NewReel reel = new tracm.Cablecast.NewReel();
+                reel.LengthSeconds = length;
+                reel.CueSeconds = cueTime;
+                reel.FormatID = Properties.Settings.Default.CablecastFormat;
+                reel.Chapter = 0;
+                reel.Title = 0;
+                tracm.Cablecast.NewReel[] reels = { reel };
+                tracm.Cablecast.CustomField[] customFields = new tracm.Cablecast.CustomField[0];
+                int showID = webService.CreateNewShowRecord(id, Properties.Settings.Default.CablecastLocation, title, title, -1, false, 0, reels, 0, DateTime.Now, summary.ToString(), customFields, false, "", "", "", reels[0].LengthSeconds, Properties.Settings.Default.CablecastUsername, Properties.Settings.Default.CablecastPassword);
+                if (showID > 0)
+                {
+                    // rename file to include show ID
+                    File.Move(m_path, Path.Combine(Path.GetDirectoryName(m_path), String.Format("{0}-{1}", showID, Path.GetFileName(m_path))));
+                }
 
-USA
-</formatLocation><formatGenerations>Moving image/Master</formatGenerations><formatStandard>NTSC video (INTERLACED)</formatStandard><formatFileSize>1600026624</formatFileSize><formatTimeStart>00:00:00</formatTimeStart><formatDuration>00:21:10</formatDuration><formatDataRate>Video 7987200 bits/sec;Audio 224000 bits/sec</formatDataRate><formatFrameSize>720x480</formatFrameSize><formatAspectRatio>4:3</formatAspectRatio><formatFrameRate>29.97 fps</formatFrameRate><pbcoreFormatID><formatIdentifier>20070709BobSchieffer.mpg</formatIdentifier><formatIdentifierSource>University Channel</formatIdentifierSource></pbcoreFormatID></pbcoreInstantiation><pbcoreExtension><extension>indemnification:Intended for public and community rebroadcast[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension><pbcoreExtension><extension>tags:UChannel,Public Affairs[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension><pbcoreExtension><extension>producer_address:UChannel
-Rm 217, Robertson Hall
-Princeton University
-Princeton, NJ 08544
-[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension><pbcoreExtension><extension>producer_email:uc@princeton.edu[ACM]</extension><extensionAuthorityUsed>Alliance For Community Media</extensionAuthorityUsed></pbcoreExtension></PBCoreDescriptionDocument></response>
-*/
-			if (CablecastFactory.CanUseCablecast && CablecastFactory.CanCreateShows && Settings.Default.UseCablecast)
-			{
-				string id = String.Empty;
-				string title = Path.GetFileName(m_path);
-				string episodeTitle = String.Empty;
-				string producer = String.Empty;
-				string genre = String.Empty;
-				string rating = String.Empty;
-				int cueTime = 0;
-				int length = 0;
-				StringBuilder summary = new StringBuilder();
-	
-				Match m = Regex.Match(m_metaData, "<pbcoreIdentifier><identifier>([^<]*)</identifier>");
-				if (m.Success)
-					id = m.Groups[1].Value;
-				m = Regex.Match(m_metaData, "<pbcoreTitle><title>([^<]*)</title><titleType>Program</titleType></pbcoreTitle>");
-				if (m.Success)
-					title = m.Groups[1].Value;
-				m = Regex.Match(m_metaData, "<pbcoreTitle><title>([^<]*)</title><titleType>Episode</titleType></pbcoreTitle>");
-				if (m.Success)
-					episodeTitle = m.Groups[1].Value;
-				m = Regex.Match(m_metaData, "<pbcoreCreator><creator>([^<]*)</creator><creatorRole>Producer</creatorRole></pbcoreCreator>");
-				if (m.Success)
-					producer = m.Groups[1].Value;
-				m = Regex.Match(m_metaData, "<pbcoreGenre><genre>([^<]*)</genre>");
-				if (m.Success)
-					genre = m.Groups[1].Value;
-				m = Regex.Match(m_metaData, "<pbcoreAudienceRating><audienceRating>([^<]*)</audienceRating></pbcoreAudienceRating>");
-				if (m.Success)
-					rating = m.Groups[1].Value;
-				m = Regex.Match(m_metaData, "<formatTimeStart>([\\d:]+)</formatTimeStart>");
-				if (m.Success)
-					cueTime = LengthToSeconds(m.Groups[1].Value);
-				m = Regex.Match(m_metaData, "<formatDuration>([\\d:]+)</formatDuration>");
-				if (m.Success)
-					length = LengthToSeconds(m.Groups[1].Value);
-
-				if (episodeTitle != String.Empty)
-				{
-					summary.AppendFormat("Episode: {0}", episodeTitle);
-					summary.AppendLine();
-				}
-				if (producer != String.Empty)
-				{
-					summary.AppendFormat("Producer: {0}", producer);
-					summary.AppendLine();
-				}
-				if (genre != String.Empty)
-				{
-					summary.AppendFormat("Genre: {0}", genre);
-					summary.AppendLine();
-				}
-				if (rating != String.Empty)
-				{
-					summary.AppendFormat("Rating: {0}", rating);
-					summary.AppendLine();
-				}
-
-				// create show record in cablecast
-				Cablecast.CablecastWS webService = CablecastFactory.Create();
-				tracm.Cablecast.NewReel reel = new tracm.Cablecast.NewReel();
-				reel.LengthSeconds = length;
-				reel.CueSeconds = cueTime;
-				reel.FormatID = Properties.Settings.Default.CablecastFormat;
-				reel.Chapter = 0;
-				reel.Title = 0;
-				tracm.Cablecast.NewReel[] reels = { reel };
-				tracm.Cablecast.CustomField[] customFields = new tracm.Cablecast.CustomField[0];
-				int showID = webService.CreateNewShowRecord(id, Properties.Settings.Default.CablecastLocation, title, title, -1, false, 0, reels, 0, DateTime.Now, summary.ToString(), customFields, false,"", "", "", reels[0].LengthSeconds, Properties.Settings.Default.CablecastUsername, Properties.Settings.Default.CablecastPassword);
-				if (showID > 0)
-				{
-					// rename file to include show ID
-					File.Move(m_path, Path.Combine(Path.GetDirectoryName(m_path), String.Format("{0}-{1}", showID, Path.GetFileName(m_path))));
-				}
-
-			}
-		}
+            }
+            #endregion
+        }
 
 		private int LengthToSeconds(string lengthStr)
 		{
@@ -348,5 +294,15 @@ Princeton, NJ 08544
 		{
 			get { return m_contentID; }
 		}
-	}
+
+        public void worker_OnProgressUpdate(object sender, ProgressEventArgs e)
+        {
+            //throttle progress updates so UI does not flicker
+            var progress = Convert.ToInt32(100.0 * (Convert.ToDouble(e.TotalBytesDownloaded) / Convert.ToDouble(m_fileSize)));
+            if (progress > ProgressValue)
+            {
+                ProgressValue = progress;
+            }
+        }
+    }
 }

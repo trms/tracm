@@ -86,6 +86,7 @@
     <Compile Include="Queue\ButtonColumn.cs" />
     <Compile Include="Queue\ProgressColumn.cs" />
     <Compile Include="Queue\WorkItem.cs" />
+    <Compile Include="ResumableDownload.cs" />
     <Compile Include="Scs.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TranscodeWorker.cs" />
