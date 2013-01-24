@@ -47,7 +47,7 @@ namespace tracm
 
 		public string TempFile
 		{
-			get { return String.Format("{0}.mpg", Path.Combine(Settings.Default.DownloadPath, Path.GetFileNameWithoutExtension(m_path))); }
+			get { return String.Format("{0}.mpg", Path.Combine(Settings.Default.WorkPath, Path.GetFileNameWithoutExtension(m_path))); }
 		}
 
 		void vp_Progress(int current, int total)

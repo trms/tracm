@@ -29,6 +29,7 @@ using System.IO;
 using tracm.Properties;
 using tracm.Queue;
 using FTPLib;
+using System.Threading;
 
 namespace tracm
 {
@@ -38,6 +39,10 @@ namespace tracm
 		private object m_lockObject = new object();
 		private int videoBitrate = 0;
 		private int audioBitrate = 0;
+        private Thread m_Poller;
+        private bool m_Run = true;
+        private SynchronizationContext m_Context;
+
 
 		private class NameID
 		{
@@ -59,6 +64,7 @@ namespace tracm
         public MainForm()
         {
             LogHelper.Logger.Info("TRACM starting");
+            m_Context = SynchronizationContext.Current;
 
             InitializeComponent();
 
@@ -100,11 +106,10 @@ namespace tracm
 				dataGridView1.Columns.Add(column);
 			}
 
-            //Setup queueTimer
-            queueTimer.Tick += new EventHandler(timer_Tick);
-            queueTimer.Interval = 1 * 60 * 1000;
-            queueTimer.Enabled = true;
-            queueTimer.Start();
+            //Setup poller
+            m_Poller = new Thread(PollingThread);
+            m_Poller.IsBackground = true;
+            m_Poller.Start();
         }
 
 		private delegate void AddDownloadCallback(DownloadWorker download);
@@ -161,11 +166,11 @@ namespace tracm
             DownloadPath.Text = Settings.Default.DownloadPath;
             
             //Check if Logs path exists and create it if not.
-            if (!Directory.Exists(Settings.Default.LogsPath))
+            if (!Directory.Exists(Settings.Default.WorkPath))
             {
-                Directory.CreateDirectory(Settings.Default.LogsPath);
+                Directory.CreateDirectory(Settings.Default.WorkPath);
             }
-            LogsPath.Text = Settings.Default.LogsPath;
+            WorkPath.Text = Settings.Default.WorkPath;
             
 			passiveFTP.Checked = Settings.Default.PassiveFTP;
 			useCablecast.Checked = Settings.Default.UseCablecast;
@@ -413,8 +418,10 @@ namespace tracm
 			QueueFetcher qf = new QueueFetcher();
 
 			qf.WorkCompletedEvent += new WorkItem.WorkCompleted(WorkCompletedEvent);
+
 			m_list.Add(qf);
-			qf.Work();
+			
+            qf.Work();
         }
 
 		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -460,6 +467,34 @@ namespace tracm
 				}
 			}
 		}
+
+        private void ClearQueueFetchers()
+        {
+            if (this.InvokeRequired)
+            {
+                ClearCompletedItemsCallback d = new ClearCompletedItemsCallback(ClearQueueFetchers);
+                this.Invoke(d);
+            }
+            else
+            {
+                lock (m_lockObject)
+                {
+                    var itemsToRemove = new List<WorkItem>();
+                    foreach (var item in m_list)
+                    {
+                        if (item.Progress.IsDone && item is QueueFetcher)
+                        {
+                            itemsToRemove.Add(item);
+                        }
+                    }
+                    foreach (var itemToRemove in itemsToRemove)
+                    {
+                        m_list.Remove(itemToRemove);
+                    }
+                    
+                }
+            }
+        }
 
         private delegate bool IsIdleCallback();
 
@@ -661,15 +696,15 @@ namespace tracm
         {
             if (folderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
             {
-                LogsPath.Text = folderBrowserDialog1.SelectedPath;
-                Settings.Default.LogsPath = LogsPath.Text;
+                WorkPath.Text = folderBrowserDialog1.SelectedPath;
+                Settings.Default.WorkPath = WorkPath.Text;
                 Settings.Default.Save();
             }
         }
 
         private void LogsPath_Validating(object sender, CancelEventArgs e)
         {
-            Settings.Default.LogsPath = LogsPath.Text;
+            Settings.Default.WorkPath = WorkPath.Text;
             Settings.Default.Save();
         }
 
@@ -711,15 +746,27 @@ namespace tracm
             Settings.Default.Save();
         }
 
-        public void timer_Tick(object sender, EventArgs e)
+        public void PollingThread()
         {
-            if (Settings.Default.PollSCS && IsIdle())
+            while (m_Run)
             {
                 try
                 {
-                    RefreshDownloadQueue();
+                    if (Settings.Default.PollSCS && IsIdle())
+                    {
+                        m_Context.Post(
+                            delegate
+                            {
+                                RefreshDownloadQueue();
+                            }, null);
+                        ClearQueueFetchers();
+                    }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    LogHelper.Logger.Error("Error in polling thread.", ex);
+                }
+                Thread.Sleep(1000 * 60);
             }
         }
     }

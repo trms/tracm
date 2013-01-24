@@ -44,7 +44,7 @@ namespace tracm
         public static void addContent(string path)
         {
             var filename = Path.GetFileName(path);
-            var responseXMLPath = String.Format("{0}-RESPONSE.xml", Path.Combine(Settings.Default.LogsPath, filename));
+            var responseXMLPath = String.Format("{0}-RESPONSE.xml", Path.Combine(LogHelper.LogsPath, filename));
             if (File.Exists(responseXMLPath))
             {
                 File.Delete(responseXMLPath);

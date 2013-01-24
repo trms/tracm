@@ -123,7 +123,7 @@ namespace tracm
 		private string CreateXML()
 		{
             var filename = Path.GetFileName(m_path);
-			string path = String.Format("{0}.xml", Path.Combine(Settings.Default.LogsPath, filename));
+			string path = String.Format("{0}.xml", Path.Combine(LogHelper.LogsPath, filename));
 			try
 			{
 				//Delete the file is if exists

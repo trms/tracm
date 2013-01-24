@@ -179,13 +179,13 @@ namespace tracm.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\tracm-logs\\")]
-        public string LogsPath {
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\tracm-work\\")]
+        public string WorkPath {
             get {
-                return ((string)(this["LogsPath"]));
+                return ((string)(this["WorkPath"]));
             }
             set {
-                this["LogsPath"] = value;
+                this["WorkPath"] = value;
             }
         }
         

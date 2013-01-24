@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using log4net;
 using System.IO;
+using tracm.Properties;
 
 namespace tracm
 {
@@ -30,6 +31,20 @@ namespace tracm
             FileInfo info = new FileInfo("Log.config");
 
             log4net.Config.XmlConfigurator.ConfigureAndWatch(info);
+        }
+
+        public static string LogsPath
+        {
+            get
+            {
+                var path = Path.Combine(Settings.Default.WorkPath, "logs");
+                if (Directory.Exists(path) == false)
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                return path;
+            }
         }
     }
 }

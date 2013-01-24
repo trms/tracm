@@ -87,7 +87,7 @@ namespace tracm
             this.forceTranscode = new System.Windows.Forms.CheckBox();
             this.groupBoxLogs = new System.Windows.Forms.GroupBox();
             this.LogsBrowse = new System.Windows.Forms.Button();
-            this.LogsPath = new System.Windows.Forms.TextBox();
+            this.WorkPath = new System.Windows.Forms.TextBox();
             this.labelLogs = new System.Windows.Forms.Label();
             this.groupBoxFiles = new System.Windows.Forms.GroupBox();
             this.FileBrowse = new System.Windows.Forms.Button();
@@ -111,7 +111,6 @@ namespace tracm
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.queueTimer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabWelcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -738,14 +737,14 @@ namespace tracm
             // groupBoxLogs
             // 
             this.groupBoxLogs.Controls.Add(this.LogsBrowse);
-            this.groupBoxLogs.Controls.Add(this.LogsPath);
+            this.groupBoxLogs.Controls.Add(this.WorkPath);
             this.groupBoxLogs.Controls.Add(this.labelLogs);
             this.groupBoxLogs.Location = new System.Drawing.Point(6, 309);
             this.groupBoxLogs.Name = "groupBoxLogs";
             this.groupBoxLogs.Size = new System.Drawing.Size(434, 48);
             this.groupBoxLogs.TabIndex = 9;
             this.groupBoxLogs.TabStop = false;
-            this.groupBoxLogs.Text = "Logs";
+            this.groupBoxLogs.Text = "Work";
             // 
             // LogsBrowse
             // 
@@ -757,22 +756,22 @@ namespace tracm
             this.LogsBrowse.UseVisualStyleBackColor = true;
             this.LogsBrowse.Click += new System.EventHandler(this.button1_Click);
             // 
-            // LogsPath
+            // WorkPath
             // 
-            this.LogsPath.Location = new System.Drawing.Point(105, 19);
-            this.LogsPath.Name = "LogsPath";
-            this.LogsPath.Size = new System.Drawing.Size(241, 20);
-            this.LogsPath.TabIndex = 1;
-            this.LogsPath.Validating += new System.ComponentModel.CancelEventHandler(this.LogsPath_Validating);
+            this.WorkPath.Location = new System.Drawing.Point(105, 19);
+            this.WorkPath.Name = "WorkPath";
+            this.WorkPath.Size = new System.Drawing.Size(241, 20);
+            this.WorkPath.TabIndex = 1;
+            this.WorkPath.Validating += new System.ComponentModel.CancelEventHandler(this.LogsPath_Validating);
             // 
             // labelLogs
             // 
             this.labelLogs.AutoSize = true;
             this.labelLogs.Location = new System.Drawing.Point(12, 22);
             this.labelLogs.Name = "labelLogs";
-            this.labelLogs.Size = new System.Drawing.Size(62, 13);
+            this.labelLogs.Size = new System.Drawing.Size(65, 13);
             this.labelLogs.TabIndex = 0;
-            this.labelLogs.Text = "Logs Folder";
+            this.labelLogs.Text = "Work Folder";
             // 
             // groupBoxFiles
             // 
@@ -988,10 +987,6 @@ namespace tracm
             // 
             this.locationBindingSource.DataSource = typeof(tracm.Cablecast.Location);
             // 
-            // queueTimer
-            // 
-            this.queueTimer.Interval = 300000;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1106,7 +1101,7 @@ namespace tracm
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox groupBoxLogs;
         private System.Windows.Forms.Button LogsBrowse;
-        private System.Windows.Forms.TextBox LogsPath;
+        private System.Windows.Forms.TextBox WorkPath;
         private System.Windows.Forms.Label labelLogs;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -1118,7 +1113,6 @@ namespace tracm
         private System.Windows.Forms.CheckBox forceTranscode;
         private System.Windows.Forms.ComboBox Genre;
         private System.Windows.Forms.CheckBox PollSCS;
-        private System.Windows.Forms.Timer queueTimer;
 
     }
 }
