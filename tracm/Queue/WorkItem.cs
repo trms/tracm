@@ -243,6 +243,7 @@ namespace tracm.Queue
 			}
 			catch (Exception ex)
 			{
+                LogHelper.Logger.Error("Error doing work.", ex);
 				m_progress.Error(ex.Message);
 			}
 		}

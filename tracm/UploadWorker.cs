@@ -111,7 +111,7 @@ namespace tracm
                         ProgressValue = progress;
                     }
 				}
-				catch { }
+				catch {}
 			}
 		}
 

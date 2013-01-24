@@ -24,6 +24,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using tracm.Properties;
 using tracm.Queue;
+using log4net;
+using log4net.Config;
 
 namespace tracm
 {
@@ -36,8 +38,12 @@ namespace tracm
 		private int m_contentID;
 		private long m_fileSize = 0;
 
+        private static readonly ILog logger = LogManager.GetLogger(typeof(DownloadWorker));
+
 		public DownloadWorker(int contentID, string url, string name, long size, string data)
 		{
+            BasicConfigurator.Configure();
+
 			m_contentID = contentID;
 			m_url = url;
 			m_name = name;
@@ -65,14 +71,15 @@ namespace tracm
                         break;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    //TODO put some logging in here.
+                    LogHelper.Logger.Error(String.Format("Error downloading {0}. Try: {1}", m_url, attempt), ex);
                 }
             }
 
             if (downloaded == false)
             {
+                LogHelper.Logger.Error(String.Format("Failed downloading {0} after 3 attempts", m_url));
                 throw new Exception("Failed to download after 3 attempts");
             }
 
@@ -80,7 +87,10 @@ namespace tracm
             {
                 Scs.removeQueuedDownload(m_contentID.ToString(), true);
             }
-            catch { }
+            catch(Exception ex)
+            {
+                LogHelper.Logger.Error(String.Format("Failed to remove: {0} from server queue.", m_url), ex);
+            }
 
             #region Add to Cablecast
             if (CablecastFactory.CanUseCablecast && CablecastFactory.CanCreateShows && Settings.Default.UseCablecast)

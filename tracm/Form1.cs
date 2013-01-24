@@ -58,6 +58,8 @@ namespace tracm
 
         public MainForm()
         {
+            LogHelper.Logger.Info("TRACM starting");
+
             InitializeComponent();
 
 			CablecastFactory.Update();

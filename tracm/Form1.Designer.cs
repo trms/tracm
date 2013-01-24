@@ -36,6 +36,7 @@ namespace tracm
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabUpload = new System.Windows.Forms.TabPage();
+            this.Genre = new System.Windows.Forms.ComboBox();
             this.Tags = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.Email = new System.Windows.Forms.TextBox();
@@ -62,6 +63,7 @@ namespace tracm
             this.label1 = new System.Windows.Forms.Label();
             this.labelVideoFile = new System.Windows.Forms.Label();
             this.tabDownload = new System.Windows.Forms.TabPage();
+            this.PollSCS = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
             this.cablecastGroup = new System.Windows.Forms.GroupBox();
             this.cablecastFormats = new System.Windows.Forms.ComboBox();
@@ -82,6 +84,7 @@ namespace tracm
             this.label14 = new System.Windows.Forms.Label();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.transcodingGroupBox = new System.Windows.Forms.GroupBox();
+            this.forceTranscode = new System.Windows.Forms.CheckBox();
             this.groupBoxLogs = new System.Windows.Forms.GroupBox();
             this.LogsBrowse = new System.Windows.Forms.Button();
             this.LogsPath = new System.Windows.Forms.TextBox();
@@ -107,9 +110,6 @@ namespace tracm
             this.labelACMPassword = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.forceTranscode = new System.Windows.Forms.CheckBox();
-            this.Genre = new System.Windows.Forms.ComboBox();
-            this.PollSCS = new System.Windows.Forms.CheckBox();
             this.locationBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.queueTimer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
@@ -224,6 +224,15 @@ namespace tracm
             this.tabUpload.TabIndex = 1;
             this.tabUpload.Text = "Upload";
             this.tabUpload.UseVisualStyleBackColor = true;
+            // 
+            // Genre
+            // 
+            this.Genre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Genre.FormattingEnabled = true;
+            this.Genre.Location = new System.Drawing.Point(72, 110);
+            this.Genre.Name = "Genre";
+            this.Genre.Size = new System.Drawing.Size(223, 21);
+            this.Genre.TabIndex = 26;
             // 
             // Tags
             // 
@@ -476,6 +485,17 @@ namespace tracm
             this.tabDownload.Text = "Download";
             this.tabDownload.UseVisualStyleBackColor = true;
             // 
+            // PollSCS
+            // 
+            this.PollSCS.AutoSize = true;
+            this.PollSCS.Location = new System.Drawing.Point(8, 149);
+            this.PollSCS.Name = "PollSCS";
+            this.PollSCS.Size = new System.Drawing.Size(216, 17);
+            this.PollSCS.TabIndex = 7;
+            this.PollSCS.Text = "Automatically check for new downloads.";
+            this.PollSCS.UseVisualStyleBackColor = true;
+            this.PollSCS.CheckedChanged += new System.EventHandler(this.PollSCS_CheckedChanged);
+            // 
             // label11
             // 
             this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -703,6 +723,17 @@ namespace tracm
             this.transcodingGroupBox.TabIndex = 10;
             this.transcodingGroupBox.TabStop = false;
             this.transcodingGroupBox.Text = "Transcoding";
+            // 
+            // forceTranscode
+            // 
+            this.forceTranscode.AutoSize = true;
+            this.forceTranscode.Location = new System.Drawing.Point(12, 25);
+            this.forceTranscode.Name = "forceTranscode";
+            this.forceTranscode.Size = new System.Drawing.Size(180, 17);
+            this.forceTranscode.TabIndex = 0;
+            this.forceTranscode.Text = "Transcode All files before upload";
+            this.forceTranscode.UseVisualStyleBackColor = true;
+            this.forceTranscode.CheckedChanged += new System.EventHandler(this.forceTranscode_CheckedChanged);
             // 
             // groupBoxLogs
             // 
@@ -952,37 +983,6 @@ namespace tracm
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // forceTranscode
-            // 
-            this.forceTranscode.AutoSize = true;
-            this.forceTranscode.Location = new System.Drawing.Point(12, 25);
-            this.forceTranscode.Name = "forceTranscode";
-            this.forceTranscode.Size = new System.Drawing.Size(180, 17);
-            this.forceTranscode.TabIndex = 0;
-            this.forceTranscode.Text = "Transcode All files before upload";
-            this.forceTranscode.UseVisualStyleBackColor = true;
-            this.forceTranscode.CheckedChanged += new System.EventHandler(this.forceTranscode_CheckedChanged);
-            // 
-            // Genre
-            // 
-            this.Genre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Genre.FormattingEnabled = true;
-            this.Genre.Location = new System.Drawing.Point(72, 110);
-            this.Genre.Name = "Genre";
-            this.Genre.Size = new System.Drawing.Size(223, 21);
-            this.Genre.TabIndex = 26;
-            // 
-            // PollSCS
-            // 
-            this.PollSCS.AutoSize = true;
-            this.PollSCS.Location = new System.Drawing.Point(8, 149);
-            this.PollSCS.Name = "PollSCS";
-            this.PollSCS.Size = new System.Drawing.Size(216, 17);
-            this.PollSCS.TabIndex = 7;
-            this.PollSCS.Text = "Automatically check for new downloads.";
-            this.PollSCS.UseVisualStyleBackColor = true;
-            this.PollSCS.CheckedChanged += new System.EventHandler(this.PollSCS_CheckedChanged);
             // 
             // locationBindingSource
             // 

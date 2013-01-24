@@ -70,9 +70,15 @@ namespace tracm
             catch { }
 
             if (status.ToLower() == "ok")
+            {
+                LogHelper.Logger.Info(String.Format("Successfully added {0} to SCS.", path));
                 return;
+            }
             else
+            {
+                LogHelper.Logger.Error(String.Format("Error adding {0} to SCS. Status: {1}", path, status));
                 throw new Exception("Error adding content");
+            }
         }
 
 		public static List<int> getDownloadQueue()
@@ -96,9 +102,15 @@ namespace tracm
             catch { }
 
             if (status.ToLower() == "ok")
+            {
+                LogHelper.Logger.Debug("Successfully refreshed SCS queue.");
                 return ids;
+            }
             else
+            {
+                LogHelper.Logger.Error("Error getting the download queue. Status: " + status);
                 throw new Exception("Error getting the download queue");
+            }
         }
 
 		public static string getContentMetadata(string content_id)
