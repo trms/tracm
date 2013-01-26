@@ -144,7 +144,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:2.0.50727"
+                "FrameworkVersion" = "8:2.0.50727 "
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=9832"
                 }
@@ -330,15 +330,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:tracm"
-        "ProductCode" = "8:{C8803AAE-04ED-40A9-9B78-58C407504190}"
-        "PackageCode" = "8:{5362C348-AC7E-41B8-A984-00D2F3117006}"
+        "ProductCode" = "8:{D358B94F-878F-476F-BAA6-20F678D2B259}"
+        "PackageCode" = "8:{038A38E8-4EDE-4459-8229-EA475705B03C}"
         "UpgradeCode" = "8:{91ECB046-F1CF-4ED1-8D95-E6438BA684C4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:2.0.0"
         "Manufacturer" = "8:Tightrope Media Systems"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
