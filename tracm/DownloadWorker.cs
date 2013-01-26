@@ -77,20 +77,22 @@ namespace tracm
                 }
             }
 
+            try
+            {
+                Scs.removeQueuedDownload(m_contentID.ToString(), true);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Logger.Error(String.Format("Failed to remove: {0} from server queue.", m_url), ex);
+            }
+
             if (downloaded == false)
             {
                 LogHelper.Logger.Error(String.Format("Failed downloading {0} after 3 attempts", m_url));
                 throw new Exception("Failed to download after 3 attempts");
             }
 
-            try
-            {
-                Scs.removeQueuedDownload(m_contentID.ToString(), true);
-            }
-            catch(Exception ex)
-            {
-                LogHelper.Logger.Error(String.Format("Failed to remove: {0} from server queue.", m_url), ex);
-            }
+
 
             #region Add to Cablecast
             if (CablecastFactory.CanUseCablecast && CablecastFactory.CanCreateShows && Settings.Default.UseCablecast)
@@ -103,69 +105,87 @@ namespace tracm
                 string rating = String.Empty;
                 int cueTime = 0;
                 int length = 0;
-                StringBuilder summary = new StringBuilder();
+                int showID = 0;
+                
+                try
+                {
+                    StringBuilder summary = new StringBuilder();
 
-                Match m = Regex.Match(m_metaData, "<pbcoreIdentifier><identifier>([^<]*)</identifier>");
-                if (m.Success)
-                    id = m.Groups[1].Value;
-                m = Regex.Match(m_metaData, "<pbcoreTitle><title>([^<]*)</title><titleType>Program</titleType></pbcoreTitle>");
-                if (m.Success)
-                    title = m.Groups[1].Value;
-                m = Regex.Match(m_metaData, "<pbcoreTitle><title>([^<]*)</title><titleType>Episode</titleType></pbcoreTitle>");
-                if (m.Success)
-                    episodeTitle = m.Groups[1].Value;
-                m = Regex.Match(m_metaData, "<pbcoreCreator><creator>([^<]*)</creator><creatorRole>Producer</creatorRole></pbcoreCreator>");
-                if (m.Success)
-                    producer = m.Groups[1].Value;
-                m = Regex.Match(m_metaData, "<pbcoreGenre><genre>([^<]*)</genre>");
-                if (m.Success)
-                    genre = m.Groups[1].Value;
-                m = Regex.Match(m_metaData, "<pbcoreAudienceRating><audienceRating>([^<]*)</audienceRating></pbcoreAudienceRating>");
-                if (m.Success)
-                    rating = m.Groups[1].Value;
-                m = Regex.Match(m_metaData, "<formatTimeStart>([\\d:]+)</formatTimeStart>");
-                if (m.Success)
-                    cueTime = LengthToSeconds(m.Groups[1].Value);
-                m = Regex.Match(m_metaData, "<formatDuration>([\\d:]+)</formatDuration>");
-                if (m.Success)
-                    length = LengthToSeconds(m.Groups[1].Value);
+                    Match m = Regex.Match(m_metaData, "<pbcoreIdentifier><identifier>([^<]*)</identifier>");
+                    if (m.Success)
+                        id = m.Groups[1].Value;
+                    m = Regex.Match(m_metaData, "<pbcoreTitle><title>([^<]*)</title><titleType>Program</titleType></pbcoreTitle>");
+                    if (m.Success)
+                        title = m.Groups[1].Value;
+                    m = Regex.Match(m_metaData, "<pbcoreTitle><title>([^<]*)</title><titleType>Episode</titleType></pbcoreTitle>");
+                    if (m.Success)
+                        episodeTitle = m.Groups[1].Value;
+                    m = Regex.Match(m_metaData, "<pbcoreCreator><creator>([^<]*)</creator><creatorRole>Producer</creatorRole></pbcoreCreator>");
+                    if (m.Success)
+                        producer = m.Groups[1].Value;
+                    m = Regex.Match(m_metaData, "<pbcoreGenre><genre>([^<]*)</genre>");
+                    if (m.Success)
+                        genre = m.Groups[1].Value;
+                    m = Regex.Match(m_metaData, "<pbcoreAudienceRating><audienceRating>([^<]*)</audienceRating></pbcoreAudienceRating>");
+                    if (m.Success)
+                        rating = m.Groups[1].Value;
+                    m = Regex.Match(m_metaData, "<formatTimeStart>([\\d:]+)</formatTimeStart>");
+                    if (m.Success)
+                        cueTime = LengthToSeconds(m.Groups[1].Value);
+                    m = Regex.Match(m_metaData, "<formatDuration>([\\d:]+)</formatDuration>");
+                    if (m.Success)
+                        length = LengthToSeconds(m.Groups[1].Value);
 
-                if (episodeTitle != String.Empty)
-                {
-                    summary.AppendFormat("Episode: {0}", episodeTitle);
-                    summary.AppendLine();
-                }
-                if (producer != String.Empty)
-                {
-                    summary.AppendFormat("Producer: {0}", producer);
-                    summary.AppendLine();
-                }
-                if (genre != String.Empty)
-                {
-                    summary.AppendFormat("Genre: {0}", genre);
-                    summary.AppendLine();
-                }
-                if (rating != String.Empty)
-                {
-                    summary.AppendFormat("Rating: {0}", rating);
-                    summary.AppendLine();
-                }
+                    if (episodeTitle != String.Empty)
+                    {
+                        summary.AppendFormat("Episode: {0}", episodeTitle);
+                        summary.AppendLine();
+                    }
+                    if (producer != String.Empty)
+                    {
+                        summary.AppendFormat("Producer: {0}", producer);
+                        summary.AppendLine();
+                    }
+                    if (genre != String.Empty)
+                    {
+                        summary.AppendFormat("Genre: {0}", genre);
+                        summary.AppendLine();
+                    }
+                    if (rating != String.Empty)
+                    {
+                        summary.AppendFormat("Rating: {0}", rating);
+                        summary.AppendLine();
+                    }
 
-                // create show record in cablecast
-                Cablecast.CablecastWS webService = CablecastFactory.Create();
-                tracm.Cablecast.NewReel reel = new tracm.Cablecast.NewReel();
-                reel.LengthSeconds = length;
-                reel.CueSeconds = cueTime;
-                reel.FormatID = Properties.Settings.Default.CablecastFormat;
-                reel.Chapter = 0;
-                reel.Title = 0;
-                tracm.Cablecast.NewReel[] reels = { reel };
-                tracm.Cablecast.CustomField[] customFields = new tracm.Cablecast.CustomField[0];
-                int showID = webService.CreateNewShowRecord(id, Properties.Settings.Default.CablecastLocation, title, title, -1, false, 0, reels, 0, DateTime.Now, summary.ToString(), customFields, false, "", "", "", reels[0].LengthSeconds, Properties.Settings.Default.CablecastUsername, Properties.Settings.Default.CablecastPassword);
-                if (showID > 0)
+                    // create show record in cablecast
+                    Cablecast.CablecastWS webService = CablecastFactory.Create();
+                    tracm.Cablecast.NewReel reel = new tracm.Cablecast.NewReel();
+                    reel.LengthSeconds = length;
+                    reel.CueSeconds = cueTime;
+                    reel.FormatID = Properties.Settings.Default.CablecastFormat;
+                    reel.Chapter = 0;
+                    reel.Title = 0;
+                    tracm.Cablecast.NewReel[] reels = { reel };
+                    tracm.Cablecast.CustomField[] customFields = new tracm.Cablecast.CustomField[0];
+                    showID = webService.CreateNewShowRecord(id, Properties.Settings.Default.CablecastLocation, title, title, -1, false, 0, reels, 0, DateTime.Now, summary.ToString(), customFields, false, "", "", "", reels[0].LengthSeconds, Properties.Settings.Default.CablecastUsername, Properties.Settings.Default.CablecastPassword);
+                }
+                catch(Exception ex)
                 {
-                    // rename file to include show ID
-                    File.Move(m_path, Path.Combine(Path.GetDirectoryName(m_path), String.Format("{0}-{1}", showID, Path.GetFileName(m_path))));
+                    LogHelper.Logger.Error("Error adding show record to cablecast", ex);
+                    throw new Exception("Failed to add record to cablecast");
+                }
+                try
+                {
+                    if (showID > 0)
+                    {
+                        // rename file to include show ID
+                        File.Move(m_path, Path.Combine(Path.GetDirectoryName(m_path), String.Format("{0}-{1}", showID, Path.GetFileName(m_path))));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Logger.Error("Error renaming download with ShowID", ex);
+                    throw new Exception("Failed to rename file with ShowID");
                 }
 
             }

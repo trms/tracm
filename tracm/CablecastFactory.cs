@@ -61,7 +61,10 @@ namespace tracm
 					webService.WSVersionAsync(webService);
 				}
 			}
-			catch { }
+			catch(Exception ex)
+            {
+                LogHelper.Logger.Error("Error checking cablecast WebService version.", ex);
+            }
 		}
 
 		private static void webService_WSVersionCompleted(object sender, tracm.Cablecast.WSVersionCompletedEventArgs e)

@@ -67,7 +67,10 @@ namespace tracm
                 if (m.Success)
                     status = m.Groups[1].Value;
             }
-            catch { }
+            catch(Exception ex) 
+            {
+                LogHelper.Logger.Error("Error communicating to shared content server while adding content.", ex);
+            }
 
             if (status.ToLower() == "ok")
             {
@@ -99,7 +102,10 @@ namespace tracm
                 foreach (Match contentID in contentIDs)
                     ids.Add(Convert.ToInt32(contentID.Groups[1].Value));
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogHelper.Logger.Error("Error communicating with shared content server while retreiving download queue.", ex);
+            }
 
             if (status.ToLower() == "ok")
             {
@@ -130,7 +136,7 @@ namespace tracm
             if (status.ToLower() == "ok")
                 return data;
             else
-                throw new Exception("Error getting the download queue");
+                throw new Exception("Error getting the content metadata");
         }
 
 		public static string getQueuedDownloadUrl(string content_id)

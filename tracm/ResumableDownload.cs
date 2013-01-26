@@ -62,7 +62,6 @@ namespace tracm
                 {
                     long start = OpenWriteStream();
                     _length = GetContentLength();
-                    LogHelper.Logger.Debug(String.Format("Content length for {0} is {1}", _uri.AbsolutePath, _length));
                     if (start < _length)
                     {
                         OpenReadStream(start, _length);
@@ -71,8 +70,8 @@ namespace tracm
                 }
                 catch (System.Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
-                    throw;
+                    LogHelper.Logger.Error(String.Format("Error starting download for file {0}.", _uri.AbsolutePath));
+                    throw new Exception("Error starting download");
                 }
                 finally
                 {
@@ -101,7 +100,6 @@ namespace tracm
 
         private void OpenReadStream(long start, long length)
         {
-            LogHelper.Logger.Debug(String.Format("Opening Read Stream for: {0}. Start: {1}. Length: {2}", _uri.AbsolutePath, start, length));
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_uri);
             request.AddRange(start, length);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();

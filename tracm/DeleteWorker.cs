@@ -37,8 +37,17 @@ namespace tracm
 
 		protected override void WorkMethod()
 		{
-			if (IsRunning && File.Exists(m_path))
-				File.Delete(m_path);
+            if (IsRunning && File.Exists(m_path))
+            {
+                try
+                {
+                    File.Delete(m_path);
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Logger.Error(String.Format("Error deleting file {0}", m_path), ex);
+                }
+            }
 		}
 
 		public override string ToString()
